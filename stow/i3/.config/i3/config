@@ -8,8 +8,9 @@ smart_gaps on
 # titlebar font
 font pango:sans 8
 
-# disable titlebar whem tiling
-for_window [class="^.*"] border pixel 0
+# disable titlebar when tiling
+#for_window [class="^.*"] border pixel 0
+default_border none
 
 set $bg-color 	         #31363b
 set $inactive-bg-color   #31363b
@@ -146,19 +147,18 @@ bindsym $win+Shift+a mode "link_opening"
 
 # kill Plasma Desktop
 exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop — Plasma"] kill; floating enable; border none
+for_window [title="Desktop — Plasma"] kill; floating enable
 
 # fix Plasma fly-outs
 for_window [class="plasmashell"] floating enable
-for_window [class="Plasma"] floating enable, border none
-for_window [title="plasma-desktop"] floating enable, border none
-for_window [title="win7"] floating enable, border none
-for_window [class="krunner"] floating enable, border none
-for_window [class="Kmix"] floating enable, border none
-for_window [class="Klipper"] floating enable, border none
-for_window [class="Plasmoidviewer"] floating enable, border none
-for_window [class="yakuake"] floating enable, border none
-
+for_window [class="Plasma"] floating enable
+for_window [title="plasma-desktop"] floating enable
+for_window [title="win7"] floating enable
+for_window [class="krunner"] floating enable
+for_window [class="Kmix"] floating enable
+for_window [class="Klipper"] floating enable
+for_window [class="Plasmoidviewer"] floating enable
+for_window [class="yakuake"] floating enable
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Workspaces
