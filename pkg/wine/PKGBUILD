@@ -1,0 +1,14 @@
+pkgname=gray-wine
+pkgver=0.8
+pkgrel=1
+pkgdesc="Gray's wine config"
+arch=('any')
+licence=('GPL')
+depends=('wine')
+source=("default_prefix.sh")
+
+package()
+{
+	install -Dm644 default_prefix.sh "$pkgdir/etc/profile.d/wine-default_prefix.sh"
+}
+md5sums=('99d337b9988168c958eb53e18363845d')

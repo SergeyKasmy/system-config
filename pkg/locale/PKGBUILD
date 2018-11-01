@@ -1,0 +1,13 @@
+pkgname=gray-locale
+pkgver=0.9
+pkgrel=1
+pkgdesc="Gray's locale config"
+arch=('any')
+licence=('GPL')
+source=("locale.conf")
+
+package()
+{
+	install -Dm644 locale.conf "$pkgdir/etc/locale.conf"
+}
+md5sums=('caeb32a29b2b97c5e4458bf3ec2a374e')
