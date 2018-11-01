@@ -160,6 +160,13 @@ for_window [class="Klipper"] floating enable
 for_window [class="Plasmoidviewer"] floating enable
 for_window [class="yakuake"] floating enable
 
+# fix notification appearing on the second monitor
+assign [class="plasmashell" window_type="notification"] output primary
+
+# fix notification focusing
+no_focus [window_type="notification"] 
+
+
 ##-----------------------------------------------------------------------------------------------------------
 ## Workspaces
 
