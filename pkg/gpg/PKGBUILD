@@ -1,0 +1,15 @@
+pkgname=gray-gpg
+pkgver=0.8
+pkgrel=2
+pkgdesc="Gray's GPG config"
+arch=('any')
+replaces=('gray-gnupg')
+licence=('GPL')
+depends=('gnupg')
+source=("gpg.sh")
+
+package()
+{
+	install -Dm644 gpg.sh "$pkgdir/etc/profile.d/gpg.sh"
+}
+md5sums=('452379880eca30d847da9aa670ba056a')
