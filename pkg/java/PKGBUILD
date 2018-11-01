@@ -1,0 +1,14 @@
+pkgname=gray-java
+pkgver=0.8
+pkgrel=1
+pkgdesc="Gray's java config"
+arch=('any')
+licence=('GPL')
+depends=('java-environment')
+source=("look_and_feel.sh")
+
+package()
+{
+	install -Dm644 look_and_feel.sh "$pkgdir/etc/profile.d/java-look_and_feel.sh"
+}
+md5sums=('4f948dba991f1386c07e4c7f97c46b94')
