@@ -89,6 +89,9 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # Auto reload PATH
 zstyle ':completion:*' rehash true
 
+# set gpg tty for pinentry_tty to work
+export GPG_TTY=$(tty)
+
 #-------------------------------------------------------------------------------------------------------------------------------------
 # Aliases
 
@@ -225,3 +228,6 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;32m'
 export LESS_TERMCAP_ue=$'\E[0m'
+
+
+
