@@ -63,6 +63,11 @@ elif (( $MODE == 1 )); then
 	done
 fi
 
+if ! pacman -Qq stow &>/dev/null; then
+	echo "Stow is not installed, installing"
+	sudo pacman -S --noconfirm stow
+fi
+
 for pkg in "$SCRIPT_DIR"/stow/*/; do
 	pkg=$(basename "$pkg")
 	stow --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
