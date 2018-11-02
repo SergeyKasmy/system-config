@@ -1,0 +1,10 @@
+[user]
+	name = Sergey Kasmy
+	email = SleeplessSloth79@gmail.com
+	signingkey = E3337E04B7631471
+[alias]
+	lg = !git --no-pager log --oneline
+	lga = !git --no-pager log --oneline --all --graph
+	exec = "!exec "
+[commit]
+	gpgsign = true
