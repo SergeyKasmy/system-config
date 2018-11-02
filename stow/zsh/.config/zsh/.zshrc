@@ -169,7 +169,7 @@ start()
 	# If no program name specified -> exit
 	(( $# <= 0 )) && return
 	
-	nohup "$@" &>/dev/null &
+	nohup "$@" &>/dev/null &!
 }
 
 # chmod permissions help alias
