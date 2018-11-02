@@ -134,6 +134,9 @@ alias rsync-exact='rsync -aHAX'
 # mkdir - verbose and create parent dirs
 alias mkdir='mkdir -p'
 
+# restart compton
+alias compton-restart='killall -USR1 compton'
+
 # ls
 
 #   -A, --almost-all           do not list implied . and ..
