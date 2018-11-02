@@ -130,10 +130,10 @@ bindsym $win+a mode "app_launching"
 
 mode "link_opening" 
 {
-	bindsym i exec "xdg-open https://inbox.google.com/"; mode "default" 
-	bindsym p exec "xdg-open https://photos.google.com/"; mode "default" 
-	bindsym d exec "xdg-open https://drive.google.com/"; mode "default" 
-	bindsym a exec "xdg-open https://anilist.co/home"; mode "default" 
+	bindsym i exec --no-startup-id "xdg-open https://inbox.google.com/"; mode "default" 
+	bindsym p exec --no-startup-id "xdg-open https://photos.google.com/"; mode "default" 
+	bindsym d exec --no-startup-id "xdg-open https://drive.google.com/"; mode "default" 
+	bindsym a exec --no-startup-id "xdg-open https://anilist.co/home"; mode "default" 
 	
 	# back to normal: Enter or Escape or $win+r
         bindsym Return mode "default"
