@@ -92,6 +92,8 @@ zstyle ':completion:*' rehash true
 # set gpg tty for pinentry_tty to work
 export GPG_TTY=$(tty)
 
+eval "$(jump shell)"
+
 #-------------------------------------------------------------------------------------------------------------------------------------
 # Aliases
 
