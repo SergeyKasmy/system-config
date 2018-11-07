@@ -11,6 +11,7 @@ font pango:sans 8
 # disable titlebar when tiling
 #for_window [class="^.*"] border pixel 0
 default_border none
+#default_floating_border none
 
 set $bg-color 	         #31363b
 set $inactive-bg-color   #31363b
@@ -62,6 +63,8 @@ bindsym $win+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $win+f fullscreen toggle
+# fullscreen the container
+bindsym $win+Shift+f focus parent; fullscreen; focus child
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $win+s layout stacking
