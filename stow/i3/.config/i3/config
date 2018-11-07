@@ -168,6 +168,7 @@ assign [class="plasmashell" window_type="notification"] output primary
 
 # fix notification focusing
 no_focus [window_type="notification"] 
+no_focus [class="plasmashell"] 
 
 
 ##-----------------------------------------------------------------------------------------------------------
