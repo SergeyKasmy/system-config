@@ -40,6 +40,8 @@ for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	package_list+=("$pkg")
 done
 
+custom_package_list=()
+
 if (( $MODE == 0 )); then
 	echo -n "Copy sudoers-wheel?"
 	if get_input; then
@@ -55,6 +57,12 @@ if (( $MODE == 0 )); then
 	for pkg in ${package_list[@]}; do
 		echo -n "Install $pkg?"
 		if get_input; then install_package "$pkg"; fi
+	done
+
+	# install custom packages
+	for pkg in ${custom_package_list[@]}; do
+		echo -n "Install $pkg?"
+		if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
 	done
 elif (( $MODE == 1 )); then
 	for pkg in ${package_list[@]}; do
