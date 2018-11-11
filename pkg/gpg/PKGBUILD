@@ -12,4 +12,4 @@ package()
 {
 	install -Dm644 gpg.sh "$pkgdir/etc/profile.d/gpg.sh"
 }
-md5sums=('452379880eca30d847da9aa670ba056a')
+md5sums=('967e6a93df3c9c3f8911239276e88487')
