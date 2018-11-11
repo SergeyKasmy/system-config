@@ -231,8 +231,8 @@ workspace $ws10 output $secondary_monitor
 ## Apps
 
 # rofi
-bindsym $win+d exec rofi -show combi
-bindsym $alt+Tab exec rofi -show window
+bindsym $win+d exec --no-startup-id rofi -show combi
+bindsym $alt+Tab exec --no-startup-id rofi -show window
 
 # terminal
 bindsym $win+Return exec konsole
