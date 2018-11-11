@@ -40,7 +40,7 @@ for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	package_list+=("$pkg")
 done
 
-custom_package_list=()
+custom_package_list=('ttf-ubuntu-font-family')
 
 if (( $MODE == 0 )); then
 	echo -n "Copy sudoers-wheel?"
