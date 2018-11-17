@@ -174,6 +174,16 @@ start()
 	nohup "$@" &>/dev/null &!
 }
 
+
+aur()
+{
+	if [ $1 ]; then
+		git clone https://aur.archlinux.org/$1.git
+		cd $1
+		makepkg -si 
+	fi
+}
+
 # chmod permissions help alias
 chmod-help()
 {
