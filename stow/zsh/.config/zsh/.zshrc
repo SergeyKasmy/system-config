@@ -136,6 +136,9 @@ alias rsync-exact='rsync -aHAX'
 # mkdir - verbose and create parent dirs
 alias mkdir='mkdir -p'
 
+# colored ip
+alias ip='ip -c'
+
 # restart compton
 alias compton-restart='killall -USR1 compton'
 
