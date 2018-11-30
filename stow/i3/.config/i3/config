@@ -168,7 +168,6 @@ for_window [class="yakuake"] floating enable
 assign [class="plasmashell" window_type="notification"] output primary
 
 # fix notification focusing
-no_focus [window_type="notification"] 
 no_focus [class="plasmashell"] 
 
 
@@ -227,6 +226,15 @@ workspace $ws6 output $secondary_monitor
 workspace $ws8 output $secondary_monitor 
 workspace $ws10 output $secondary_monitor 
 
+
+##
+## Application rules
+
+# notifications 
+no_focus [window_type="notification"] 
+
+# telegram media viewer
+for_window [class="telegram-desktop" title="Media viewer"] fullscreen enable 
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
