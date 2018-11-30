@@ -110,9 +110,6 @@ alias whatsmyip='curl ipinfo.io/ip'
 # pager
 alias -g les='| less'
 
-# Logout of KDE
-if [[ $DESKTOP_SESSION == "plasma" ]]; then alias logout_to_dm="qdbus org.kde.ksmserver /KSMServer logout 0 3 4"; fi
-
 # pacman and yay 
 alias pup='sudo pacman -Syu'
 alias y='yay'
