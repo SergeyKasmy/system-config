@@ -282,6 +282,9 @@ for_window [class="telegram-desktop" title="Media viewer"] fullscreen enable
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
 
+# xkill
+bindsym $alt+$win+F4 --release exec --no-startup-id xkill
+
 # rofi
 bindsym $win+d exec --no-startup-id rofi -show combi
 bindsym $alt+Tab exec --no-startup-id rofi -show window
@@ -303,3 +306,4 @@ bindsym $win+F1 exec --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/
 # autostart
 exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/pixmaps/wallpaper.jpg"
 exec --no-startup-id compton 
+
