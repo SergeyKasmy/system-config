@@ -1,0 +1,28 @@
+#!/bin/bash
+
+case "$1" in
+	shutdown)
+		qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 2 2
+		;;
+	reboot)
+		qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 1 2
+		;;
+	logout)
+		qdbus org.kde.ksmserver /KSMServer logout 0 0 2
+		;;
+	suspend)
+		systemctl suspend
+		;;
+	switch-user)
+		dm-tool switch-to-greeter
+		;;
+	lock)
+		loginctl lock-session
+		;;
+	*)
+		echo "i3exit: missing or invalid argument"
+		echo "Available commands: shutdown, reboot, logout, suspend, switch-user, lock"
+		exit 1
+esac
+
+exit 0

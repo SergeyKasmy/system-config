@@ -1,0 +1,13 @@
+pkgname=gray-syscontrol
+pkgver=0.1
+pkgrel=1
+pkgdesc="Gray's syscontrol utility"
+arch=('any')
+licence=('GPL')
+source=("syscontrol")
+
+package()
+{
+	install -Dm755 syscontrol "$pkgdir/usr/bin/syscontrol"
+}
+md5sums=('8d2a266b434539042699002bcb37783b')
