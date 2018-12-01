@@ -32,6 +32,9 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 #force_display_urgency_hint 0 ms
 #focus_on_window_activation urgenta
 
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
 ##-----------------------------------------------------------------------------------------------------------
 ## Keybinds 
 
