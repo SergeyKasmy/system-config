@@ -228,6 +228,10 @@ bindsym $win+8 workspace $ws8
 bindsym $win+9 workspace $ws9
 bindsym $win+0 workspace $ws10
 
+# cycle through workspaces
+bindsym $win+Control+Left workspace prev
+bindsym $win+Control+Right workspace next
+
 # move focused container to workspace
 bindsym $win+Shift+1 move container to workspace $ws1
 bindsym $win+Shift+2 move container to workspace $ws2
