@@ -267,7 +267,10 @@ bindsym $win+Shift+minus move scratchpad
 bindsym $win+minus scratchpad show
 
 
-##
+# allow to press the same button when changing ws to go to the previous one
+workspace_auto_back_and_forth yes
+
+##-----------------------------------------------------------------------------------------------------------
 ## Application rules
 
 # notifications 
