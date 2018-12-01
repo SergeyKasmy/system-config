@@ -10,7 +10,9 @@ font pango:sans 8
 
 # disable titlebar when tiling
 #for_window [class="^.*"] border pixel 0
-default_border none
+#default_border none
+default_border pixel 1
+hide_edge_borders smart
 #default_floating_border none
 
 set $bg-color 	         #31363b
