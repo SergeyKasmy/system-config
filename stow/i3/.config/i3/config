@@ -51,11 +51,21 @@ bindsym $win+Down focus down
 bindsym $win+Up focus up
 bindsym $win+Right focus right
 
+#bindsym $win+h focus left
+#bindsym $win+j focus down
+#bindsym $win+k focus up
+#bindsym $win+l focus right
+
 # move focused window
 bindsym $win+Shift+Left move left
 bindsym $win+Shift+Down move down
 bindsym $win+Shift+Up move up
 bindsym $win+Shift+Right move right
+
+#bindsym $win+Shift+h move left
+#bindsym $win+Shift+j move down
+#bindsym $win+Shift+k move up
+#bindsym $win+Shift+l move right
 
 # split in horizontal orientation
 bindsym $win+h split h
@@ -85,6 +95,8 @@ bindsym $win+q focus parent
 # focus the child container
 bindsym $win+Shift+q focus child
 
+# toggle sticky mode
+bindsym $win+$alt+space sticky toggle
 
 # reload the configuration file
 bindsym $win+Shift+c reload
