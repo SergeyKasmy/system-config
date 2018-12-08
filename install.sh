@@ -92,7 +92,7 @@ fi
 
 for pkg in "$SCRIPT_DIR"/stow/*/; do
 	pkg=$(basename "$pkg")
-	stow --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
+	stow --no-folding --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
 done
 
 # If $XDG_CONFIG_HOME is empty
