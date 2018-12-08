@@ -6,6 +6,8 @@ if (( $UID == 0 )); then
 	exit 1
 fi
 
+OS=$(grep "^ID_LIKE=" /etc/os-release | cut -d= -f2)
+
 case $1 in
 	"install")
 		MODE=0
@@ -20,7 +22,7 @@ esac
 
 SCRIPT_DIR="$PWD"
 
-function install_package
+function arch_install_package
 {
 	cd "$SCRIPT_DIR/pkg/$1"
 	makepkg --syncdeps --install --clean --noconfirm >/dev/null
@@ -40,7 +42,7 @@ for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	package_list+=("$pkg")
 done
 
-custom_package_list=('ttf-ubuntu-font-family')
+arch_custom_package_list=('ttf-ubuntu-font-family')
 
 if (( $MODE == 0 )); then
 	echo -n "Copy sudoers-wheel?"
@@ -54,26 +56,38 @@ if (( $MODE == 0 )); then
 			break
 		done
 	fi
-	for pkg in ${package_list[@]}; do
-		echo -n "Install $pkg?"
-		if get_input; then install_package "$pkg"; fi
-	done
 
-	# install custom packages
-	for pkg in ${custom_package_list[@]}; do
-		echo -n "Install $pkg?"
-		if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
-	done
+	if [[ "$OS" == archlinux ]]; then
+		for pkg in ${package_list[@]}; do
+			echo -n "Install $pkg?"
+			if get_input; then arch_install_package "$pkg"; fi
+		done
+		
+		# install custom packages
+		for pkg in ${custom_package_list[@]}; do
+			echo -n "Install $pkg?"
+			if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
+		done
+	fi
 elif (( $MODE == 1 )); then
-	for pkg in ${package_list[@]}; do
-		full_pkg="gray-${pkg}"
-		if pacman -Qq "${full_pkg}" &>/dev/null; then install_package "$pkg"; fi
-	done
+	if [[ "$OS" == archlinux ]]; then
+		for pkg in ${package_list[@]}; do
+			full_pkg="gray-${pkg}"
+			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_install_package "$pkg"; fi
+		done
+	fi
 fi
 
-if ! pacman -Qq stow &>/dev/null; then
+if ! which stow &>/dev/null; then
 	echo "Stow is not installed, installing"
-	sudo pacman -S --noconfirm stow
+	case "$OS" in
+		archlinux)
+			sudo pacman -S --noconfirm stow
+			;;
+		debian)
+			sudo apt install stow
+			;;
+	esac
 fi
 
 for pkg in "$SCRIPT_DIR"/stow/*/; do
