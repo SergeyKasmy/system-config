@@ -73,13 +73,16 @@ if (( $MODE == 0 )); then
 			if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
 		done
 	fi
+
 elif (( $MODE == 1 )); then
+
 	if [[ "$OS" == archlinux ]]; then
 		for pkg in ${package_list[@]}; do
 			full_pkg="gray-${pkg}"
 			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_install_package "$pkg"; fi
 		done
 	fi
+
 fi
 
 if ! which stow &>/dev/null; then
@@ -89,7 +92,7 @@ if ! which stow &>/dev/null; then
 			sudo pacman -S --noconfirm stow
 			;;
 		debian)
-			sudo apt install stow
+			sudo apt-get install stow
 			;;
 	esac
 fi
