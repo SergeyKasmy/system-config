@@ -6,8 +6,6 @@ if (( $UID == 0 )); then
 	exit 1
 fi
 
-OS=$(grep "^ID_LIKE=" /etc/os-release | cut -d= -f2)
-
 case $1 in
 	"install")
 		MODE=0
@@ -20,13 +18,14 @@ case $1 in
 		exit 1
 esac
 
-SCRIPT_DIR="$PWD"
+OS=unknown
+if grep "^ID_LIKE=" /etc/os-release; then
+	OS=$(grep "^ID_LIKE" /etc/os-release | cut -d= -f2)
+elif grep "^ID=" /etc/os-release; then
+	OS=$(grep "^ID" /etc/os-release | cut -d= -f2)
+fi
 
-function arch_install_package
-{
-	cd "$SCRIPT_DIR/pkg/$1"
-	makepkg --syncdeps --install --clean --noconfirm >/dev/null
-}
+SCRIPT_DIR="$PWD"
 
 function get_input()
 {
@@ -42,6 +41,11 @@ for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	package_list+=("$pkg")
 done
 
+function arch_install_package
+{
+       cd "$SCRIPT_DIR/pkg/$1"
+       makepkg --syncdeps --install --clean --noconfirm >/dev/null
+}
 arch_custom_package_list=('ttf-ubuntu-font-family')
 
 if (( $MODE == 0 )); then
