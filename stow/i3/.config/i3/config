@@ -15,22 +15,80 @@ default_border pixel 1
 hide_edge_borders smart
 #default_floating_border none
 
-set $bg-color 	         #31363b
-set $inactive-bg-color   #31363b
-set $text-color          #eff0f1
-set $inactive-text-color #7f8c8d
-set $urgent-bg-color     #f67400
+
+# color - background
+#set $cbg	#31363b
+
+# color - inactive background
+#set $cinbg	#31363b
+
+# color - urgent background
+#set $curbg	#f67400
+
+# color - text
+#set $ctx	#eff0f1
+
+# color - inactive text
+#set $cintx	#7f8c8d
 
 # window colors
-#                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+#                       border	bg	text	indicator
+client.focused		$cbg	$cbg	$ctx	#00ff00
+client.unfocused	$cinbg	$cinbg	$cintx	#00ff00
+client.focused_inactive $cinbg	$cinbg	$cintx	#00ff00
+client.urgent		$curbg	$curbg	$ctx	#00ff00
+
+# color - background
+set $cbg	#556064
+
+# color - inactive background
+set $cinbg	#2F3D44
+
+# color - placeholder background
+set $cphbg	#0c0c0c 
+
+# color - urgent background
+set $curbg	#FDF6E3
+
+# color - urgent border
+set $curbr	#CB4B16
+
+# color - placeholder border
+set $cphbr	#000000 
+
+# color - text
+set $ctx	#80FFF9
+
+# color - inactive text
+set $cintx	#1ABC9C
+
+# color - placeholder text
+set $cphtx	#ffffff
+
+# color - indicator
+set $cind	#FDF6E3
+
+# color - inactive indicator
+set $cinind	#454948
+
+# color - urgent indicator
+set $curind	#268BD2
+
+# color - placeholder indicator
+set $cphind	#000000
+
+# window colors
+#                       border	bg	text	indicator
+client.focused		$cbg	$cbg	$ctx	$cind
+client.focused_inactive	$cinbg	$cinbg	$cintx	$cinind
+client.unfocused	$cinbg	$cinbg	$cintx	$cinind
+client.urgent		$curbr	$curbg	$cintx	$curind
+client.placeholder	$cphbr	$cphbg	$cphtx	$cphind 
+
 
 # fix urgent focus in Plasma
 #force_display_urgency_hint 0 ms
-#focus_on_window_activation urgenta
+#focus_on_window_activation urgent
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
