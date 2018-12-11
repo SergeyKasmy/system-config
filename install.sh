@@ -101,12 +101,3 @@ for pkg in "$SCRIPT_DIR"/stow/*/; do
 	pkg=$(basename "$pkg")
 	stow --no-folding --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
 done
-
-# If $XDG_CONFIG_HOME is empty
-if [[ -z "$XDG_CONFIG_HOME" ]]; then
-	sudo su -c "cat >> /etc/security/pam_env.conf" <<- 'EOM'
-	XDG_CONFIG_HOME DEFAULT=@{HOME}/.config/
-	XDG_CACHE_HOME  DEFAULT=@{HOME}/.cache/
-	XDG_DATA_HOME   DEFAULT=@{HOME}/.local/share/
-	EOM
-fi
