@@ -16,8 +16,11 @@ setopt appendhistory
 # Add more patterns to globbing
 setopt extendedglob
 
-path+=(~/.local/bin/)
+path+=("~/.local/bin/")
+path+=("/opt/android-sdk/platform-tools/")
 
+
+export EDITOR=vim
 
 ## Functions autoloading
 # TODO: Investigate what does this command do
@@ -244,6 +247,3 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;32m'
 export LESS_TERMCAP_ue=$'\E[0m'
-
-
-
