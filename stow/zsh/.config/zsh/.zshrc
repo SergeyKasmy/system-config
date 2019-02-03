@@ -1,6 +1,7 @@
 ## History
 
 # History file location
+if [[ ! -d "$HOME/.local/zsh " ]]; then mkdir -p "$HOME/.local/zsh"; fi
 HISTFILE=~/.local/share/zsh/history
 
 # History file size
