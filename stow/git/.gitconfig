@@ -1,7 +1,7 @@
 [user]
 	name = Sergey Kasmy
 	email = SleeplessSloth79@gmail.com
-	signingkey = E3337E04B7631471
+	signingkey = 324F28DB1BD0D0EC
 [alias]
 	lg = !git --no-pager log --oneline
 	lga = !git --no-pager log --oneline --all --graph
