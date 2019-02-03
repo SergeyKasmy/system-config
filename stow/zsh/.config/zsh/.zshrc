@@ -115,9 +115,14 @@ alias whatsmyip='curl ipinfo.io/ip'
 # pager
 alias -g les='| less'
 
-# pacman and yay 
-alias pup='sudo pacman -Syu'
-alias y='yay'
+# package manager
+manager=
+if which yay &>/dev/null; then manager=yay;
+elif which pacman &>/dev/null; then manager=pacman;
+elif which apt &>/dev/null; then manager=apt;
+fi
+
+alias y="$manager"
 
 # find .pac files
 alias pacfind='find /etc -regextype posix-extended -regex ".+\.pac(new|save)" 2> /dev/null'
