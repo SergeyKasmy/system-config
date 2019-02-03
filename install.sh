@@ -61,9 +61,9 @@ if (( $MODE == 0 )); then
 		done
 	fi
 
-	if [[ "$OS" == archlinux ]]; then
+	if [[ "$OS" == arch ]]; then
 		for pkg in ${package_list[@]}; do
-			echo -n "Install $pkg?"
+			echo -n "Install $pkg? ->"
 			if get_input; then arch_install_package "$pkg"; fi
 		done
 		
@@ -76,7 +76,7 @@ if (( $MODE == 0 )); then
 
 elif (( $MODE == 1 )); then
 
-	if [[ "$OS" == archlinux ]]; then
+	if [[ "$OS" == arch ]]; then
 		for pkg in ${package_list[@]}; do
 			full_pkg="gray-${pkg}"
 			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_install_package "$pkg"; fi
@@ -88,7 +88,7 @@ fi
 if ! which stow &>/dev/null; then
 	echo "Stow is not installed, installing"
 	case "$OS" in
-		archlinux)
+		arch)
 			sudo pacman -S --noconfirm stow
 			;;
 		debian)
