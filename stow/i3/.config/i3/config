@@ -207,7 +207,8 @@ bindsym $win+a mode "app_launching"
 
 mode "link_opening" 
 {
-	bindsym i exec --no-startup-id "xdg-open https://inbox.google.com/"; mode "default" 
+	#bindsym i exec --no-startup-id "xdg-open https://inbox.google.com/"; mode "default" 
+	bindsym g exec --no-startup-id "xdg-open https://mail.google.com/"; mode "default" 
 	bindsym p exec --no-startup-id "xdg-open https://photos.google.com/"; mode "default" 
 	bindsym d exec --no-startup-id "xdg-open https://drive.google.com/"; mode "default" 
 	bindsym a exec --no-startup-id "xdg-open https://anilist.co/home"; mode "default" 
