@@ -68,8 +68,8 @@ if (( $MODE == 0 )); then
 		done
 		
 		# install custom packages
-		for pkg in ${custom_package_list[@]}; do
-			echo -n "Install $pkg?"
+		for pkg in ${arch_custom_package_list[@]}; do
+			echo -n "Install $pkg? ->"
 			if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
 		done
 	fi
