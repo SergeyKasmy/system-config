@@ -338,6 +338,9 @@ no_focus [window_type="notification"]
 # telegram media viewer
 for_window [class="telegram-desktop" title="Media viewer"] fullscreen enable 
 
+for_window [class="Steam" title="Friends List"] floating enable
+for_window [class="Steam" title="Steam - News"] floating enable
+
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
 
