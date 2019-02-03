@@ -149,6 +149,9 @@ alias ip='ip -c'
 # restart compton
 alias compton-restart='killall -USR1 compton'
 
+# restart plasmashell
+alias plasma-restart='killall plasmashell && start plasmashell'
+
 # ls
 
 #   -A, --almost-all           do not list implied . and ..
