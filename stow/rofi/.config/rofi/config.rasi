@@ -4,10 +4,11 @@ configuration {
 	terminal: "konsole";
 /*	run-shell-command: "konsole -e {cmd}";*/
 	matching: "glob";
-	levenshtein-sort: true;
 	theme: "themes/onedark";
 	modi: "window,run,drun,ssh,combi";
 	sidebar-mode: true;
+/*	sort: true;*/
+/*	sort-method: "normal";*/
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
@@ -27,7 +28,6 @@ configuration {
 /*	drun-icon-theme: ;*/
 /*	drun-match-fields: "name,generic,exec,categories";*/
 /*	disable-history: false;*/
-/*	sort: false;*/
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
 /*	eh: 1;*/
