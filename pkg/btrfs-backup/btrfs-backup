@@ -1,0 +1,112 @@
+#!/bin/env fish
+
+# location where to work in
+set -g SNAP_LOCATION "/snaps"
+set -g LOGFILE "$SNAP_LOCATION/snaps.log"
+
+# error codes
+set -g ERROR_NOTROOT 1
+set -g ERROR_CREATE_SUBVOL_NOT_SPECIFIED 10
+set -g ERROR_CREATE_SUBVOL_INCORRECT 11
+
+# test if run as root, otherwise exit
+function test_root
+	if test (id -u) -ne 0
+		echo "Backup creation works only as root"
+		exit $ERROR_NOTROOT
+	end
+end
+
+# print help if run with '-h' or '--help'
+if [ "$argv[1]" = '-h' ]; or [ "$argv[1]" = '--help' ]
+	echo BTRFS backup management tool
+	echo Usage: 
+	echo '	btrfs-backup --help'
+	echo '	btrfs-backup log'
+	echo '	btrfs-backup create SUBVOLUME [REASON...]'
+	echo '	btrfs-backup delete SUBVOLUME_DATE'
+	echo SUBVOLUME can be: 1 for root, 2 for home-gray, and 0 for both
+
+# log mode if run with 'log'
+# print log
+else if [ "$argv[1]" = 'log' ]
+	
+	# Check if log file exists, if it does, print it, otherwise show an error message
+	if [ -e "$LOGFILE" ]; cat "$LOGFILE"
+	else; echo "Log file doesn't exist"; end
+
+# create mode if run with 'create'
+# create a snapshot of the subvols and with the reason specified
+else if [ "$argv[1]" = 'create' ]
+
+	# test for root, exit if the script is not run as root
+	test_root
+
+	# the second argument contains the subvol number
+	# test if it is present, otherwise show an error message and exit
+	if test -n "$argv[2]"
+
+		# set the global variable $subvol to
+		# 	'both' if the arg equals 0
+		#	'root' if the arg equals 1
+		#	'home-gray' if the arg equals 2
+		# in any other case exit with an error message
+		switch "$argv[2]"
+			case 0
+				set -g subvol both
+			case 1
+				set -g subvol root
+			case 2
+				set -g subvol home-gray
+			case '*'
+				echo "Incorrect subvolume to backup specified: use 1(root), 2(home-gray) or 0(both)"
+				exit $ERROR_CREATE_SUBVOL_INCORRECT
+		end
+	else
+		echo "Subvolume to backup not specified"
+		exit $ERROR_CREATE_SUBVOL_NOT_SPECIFIED
+	end
+
+	# the third argument may contain string with the reason for the backup
+	# the if it is present, set the global variable reason to every arg from the 3rd till the end
+	if test -n "$argv[3]"
+		set -g reason "$argv[3..-1]"
+	end
+
+	# set the global var $time to the current time
+	# example of the format: 19-02-09_06-20-12
+	set -g time (date +"%y-%m-%d_%H-%M-%S")
+
+	# create a read-only snapshot of the subvolumes specified in $subvol at $SNAP_LOCATION
+	switch $subvol
+		case both
+			btrfs subvolume snapshot -r / "$SNAP_LOCATION/root/$time"
+			btrfs subvolume snapshot -r /home/gray "$SNAP_LOCATION/home-gray/$time"
+		case root
+			btrfs subvolume snapshot -r / "$SNAP_LOCATION/root/$time"
+		case home-gray
+			btrfs subvolume snapshot -r /home/gray "$SNAP_LOCATION/home-gray/$time"
+	end
+
+	# print to the system log 
+	# and to the snap log if the reason is specified
+	if set -q reason
+		echo "[$subvol] $time - $reason" >> "$LOGFILE"
+		logger --tag btrfs-backup --priority user.info "Snapshot of $subvol volume(s) successfully created ($reason)"
+	else
+		logger --tag btrfs-backup --priority user.info "Snapshot of $subvol volume{s} successfully created"
+	end
+
+# delete mode if run with 'delete'
+# delete a snapshot and its entry from the log
+else if [ "$argv[1]" = 'delete' ]
+
+	# test for root, exit if the script is not run as root
+	test_root
+	
+	# delete the snapshot in every dir at $SNAP_LOCATION
+	btrfs subvolume delete "$SNAP_LOCATION"/*/"$argv[2]"
+
+	# remove the entry from $LOGFILE
+	and sed -i "/$argv[2]/d" "$LOGFILE"
+end
