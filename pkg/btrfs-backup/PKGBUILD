@@ -1,0 +1,14 @@
+pkgname=btrfs-backup
+pkgver=0.1
+pkgrel=1
+pkgdesc="BTRFS snapshot management utility"
+arch=('any')
+licence=('GPL')
+depends=('fish' 'btrfs-progs')
+source=('btrfs-backup')
+
+package()
+{
+	install -Dm755 btrfs-backup "$pkgdir/usr/bin/btrfs-backup" 
+}
+md5sums=('67dcb59a24ea8860cf79d57e24629f68')
