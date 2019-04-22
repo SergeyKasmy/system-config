@@ -2,13 +2,13 @@
 
 case "$1" in
 	shutdown)
-		qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 2 2
+		poweroff
 		;;
 	reboot)
-		qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 1 2
+		reboot
 		;;
 	logout)
-		qdbus org.kde.ksmserver /KSMServer logout 0 0 2
+		loginctl list-sessions | grep tty1 | cut -f7 -d' '
 		;;
 	suspend)
 		systemctl suspend
@@ -20,7 +20,7 @@ case "$1" in
 		loginctl lock-session
 		;;
 	*)
-		echo "i3exit: missing or invalid argument"
+		echo "syscontrol: missing or invalid argument"
 		echo "Available commands: shutdown, reboot, logout, suspend, switch-user, lock"
 		exit 1
 esac
