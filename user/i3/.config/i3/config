@@ -1,9 +1,9 @@
 ## General i3 settings
 
 # gaps
-gaps inner 10
-gaps outer 0
-smart_gaps on
+#gaps inner 10
+#gaps outer 0
+#smart_gaps on
 
 # titlebar font
 font pango:sans 8
