@@ -312,7 +312,7 @@ bindsym $win+grave scratchpad show
 
 
 # allow to press the same button when changing ws to go to the previous one
-workspace_auto_back_and_forth yes
+workspace_auto_back_and_forth no
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Application rules
