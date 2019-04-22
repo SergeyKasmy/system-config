@@ -304,22 +304,6 @@ bindsym $win+Shift+8 move container to workspace $ws8
 bindsym $win+Shift+9 move container to workspace $ws9
 bindsym $win+Shift+0 move container to workspace $ws10
 
-# assign odd workspaces to the primary monitor
-set $primary_monitor "DisplayPort-0" 
-workspace $ws1 output $primary_monitor 
-workspace $ws3 output $primary_monitor 
-workspace $ws5 output $primary_monitor 
-workspace $ws7 output $primary_monitor 
-workspace $ws9 output $primary_monitor 
-
-# assign even workspaces to the secondary monitor
-set $secondary_monitor "HDMI-A-0" 
-workspace $ws2 output $secondary_monitor 
-workspace $ws4 output $secondary_monitor 
-workspace $ws6 output $secondary_monitor 
-workspace $ws8 output $secondary_monitor 
-workspace $ws10 output $secondary_monitor 
-
 # move the currently focused window to the scratchpad
 bindsym $win+Shift+grave move scratchpad
 
