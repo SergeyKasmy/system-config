@@ -33,7 +33,7 @@ else if [ "$argv[1]" = 'log' ]
 	
 	# Check if log file exists, if it does, print it, otherwise show an error message
 	if [ -e "$LOGFILE" ]
-		if [ "argv[2]" = '-s' ]; or [ "$argv[2]" = '--short' ]
+		if [ "$argv[2]" = '-s' ]; or [ "$argv[2]" = '--short' ]
 			cut -d' ' -f2 "$LOGFILE"
 		else
 			cat "$LOGFILE"
