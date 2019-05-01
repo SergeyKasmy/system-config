@@ -367,4 +367,4 @@ bindsym $win+F1 exec --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/
 exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/wallpapers/wallpaper.jpg"
 exec --no-startup-id compton 
 
-for_window [class="plasmashell" window_type="notification"] move position 2150 50  
+for_window [class="plasmashell" window_type="notification"] move position 2065 50  
