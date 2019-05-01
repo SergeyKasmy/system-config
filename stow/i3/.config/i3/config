@@ -321,10 +321,10 @@ workspace $ws8 output $secondary_monitor
 workspace $ws10 output $secondary_monitor 
 
 # move the currently focused window to the scratchpad
-bindsym $win+Shift+minus move scratchpad
+bindsym $win+Shift+grave move scratchpad
 
 # cycle through all scratchpad'ed windows
-bindsym $win+minus scratchpad show
+bindsym $win+grave scratchpad show
 
 
 # allow to press the same button when changing ws to go to the previous one
