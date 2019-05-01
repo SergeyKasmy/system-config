@@ -4,7 +4,7 @@
 	signingkey = 324F28DB1BD0D0EC
 [alias]
 	lg = !git --no-pager log --oneline
-	lga = !git --no-pager log --oneline --all --graph
+	lga = !git log --oneline --all --graph
 	exec = "!exec "
 [commit]
 	gpgsign = true
