@@ -10,6 +10,7 @@ if status is-interactive
 	#
 	set -gx PATH $PATH ~/.local/bin/
 	set -gx EDITOR vim
+	set -g GPG_TTY (tty)
 	
 	## Aliases and functions
 	
