@@ -61,6 +61,7 @@ if status is-interactive
 		echo 'This is not the command you are looking for. Use tp'
 		false
 	end
+	alias rm_ /bin/rm
 	
 	# use bat instead of cat
 	alias cat bat
