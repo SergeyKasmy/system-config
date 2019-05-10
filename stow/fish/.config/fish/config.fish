@@ -8,7 +8,7 @@ if status is-interactive
 	
 	# set global vars
 	#
-	set -gx PATH $PATH ~/.local/bin/
+	set -gx PATH $PATH ~/.local/bin /opt/android-sdk/platform-tools
 	set -gx EDITOR vim
 	set -g GPG_TTY (tty)
 	
