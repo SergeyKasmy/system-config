@@ -74,6 +74,10 @@ if status is-interactive
 	
 	# colored ip
 	alias ip 'ip -c'
+
+	# virsh - connect to qemu:///system by default
+	alias virsh 'virsh --connect qemu:///system'
+	alias virsh_ /bin/virsh
 	
 	# restart aliases
 	#
