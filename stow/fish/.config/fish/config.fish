@@ -25,16 +25,20 @@ if status is-interactive
 	alias whatsmyip 'curl ipinfo.io/ip'
 	alias tp trash-put
 	
-	# ls
-	 
-	#   -A, --almost-all           do not list implied . and ..
-	#   -l                         use a long listing format
-	#   -F, --classify             append indicator (one of */=>@|) to entries
-	#   -h, --human-readable       with -l and/or -s, print human readable sizes
-	#   -C                         list entries by columns
-	alias l 'ls -CF'
-	alias la 'ls -A'
-	alias ll 'ls -AlFh'
+	## ls
+	# 
+	##   -A, --almost-all           do not list implied . and ..
+	##   -l                         use a long listing format
+	##   -F, --classify             append indicator (one of */=>@|) to entries
+	##   -h, --human-readable       with -l and/or -s, print human readable sizes
+	##   -C                         list entries by columns
+	#alias l 'ls -CF'
+	#alias la 'ls -A'
+	#alias ll 'ls -AlFh'
+	alias ls 'lsd'
+	alias la 'ls -a'
+	alias ll 'ls -al'
+	alias ls_ '/bin/ls'
 	
 	begin
 		set -g pkgman
