@@ -190,13 +190,13 @@ mode "app_launching"
 {
 	bindsym s exec systemsettings5; mode "default"
 	bindsym c exec vivaldi; mode "default"
-	bindsym e exec "konsole -e ranger"; mode "default"
+	bindsym e exec "kitty ranger"; mode "default"
 	bindsym Control+e exec dolphin; mode "default"
-	bindsym h exec "konsole -e htop"; mode "default"
+	bindsym h exec "kitty htop"; mode "default"
 	bindsym Control+h exec ksysguard; mode "default"
 	bindsym x exec speedcrunch; mode "default"
 	bindsym Control+x exec kcalc; mode "default"
-	bindsym m exec "konsole -e cmus"; mode "default"
+	bindsym m exec "kitty cmus"; mode "default"
 	bindsym t exec telegram-desktop; mode "default"
 	bindsym l exec lutris; mode "default"
         
@@ -337,7 +337,7 @@ bindsym $win+d exec --no-startup-id rofi -show combi
 bindsym $alt+Tab exec --no-startup-id rofi -show window
 
 # terminal
-bindsym $win+Return exec konsole
+bindsym $win+Return exec kitty
 
 # screenshoting
 bindsym Print exec spectacle --fullscreen

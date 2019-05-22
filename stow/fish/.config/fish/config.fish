@@ -102,17 +102,17 @@ if status is-interactive
 		comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
 	end
 	
-	function start
-		set -q argv
-		and nohup $argv >/dev/null 2>&1 &; disown
-	end
-	
 	function aur
 		if set -q argv[1]
 			git clone https://aur.archlinux.org/$argv[1].git
 			cd $argv[1]
 			makepkg -si
 		else; false; end
+	end
+	
+	function start
+		set -q argv
+		and nohup $argv >/dev/null 2>&1 &; disown
 	end
 end
 
