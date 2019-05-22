@@ -83,6 +83,10 @@ if status is-interactive
 	alias virsh 'virsh --connect qemu:///system'
 	alias virsh_ /bin/virsh
 	
+	function virtview
+		start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
+	end
+
 	# restart aliases
 	#
 	alias plasma-restart 'killall plasmashell; and start plasmashell'
