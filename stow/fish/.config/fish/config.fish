@@ -36,8 +36,8 @@ if status is-interactive
 	#alias la 'ls -A'
 	#alias ll 'ls -AlFh'
 	alias ls 'lsd'
-	alias la 'ls -a'
-	alias ll 'ls -al'
+	alias la 'ls -A'
+	alias ll 'ls -Al'
 	alias ls_ '/bin/ls'
 	
 	begin
