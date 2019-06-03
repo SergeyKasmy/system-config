@@ -1,9 +1,11 @@
 configuration {
 	combi-modi: "window,drun,run,ssh";
 	font: "sans 12";
-	terminal: "konsole";
-/*	run-shell-command: "konsole -e {cmd}";*/
+	terminal: "kitty";
+	run-shell-command: "kitty --hold '{cmd}'";
 	matching: "glob";
+	run-command: "fish -c '{cmd}'";
+	run-list-command: "fish -c functions";
 	theme: "themes/onedark";
 	modi: "window,run,drun,ssh,combi";
 	sidebar-mode: true;
