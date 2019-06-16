@@ -1,1 +1,2 @@
 pkg/**/*.pkg.tar.xz
+pkg/btrfs-backup-git/btrfs-backup
