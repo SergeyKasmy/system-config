@@ -34,10 +34,11 @@ if status is-interactive
 	##   -C                         list entries by columns
 	#alias l 'ls -CF'
 	#alias la 'ls -A'
-	#alias ll 'ls -AlFh'
+	#alias lla 'ls -AlFh'
 	alias ls 'lsd'
 	alias la 'ls -A'
-	alias ll 'ls -Al'
+	alias ll 'ls -l'
+	alias lla 'ls -Al'
 	alias ls_ '/bin/ls'
 	
 	begin
