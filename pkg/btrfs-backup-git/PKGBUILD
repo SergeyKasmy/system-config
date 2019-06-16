@@ -1,0 +1,19 @@
+pkgname=btrfs-backup-git
+_pkgname=btrfs-backup
+pkgver=0.4.0
+pkgrel=1
+pkgdesc="BTRFS snapshot management utility"
+provides=('btrfs-backup')
+conflicts=('btrfs-backup')
+arch=('any')
+url='https://github.com/SleeplessSloth/btrfs-backup'
+license=('GPL')
+depends=('python3' 'btrfs-progs')
+source=("$pkgname::git+$url.git")
+md5sums=('SKIP')
+
+package()
+{
+	cd "$srcdir/$pkgname"
+	install -Dm755 btrfs-backup "$pkgdir/usr/bin/btrfs-backup" 
+}
