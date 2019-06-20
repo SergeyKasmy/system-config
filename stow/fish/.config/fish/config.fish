@@ -68,6 +68,16 @@ if status is-interactive
 	end
 	alias rm_ /bin/rm
 	
+	function ranger
+		if [ -z "$RANGER_LEVEL" ]
+			/usr/bin/ranger "$argv"	
+		else
+			exit
+		end
+	end
+	
+	alias tmux "tmux -f $HOME/.config/tmux.conf"
+
 	# use bat instead of cat
 	alias cat bat
 	
