@@ -100,7 +100,7 @@ if status is-interactive
 
 	# restart aliases
 	#
-	alias plasma-restart 'killall plasmashell; and start plasmashell'
+	alias plasma-restart 'killall plasmashell; start plasmashell'
 	alias compton-restart 'killall -USR1 compton'
 	
 	# functions
