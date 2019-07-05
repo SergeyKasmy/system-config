@@ -57,6 +57,8 @@ if status is-interactive
 		end
 	end
 	
+	alias reboot-windows "sudo efibootmgr --bootnext (efibootmgr | grep Windows | tail -n1 | cut -d' ' -f1 | cut -d't' -f2) && syscontrol reboot"
+
 	# overrides
 	#
 	
