@@ -6,7 +6,8 @@ configuration {
 	matching: "glob";
 	run-command: "fish -c '{cmd}'";
 	run-list-command: "fish -c functions";
-	theme: "themes/onedark";
+/*	theme: "themes/onedark";*/
+	theme: "themes/custom";
 	modi: "window,run,drun,ssh,combi";
 	sidebar-mode: true;
 /*	sort: true;*/
