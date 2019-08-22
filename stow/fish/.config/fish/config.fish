@@ -23,7 +23,6 @@ if status is-interactive
 	#
 	alias systemctlu 'systemctl --user'
 	alias whatsmyip 'curl ipinfo.io/ip'
-	alias tp trash-put
 	
 	## ls
 	# 
@@ -63,41 +62,62 @@ if status is-interactive
 	#
 	
 	# disable rm in favor of tp
-	#alias rm 'echo "This is not the command you are looking for. Use tp"; false'
-	function rm -w rm
-		echo 'This is not the command you are looking for. Use tp'
-		false
+	if type trash-put >/dev/null 2>&1
+		function rm -w rm
+			echo 'This is not the command you are looking for. Use tp'
+			false
+		end
+		
+		alias rm_ /bin/rm
+		alias tp trash-put
 	end
-	alias rm_ /bin/rm
 	
-	function ranger
-		if [ -z "$RANGER_LEVEL" ]
-			/usr/bin/ranger "$argv"	
-		else
-			exit
+	# dissalow nested ranger instances
+	if type ranger >/dev/null 2>&1
+		function ranger
+			if [ -z "$RANGER_LEVEL" ]
+				/usr/bin/ranger "$argv"	
+			else
+				exit
+			end
 		end
 	end
 	
-	alias tmux "tmux -f $HOME/.config/tmux.conf"
+	# use .config/tmux.conf as the tmux config
+	if type tmux >/dev/null 2>&1
+		alias tmux "tmux -f $HOME/.config/tmux.conf"
+	end
 
 	# use bat instead of cat
-	alias cat bat
-	
-	# configure custom lsblk colums
-	alias lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
-	
+	if type bat >/dev/null 2>&1
+		alias cat bat
+	end
+
+	# custom lsblk colums
+	if type lsblk >/dev/null 2>&1
+		alias lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
+	end
+
 	# always create parent dirs
-	alias mkdir 'mkdir -p'
+	if type mkdir >/dev/null 2>&1
+		alias mkdir 'mkdir -p'
+	end
 	
 	# colored ip
-	alias ip 'ip -c'
+	if type ip >/dev/null 2>&1
+		alias ip 'ip -c'
+	end
 
 	# virsh - connect to qemu:///system by default
-	alias virsh 'virsh --connect qemu:///system'
-	alias virsh_ /bin/virsh
-	
-	function virtview
-		start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
+	if type virsh >/dev/null 2>&1
+		alias virsh 'virsh --connect qemu:///system'
+		alias virsh_ /bin/virsh
+	end
+
+	if type virt-viewer >/dev/null 2>&1
+		function virtview
+			start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
+		end
 	end
 
 	if type nvim >/dev/null 2>&1
@@ -106,25 +126,34 @@ if status is-interactive
 
 	# restart aliases
 	#
-	alias plasma-restart 'killall plasmashell; start plasmashell'
-	alias compton-restart 'killall -USR1 compton'
+	if type plasmashell >/dev/null 2>&1
+		alias plasma-restart 'killall plasmashell; start plasmashell'
+	end
+
+	if type compton >/dev/null 2>&1
+		alias compton-restart 'killall -USR1 compton'
+	end
 	
 	# functions
 	#
 	
-	# what packages depend on $pkg
-	function whoneeds
-		set -l pkg $argv[1]
-		echo "Packages that depend on [$pkg]"
-		comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
-	end
-	
-	function aur
-		if set -q argv[1]
-			git clone https://aur.archlinux.org/$argv[1].git
-			cd $argv[1]
-			makepkg -si
-		else; false; end
+	if type pacman >/dev/null 2>&1
+		
+		# what packages depend on $pkg
+		function whoneeds
+			set -l pkg $argv[1]
+			echo "Packages that depend on [$pkg]"
+			comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
+		end
+
+		# download a package from AUR
+		function aur
+			if set -q argv[1]
+				git clone https://aur.archlinux.org/$argv[1].git
+				cd $argv[1]
+				makepkg -si
+			else; false; end
+		end
 	end
 	
 	function start
