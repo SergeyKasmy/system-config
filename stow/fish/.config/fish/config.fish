@@ -100,6 +100,10 @@ if status is-interactive
 		start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
 	end
 
+	if type nvim >/dev/null 2>&1
+		alias vim nvim
+	end
+
 	# restart aliases
 	#
 	alias plasma-restart 'killall plasmashell; start plasmashell'
