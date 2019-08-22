@@ -85,7 +85,7 @@ if status is-interactive
 	
 	# use .config/tmux.conf as the tmux config
 	if type tmux >/dev/null 2>&1
-		alias tmux "tmux -f $HOME/.config/tmux.conf"
+		alias tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 	end
 
 	# use bat instead of cat
