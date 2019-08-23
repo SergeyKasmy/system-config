@@ -9,15 +9,19 @@ if status is-interactive
 	# disable the greeting
 	set fish_greeting
 	
-	
+
 	## Variables
 	
 	# set global vars
 	#
-	set -gx PATH $PATH ~/.local/bin /opt/android-sdk/platform-tools
 	set -gx EDITOR vim
+	if not contains "$HOME/.local/bin" $PATH
+		set -gx PATH $PATH "$HOME/.local/bin"
+	end
+
 	set -g GPG_TTY (tty)
 	
+
 	## Aliases and functions
 	
 	# config edit aliases
