@@ -2,7 +2,7 @@ configuration {
 	combi-modi: "window,drun,run,ssh";
 	font: "sans 12";
 	terminal: "kitty";
-	run-shell-command: "kitty --hold '{cmd}'";
+	run-shell-command: "kitty '{cmd}'";
 	matching: "glob";
 	run-command: "fish -c '{cmd}'";
 	run-list-command: "fish -c functions";
