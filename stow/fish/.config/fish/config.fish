@@ -165,9 +165,4 @@ if status is-interactive
 			else; false; end
 		end
 	end
-	
-	function start
-		set -q argv
-		and nohup $argv >/dev/null 2>&1 &; disown
-	end
 end
