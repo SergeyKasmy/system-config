@@ -14,11 +14,11 @@ if status is-interactive
 	
 	# set global vars
 	#
-	set -gx EDITOR vim
 	if not contains "$HOME/.local/bin" $PATH
 		set -gx PATH $PATH "$HOME/.local/bin"
 	end
 
+	set -gx EDITOR nvim
 	set -g GPG_TTY (tty)
 	
 
@@ -26,8 +26,8 @@ if status is-interactive
 	
 	# config edit aliases
 	#
-	alias edit-i3-cfg 'vim ~/.config/i3/config'
-	alias edit-fish-cfg 'vim ~/.config/fish/config.fish'
+	alias edit-i3-cfg 'nvim ~/.config/i3/config'
+	alias edit-fish-cfg 'nvim ~/.config/fish/config.fish'
 	
 	# command shortcuts
 	#
