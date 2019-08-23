@@ -8,35 +8,9 @@ smart_gaps on
 # titlebar font
 font pango:sans 8
 
-# disable titlebar when tiling
-#for_window [class="^.*"] border pixel 0
+# disable borders
 default_border none
-#default_border pixel 1
 hide_edge_borders smart
-#default_floating_border none
-
-
-# color - background
-#set $cbg	#31363b
-
-# color - inactive background
-#set $cinbg	#31363b
-
-# color - urgent background
-#set $curbg	#f67400
-
-# color - text
-#set $ctx	#eff0f1
-
-# color - inactive text
-#set $cintx	#7f8c8d
-
-# window colors
-#                       border	bg	text	indicator
-client.focused		$cbg	$cbg	$ctx	#00ff00
-client.unfocused	$cinbg	$cinbg	$cintx	#00ff00
-client.focused_inactive $cinbg	$cinbg	$cintx	#00ff00
-client.urgent		$curbg	$curbg	$ctx	#00ff00
 
 # color - background
 set $cbg	#556064
@@ -129,7 +103,7 @@ bindsym $win+Shift+Right move right
 #bindsym $win+Shift+l move right
 
 # split in horizontal orientation
-bindsym $win+h split h
+bindsym $win+b split h
 
 # split in vertical orientation
 bindsym $win+v split v
