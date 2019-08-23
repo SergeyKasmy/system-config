@@ -1,3 +1,9 @@
+if status is-login
+	if test -z "$DISPLAY" -a $XDG_VTNR = 1
+		exec startx -- -keeptty >/dev/null 2>&1
+	end
+end
+
 if status is-interactive
 	
 	# disable the greeting
@@ -159,11 +165,5 @@ if status is-interactive
 	function start
 		set -q argv
 		and nohup $argv >/dev/null 2>&1 &; disown
-	end
-end
-
-if status is-login
-	if test -z "$DISPLAY" -a $XDG_VTNR = 1
-		exec startx -- -keeptty >/dev/null 2>&1
 	end
 end
