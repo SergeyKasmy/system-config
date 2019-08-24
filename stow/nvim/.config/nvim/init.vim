@@ -1,5 +1,7 @@
 set termguicolors
 
+map <C-d> :NERDTreeToggle<CR>
+
 " plugins
 call plug#begin()
 
