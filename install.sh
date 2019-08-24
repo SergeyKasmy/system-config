@@ -6,6 +6,7 @@ if (( $UID == 0 )); then
 	exit 1
 fi
 
+# set current mode from the argument
 case $1 in
 	"install")
 		MODE=0
@@ -18,15 +19,18 @@ case $1 in
 		exit 1
 esac
 
+# check current OS
+# available options: arch, debian
 OS=unknown
-if grep "^ID_LIKE=" /etc/os-release; then
+if grep "^ID_LIKE=" /etc/os-release &>/dev/null; then
 	OS=$(grep "^ID_LIKE" /etc/os-release | cut -d= -f2)
-elif grep "^ID=" /etc/os-release; then
+elif grep "^ID=" /etc/os-release &>/dev/null; then
 	OS=$(grep "^ID" /etc/os-release | cut -d= -f2)
 fi
 
 SCRIPT_DIR="$PWD"
 
+# ask a yes/no question
 function get_input()
 {
 	read -n1 input
@@ -35,13 +39,14 @@ function get_input()
 	return 0
 }
 
+# get a list of the all custom arch packages
 package_list=()
 for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	pkg=$(basename "$pkg")
 	package_list+=("$pkg")
 done
 
-function arch_install_package
+function arch_build_install_package
 {
        cd "$SCRIPT_DIR/pkg/$1"
        makepkg --syncdeps --install --clean --noconfirm >/dev/null
@@ -64,7 +69,7 @@ if (( $MODE == 0 )); then
 	if [[ "$OS" == arch ]]; then
 		for pkg in ${package_list[@]}; do
 			echo -n "Install $pkg? ->"
-			if get_input; then arch_install_package "$pkg"; fi
+			if get_input; then arch_build_install_package "$pkg"; fi
 		done
 		
 		# install custom packages
@@ -79,7 +84,7 @@ elif (( $MODE == 1 )); then
 	if [[ "$OS" == arch ]]; then
 		for pkg in ${package_list[@]}; do
 			full_pkg="gray-${pkg}"
-			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_install_package "$pkg"; fi
+			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_build_install_package "$pkg"; fi
 		done
 	fi
 
