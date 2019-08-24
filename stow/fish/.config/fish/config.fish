@@ -165,4 +165,8 @@ if status is-interactive
 			else; false; end
 		end
 	end
+
+	#if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
+	#	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
+	#end
 end
