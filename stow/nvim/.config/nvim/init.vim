@@ -27,6 +27,9 @@ Plug 'dag/vim-fish'
 " automatically close brackets
 Plug 'Raimondi/delimitMate'
 
+" surround, e.g. ds"
+Plug 'tpope/vim-surround'
+
 " add more targets, e.g. ci, ca,
 Plug 'wellle/targets.vim'
 Plug 'scrooloose/nerdtree'
