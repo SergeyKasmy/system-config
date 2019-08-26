@@ -32,6 +32,10 @@ Plug 'tpope/vim-surround'
 
 " add more targets, e.g. ci, ca,
 Plug 'wellle/targets.vim'
+
+" align text by character gl, gL, e.g. glip=
+Plug 'tommcdo/vim-lion'
+
 Plug 'scrooloose/nerdtree'
 Plug 'ycm-core/YouCompleteMe'
 
