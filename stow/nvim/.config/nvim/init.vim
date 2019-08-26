@@ -6,6 +6,9 @@ let mapleader = "\<Space>"
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
+" exit out of insert mode with jk 
+inoremap jk <ESC>
+
 nnoremap <Leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>v :NERDTreeFind<CR>
 
