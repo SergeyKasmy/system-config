@@ -341,4 +341,7 @@ exec --no-startup-id compton
 exec --no-startup-id polybar main 
 exec --no-startup-id dunst
 
+exec --no-startup-id kitty gotop
+#exec --no-startup-id kitty cmus
+
 for_window [class="plasmashell" window_type="notification"] move position 2170 50  
