@@ -60,10 +60,6 @@ client.urgent		$curbr	$curbg	$cintx	$curind
 client.placeholder	$cphbr	$cphbg	$cphtx	$cphind 
 
 
-# fix urgent focus in Plasma
-#force_display_urgency_hint 0 ms
-#focus_on_window_activation urgent
-
 ##-----------------------------------------------------------------------------------------------------------
 ## Keybinds 
 
@@ -189,7 +185,6 @@ bindsym $win+a mode "app_launching"
 
 mode "link_opening" 
 {
-	#bindsym i exec --no-startup-id "xdg-open https://inbox.google.com/"; mode "default" 
 	bindsym g exec --no-startup-id "xdg-open https://mail.google.com/"; mode "default" 
 	bindsym p exec --no-startup-id "xdg-open https://photos.google.com/"; mode "default" 
 	bindsym d exec --no-startup-id "xdg-open https://drive.google.com/"; mode "default" 
@@ -216,31 +211,6 @@ mode "syscontrol"
         bindsym Escape mode "default"
 }
 bindsym $win+x mode "syscontrol"
-
-
-##-----------------------------------------------------------------------------------------------------------
-## Plasma fix
-
-# kill Plasma Desktop
-exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop — Plasma"] kill; floating enable
-
-# fix Plasma fly-outs
-for_window [class="plasmashell"] floating enable
-for_window [class="Plasma"] floating enable
-for_window [title="plasma-desktop"] floating enable
-for_window [title="win7"] floating enable
-for_window [class="krunner"] floating enable
-for_window [class="Kmix"] floating enable
-for_window [class="Klipper"] floating enable
-for_window [class="Plasmoidviewer"] floating enable
-for_window [class="yakuake"] floating enable
-
-# fix notification appearing on the second monitor
-assign [class="plasmashell" window_type="notification"] output primary
-
-# fix notification focusing
-no_focus [class="plasmashell"] 
 
 
 ##-----------------------------------------------------------------------------------------------------------
@@ -292,15 +262,11 @@ bindsym $win+Shift+grave move scratchpad
 # cycle through all scratchpad'ed windows
 bindsym $win+grave scratchpad show
 
-
 # allow to press the same button when changing ws to go to the previous one
 workspace_auto_back_and_forth no
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Application rules
-
-# notifications 
-no_focus [window_type="notification"] 
 
 # telegram media viewer
 for_window [class="telegram-desktop" title="Media viewer"] fullscreen enable 
@@ -343,5 +309,3 @@ exec --no-startup-id dunst
 
 exec --no-startup-id kitty gotop
 #exec --no-startup-id kitty cmus
-
-for_window [class="plasmashell" window_type="notification"] move position 2170 50  

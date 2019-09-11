@@ -89,7 +89,6 @@ elif (( $MODE == 1 )); then
 	fi
 
 fi
-
 if ! which stow &>/dev/null; then
 	echo "Stow is not installed, installing"
 	case "$OS" in
@@ -106,17 +105,3 @@ for pkg in "$SCRIPT_DIR"/stow/*/; do
 	pkg=$(basename "$pkg")
 	stow --no-folding --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
 done
-
-
-echo -n 'Write KDE settings? ->'
-if get_input; then
-	for script in "$SCRIPT_DIR"/plasma/scripts/*; do
-		"$script"
-	done
-
-	for pkg in "$SCRIPT_DIR"/plasma/stow/*/; do
-		pkg=$(basename "$pkg")
-		stow --no-folding --dir "$SCRIPT_DIR"/plasma/stow/ --target "$HOME" "$pkg"
-	done
-
-fi
