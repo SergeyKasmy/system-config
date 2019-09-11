@@ -21,6 +21,8 @@ if status is-interactive
 	set -gx EDITOR nvim
 	set -g GPG_TTY (tty)
 	
+	#set -gx QT_STYLE_OVERRIDE kvantum
+	set -gx QT_QPA_PLATFORMTHEME qt5ct
 
 	## Aliases and functions
 	
