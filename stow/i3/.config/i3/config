@@ -64,9 +64,6 @@ client.placeholder	$cphbr	$cphbg	$cphtx	$cphind
 #force_display_urgency_hint 0 ms
 #focus_on_window_activation urgent
 
-# switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
-
 ##-----------------------------------------------------------------------------------------------------------
 ## Keybinds 
 
