@@ -325,5 +325,6 @@ bindsym $win+F1 exec --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/
 # autostart
 exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/wallpapers/wallpaper.jpg"
 exec --no-startup-id compton 
+exec --no-startup-id polybar main 
 
 for_window [class="plasmashell" window_type="notification"] move position 2170 50  
