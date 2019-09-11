@@ -1,3 +1,5 @@
+; vim: filetype=dosini
+
 [colors]
 normal-background = #9222
 normal-background-highlighted = #444
@@ -10,7 +12,7 @@ alert = #bd2c40
 
 [bar/main]
 modules-left = i3
-modules-right = xkeyboard pulseaudio date
+modules-right = xkeyboard cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
 foreground = ${colors.normal-font}
@@ -55,6 +57,14 @@ blacklist-0 = num lock
 label-indicator-background = ${colors.special-background}
 label-indicator-foreground = ${colors.special-font}
 label-indicator-padding = 2
+
+[module/cpu]
+type = internal/cpu
+format-prefix = " "
+
+[module/memory]
+type = internal/memory
+format-prefix = " "
 
 [module/pulseaudio]
 type = internal/pulseaudio
