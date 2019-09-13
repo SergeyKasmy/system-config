@@ -28,8 +28,11 @@ if status is-interactive
 	
 	# config edit aliases
 	#
-	alias edit-i3-cfg 'nvim ~/.config/i3/config'
-	alias edit-fish-cfg 'nvim ~/.config/fish/config.fish'
+	alias cfg-i3 '$EDITOR ~/.config/i3/config'
+	alias cfg-fish '$EDITOR ~/.config/fish/config.fish'
+	alias cfg-polybar '$EDITOR ~/.config/polybar/config'
+	alias cfg-nvim '$EDITOR ~/.config/nvim/init.vim'
+	alias cfg-tmux '$EDITOR ~/.config/tmux/tmux.conf'
 	
 	# command shortcuts
 	#
