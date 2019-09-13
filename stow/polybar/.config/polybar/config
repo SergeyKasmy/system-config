@@ -53,6 +53,7 @@ label-urgent-padding-right = 3
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
+format-prefix = " "
 
 label-indicator-background = ${colors.special-background}
 label-indicator-foreground = ${colors.special-font}
@@ -81,7 +82,13 @@ format-muted-prefix = " "
 type = internal/date
 
 format-prefix = " "
-label = "%time%"
+label = "%date%%time%"
+
+date = "%A, %b %d, "
 time = "%H:%M"
+
+date-alt = 
+time-alt = "%H:%M"
+
 
 interval = 10
