@@ -55,6 +55,7 @@ label-urgent-padding-right = 3
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
+blacklist-1 = scroll lock
 format-prefix = " "
 
 label-indicator-background = ${colors.special-background}
