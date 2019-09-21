@@ -18,6 +18,7 @@ background = ${colors.normal-background}
 foreground = ${colors.normal-font}
 font-0 = sans:size=13;3
 font-1 = nerd:size=13;3
+height = 2.5%
 tray-position = center
 fixed-center = true
 padding-right = 1
