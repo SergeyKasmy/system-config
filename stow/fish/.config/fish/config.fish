@@ -1,3 +1,13 @@
+if not contains "$HOME/.local/bin" $PATH
+	set -gx PATH $PATH "$HOME/.local/bin"
+end
+
+set -gx EDITOR nvim
+#set -gx QT_STYLE_OVERRIDE kvantum
+set -gx QT_QPA_PLATFORMTHEME qt5ct
+
+
+
 if status is-login
 	if test -z "$DISPLAY" -a $XDG_VTNR = 1
 		exec startx -- -keeptty >/dev/null 2>&1
@@ -14,15 +24,8 @@ if status is-interactive
 	
 	# set global vars
 	#
-	if not contains "$HOME/.local/bin" $PATH
-		set -gx PATH $PATH "$HOME/.local/bin"
-	end
-
-	set -gx EDITOR nvim
 	set -g GPG_TTY (tty)
 	
-	#set -gx QT_STYLE_OVERRIDE kvantum
-	set -gx QT_QPA_PLATFORMTHEME qt5ct
 
 	## Aliases and functions
 	
