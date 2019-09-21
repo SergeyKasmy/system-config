@@ -83,7 +83,7 @@ format-muted-prefix = " "
 [module/date]
 type = internal/date
 
-label = " %date%, %time%"
+label = "%{A1:gsimplecal &:} %date%, %time%%{A}"
 
 date = "%A, %b %d"
 time = "%H:%M"
