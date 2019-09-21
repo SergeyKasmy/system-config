@@ -16,8 +16,8 @@ modules-right = xkeyboard cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
 foreground = ${colors.normal-font}
-font-0 = Ubuntu:size=13;3
-font-1 = Ubuntu Nerd Font:size=13;3
+font-0 = sans:size=13;3
+font-1 = nerd:size=13;3
 tray-position = center
 fixed-center = true
 padding-right = 1
