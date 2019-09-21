@@ -83,14 +83,9 @@ format-muted-prefix = " "
 [module/date]
 type = internal/date
 
-format-prefix = " "
-label = "%date%%time%"
+label = " %date%, %time%"
 
-date = "%A, %b %d, "
+date = "%A, %b %d"
 time = "%H:%M"
-
-date-alt = 
-time-alt = "%H:%M"
-
 
 interval = 10
