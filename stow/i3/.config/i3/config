@@ -280,7 +280,7 @@ for_window [class="Steam" title="Steam - News"] floating enable
 assign [class="Telegram"] $ws2
 assign [class="discord"] $ws2
 for_window [class="kitty" title="gotop"] move container to workspace $ws9
-for_window [class="kitty" title="cmus v2.7.0"] move container to workspace $ws10
+for_window [class="kitty" title="cmus*"] move container to workspace $ws10
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
