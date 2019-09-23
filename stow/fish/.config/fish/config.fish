@@ -24,7 +24,7 @@ if status is-interactive
 	
 	# set global vars
 	#
-	set -g GPG_TTY (tty)
+	set -gx GPG_TTY (tty)
 	
 
 	## Aliases and functions
