@@ -1,0 +1,3 @@
+#!/bin/sh
+
+secret-tool lookup application keepassxc | keepassxc --pw-stdin ~/keepass.kdbx
