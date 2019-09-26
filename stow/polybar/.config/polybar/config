@@ -12,6 +12,7 @@ alert = #bd2c40
 
 [bar/main]
 modules-left = i3
+modules-center = cmus
 modules-right = xkeyboard cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
@@ -19,7 +20,7 @@ foreground = ${colors.normal-font}
 font-0 = sans:size=13;3
 font-1 = nerd:size=13;3
 height = 2.5%
-tray-position = center
+tray-position = right
 fixed-center = true
 padding-right = 1
 cursor-click = pointer
@@ -51,6 +52,25 @@ label-urgent = %index%
 label-urgent-background = ${colors.alert}
 label-urgent-padding-left = 2
 label-urgent-padding-right = 3
+
+[module/cmus]
+type = custom/script
+
+exec = ~/.config/polybar/scripts/cmus-status
+exec-if = pgrep -x cmus
+interval = 1
+
+click-left = cmus-remote --pause
+click-right = cmus-remote --next
+click-middle = cmus-remote --prev
+scroll-up = cmus-remote --volume +5%
+scroll-down = cmus-remote --volume -5%
+
+;label-font = 3
+;format = <label>
+;format-underline = ${colors.foreground-alt}
+;label = %output%
+label-maxlen = 50
 
 [module/xkeyboard]
 type = internal/xkeyboard
