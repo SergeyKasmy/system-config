@@ -13,7 +13,7 @@ alert = #bd2c40
 [bar/main]
 modules-left = i3
 modules-center = cmus
-modules-right = xkeyboard cpu memory pulseaudio date
+modules-right = updates xkeyboard cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
 foreground = ${colors.normal-font}
@@ -71,6 +71,12 @@ scroll-down = cmus-remote --volume -5%
 ;format-underline = ${colors.foreground-alt}
 ;label = %output%
 label-maxlen = 50
+
+[module/updates]
+type = custom/script
+exec = ~/.config/polybar/scripts/updates
+; check every 5 minutes
+interval = 300
 
 [module/xkeyboard]
 type = internal/xkeyboard
