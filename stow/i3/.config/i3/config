@@ -316,4 +316,5 @@ exec --no-startup-id numlockx on
 exec --no-startup-id kitty gotop
 #exec --no-startup-id kitty cmus
 
+exec --no-startup-id telegram-desktop
 exec --no-startup-id keepassxc-autounlock
