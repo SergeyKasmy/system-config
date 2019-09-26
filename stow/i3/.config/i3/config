@@ -311,3 +311,5 @@ exec --no-startup-id dunst
 
 exec --no-startup-id kitty gotop
 #exec --no-startup-id kitty cmus
+
+exec --no-startup-id keepassxc-autounlock
