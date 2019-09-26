@@ -3,8 +3,8 @@ if not contains "$HOME/.local/bin" $PATH
 end
 
 set -gx EDITOR nvim
-#set -gx QT_STYLE_OVERRIDE kvantum
 set -gx QT_QPA_PLATFORMTHEME qt5ct
+set -gx SSH_AUTH_SOCK "/run/user/"(id -u)"/ssh-agent.socket"
 
 
 
