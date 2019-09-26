@@ -309,6 +309,10 @@ exec --no-startup-id compton
 exec --no-startup-id polybar main 
 exec --no-startup-id dunst
 
+exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
+exec --no-startup-id kbdd
+exec --no-startup-id numlockx on
+
 exec --no-startup-id kitty gotop
 #exec --no-startup-id kitty cmus
 
