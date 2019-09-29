@@ -1,0 +1,9 @@
+[Unit]
+Description=Check for updates
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/polybar-module-updates
+
+[Install]
+WantedBy=graphical-session.target
