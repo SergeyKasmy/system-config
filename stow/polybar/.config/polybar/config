@@ -74,10 +74,10 @@ scroll-down = cmus-remote --volume -5%
 label-maxlen = 80
 
 [module/updates]
-type = custom/script
-exec = ~/.config/polybar/scripts/updates
-; check every 5 minutes
-interval = 300
+type = custom/ipc
+hook-0 = cat /tmp/polybar/updates
+click-left = polybar-module-updates
+format-prefix = "ﮮ "
 
 [module/email]
 type = custom/ipc

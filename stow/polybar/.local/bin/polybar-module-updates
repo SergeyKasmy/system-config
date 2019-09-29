@@ -16,10 +16,9 @@ if [ "$OS" = "arch" ]; then
 	fi
 	
 	updates=$(( "$updates_repo" + "$updates_aur" ))
+
+	echo -n "Number of available updates: "
+	echo "$updates" | tee /tmp/polybar/updates
+	polybar-msg hook updates 1
 fi
 
-if (( "$updates" > 0 )); then
-	echo "ﮮ $updates"
-else
-	echo
-fi
