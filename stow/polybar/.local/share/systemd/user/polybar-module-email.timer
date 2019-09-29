@@ -1,0 +1,9 @@
+[Unit]
+Description=Check email every 5 minutes
+BindsTo=graphical-session.target
+
+[Timer]
+OnUnitActiveSec=5m
+
+[Install]
+WantedBy=graphical-session.target
