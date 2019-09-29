@@ -13,7 +13,7 @@ alert = #bd2c40
 [bar/main]
 modules-left = i3
 modules-center = cmus
-modules-right = updates xkeyboard cpu memory pulseaudio date
+modules-right = updates email xkeyboard cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
 foreground = ${colors.normal-font}
@@ -24,6 +24,7 @@ tray-position = right
 fixed-center = true
 padding-right = 1
 cursor-click = pointer
+enable-ipc = true
 
 [module/i3]
 type = internal/i3
@@ -70,13 +71,19 @@ scroll-down = cmus-remote --volume -5%
 ;format = <label>
 ;format-underline = ${colors.foreground-alt}
 ;label = %output%
-label-maxlen = 50
+label-maxlen = 80
 
 [module/updates]
 type = custom/script
 exec = ~/.config/polybar/scripts/updates
 ; check every 5 minutes
 interval = 300
+
+[module/email]
+type = custom/ipc
+hook-0 = cat /tmp/polybar/email
+click-left = polybar-module-email
+format-prefix = " "
 
 [module/xkeyboard]
 type = internal/xkeyboard
