@@ -205,7 +205,6 @@ mode "syscontrol"
 	bindsym r exec --no-startup-id "syscontrol reboot"; mode "default"
 	bindsym i exec --no-startup-id "syscontrol logout"; mode "default"
 	bindsym d exec --no-startup-id "syscontrol suspend"; mode "default"
-	bindsym u exec --no-startup-id "syscontrol switch-user"; mode "default"
 	bindsym l --release exec --no-startup-id "syscontrol lock"; mode "default"
 
 	# back to normal: Enter or Escape

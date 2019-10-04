@@ -8,20 +8,17 @@ case "$1" in
 		reboot
 		;;
 	logout)
-		loginctl list-sessions | grep tty1 | cut -f7 -d' '
+		i3-msg exit
 		;;
 	suspend)
 		systemctl suspend
 		;;
-	switch-user)
-		dm-tool switch-to-greeter
-		;;
 	lock)
-		loginctl lock-session
+		i3lock -c 000015
 		;;
 	*)
 		echo "syscontrol: missing or invalid argument"
-		echo "Available commands: shutdown, reboot, logout, suspend, switch-user, lock"
+		echo "Available commands: shutdown, reboot, logout, suspend, lock"
 		exit 1
 esac
 
