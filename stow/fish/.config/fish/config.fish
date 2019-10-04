@@ -1,5 +1,5 @@
 if not contains "$HOME/.local/bin" $PATH
-	set -gx PATH $PATH "$HOME/.local/bin"
+	set -gx PATH "$HOME/.local/bin" $PATH
 end
 
 set -gx EDITOR nvim
