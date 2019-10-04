@@ -117,6 +117,8 @@ bindsym $win+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $win+space focus mode_toggle
 
+bindsym $alt+space exec --no-startup-id nc_flash_window
+
 # focus the parent container
 bindsym $win+q focus parent
 
@@ -307,6 +309,7 @@ bindsym $win+F1 exec --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/
 # autostart
 exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/wallpapers/wallpaper.jpg"
 exec --no-startup-id compton 
+exec --no-startup-id flashfocus
 exec --no-startup-id polybar
 exec --no-startup-id dunst
 
