@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/usr/bin/polybar main &
+polybar-module-timer email 5m &
+polybar-module-timer updates 10m &
+polybar-module-timer cmus 1s &
