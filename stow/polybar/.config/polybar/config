@@ -55,35 +55,30 @@ label-urgent-padding-left = 2
 label-urgent-padding-right = 3
 
 [module/cmus]
-type = custom/script
-
-exec = ~/.config/polybar/scripts/cmus-status
-exec-if = pgrep -x cmus
-interval = 1
-
-click-left = cmus-remote --pause
-click-right = cmus-remote --next
-click-middle = cmus-remote --prev
-scroll-up = cmus-remote --volume +5%
-scroll-down = cmus-remote --volume -5%
-
-;label-font = 3
-;format = <label>
-;format-underline = ${colors.foreground-alt}
-;label = %output%
-label-maxlen = 80
+type = custom/ipc
+hook-0 = cat /tmp/polybar/cmus
+hook-1 = echo
+click-left = cmus-remote --pause && polybar-cmus-module
+click-right = cmus-remote --next && polybar-cmus-module
+click-middle = cmus-remote --prev && polybar-cmus-module
+scroll-up = cmus-remote --volume +5% && polybar-cmus-module
+scroll-down = cmus-remote --volume -5% && polybar-cmus-module
 
 [module/updates]
 type = custom/ipc
 hook-0 = cat /tmp/polybar/updates
-click-left = polybar-module-updates
+hook-1 = echo ?
+click-left = polybar-updates-module
 format-prefix = "ﮮ "
+initial = 2
 
 [module/email]
 type = custom/ipc
 hook-0 = cat /tmp/polybar/email
-click-left = polybar-module-email
+hook-1 = echo ?
+click-left = polybar-email-module
 format-prefix = " "
+initial = 2
 
 [module/xkeyboard]
 type = internal/xkeyboard
