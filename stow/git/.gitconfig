@@ -8,3 +8,5 @@
 	exec = "!exec "
 [commit]
 	gpgsign = true
+[core]
+	autocrlf = input
