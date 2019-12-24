@@ -1,5 +1,5 @@
 configuration {
-	combi-modi: "window,drun,run,ssh";
+	combi-modi: "drun,run,ssh";
 	font: "sans 12";
 	terminal: "kitty";
 	run-shell-command: "kitty '{cmd}'";
