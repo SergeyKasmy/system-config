@@ -282,9 +282,17 @@ for_window [class="steam"] floating disable, fullscreen enable
 for_window [class="obs" title="^Settings$"] floating disable, border none
 
 # workspace assignment
+assign [window_role="browser"] $ws-browser
+
 assign [class="Telegram"] $ws-social
 assign [class="discord"] $ws-social
+
+assign [class="Steam"] $ws-gaming
+assign [class="Lutris"] $ws-gaming
+
 for_window [class="kitty" title="gotop"] move container to workspace $ws-sysmon
+for_window [class="kitty" title="htop"] move container to workspace $ws-sysmon
+
 for_window [class="kitty" title="cmus*"] move container to workspace $ws-music
 
 ##-----------------------------------------------------------------------------------------------------------
