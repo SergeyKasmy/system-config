@@ -279,6 +279,7 @@ for_window [class="Steam" title="^Steam$"] floating disable
 # big picture
 for_window [class="steam"] floating disable, fullscreen enable
 
+for_window [class="obs" title="^Settings$"] floating disable, border none
 
 # workspace assignment
 assign [class="Telegram"] $ws-social
