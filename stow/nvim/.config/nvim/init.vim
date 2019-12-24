@@ -23,6 +23,7 @@ nnoremap <Leader>s :set spell!<CR>
 call plug#begin()
 
 Plug 'dag/vim-fish'
+Plug 'vim-scripts/squirrel.vim'
 
 " automatically close brackets
 Plug 'Raimondi/delimitMate'
@@ -64,3 +65,7 @@ function! s:NewLineInsertExpr( isUndoCount, command )
 endfunction
 nnoremap <silent> <expr> o <SID>NewLineInsertExpr(1, 'o')
 nnoremap <silent> <expr> O <SID>NewLineInsertExpr(1, 'O')
+
+
+
+au BufNewFile,BufRead *.nut setf squirrel
