@@ -219,28 +219,28 @@ bindsym $win+x mode "syscontrol"
 ## Workspaces
 
 # workspace names
-set $ws1 "1 "
-set $ws2 "2 "
+set $ws-browser "1  "
+set $ws-social "2  "
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9 "
-set $ws10 "10 "
+set $ws-gaming "8  "
+set $ws-sysmon "9  "
+set $ws-music "10  "
 
 # switch to workspace
-bindsym $win+1 workspace $ws1
-bindsym $win+2 workspace $ws2
+bindsym $win+1 workspace $ws-browser
+bindsym $win+2 workspace $ws-social
 bindsym $win+3 workspace $ws3
 bindsym $win+4 workspace $ws4
 bindsym $win+5 workspace $ws5
 bindsym $win+6 workspace $ws6
 bindsym $win+7 workspace $ws7
-bindsym $win+8 workspace $ws8
-bindsym $win+9 workspace $ws9
-bindsym $win+0 workspace $ws10
+bindsym $win+8 workspace $ws-gaming
+bindsym $win+9 workspace $ws-sysmon
+bindsym $win+0 workspace $ws-music
 
 # cycle through workspaces
 bindsym $win+Control+Left workspace prev
@@ -249,16 +249,16 @@ bindsym $win+Control+h workspace prev
 bindsym $win+Control+l workspace next
 
 # move focused container to workspace
-bindsym $win+Shift+1 move container to workspace $ws1
-bindsym $win+Shift+2 move container to workspace $ws2
+bindsym $win+Shift+1 move container to workspace $ws-browser
+bindsym $win+Shift+2 move container to workspace $ws-social
 bindsym $win+Shift+3 move container to workspace $ws3
 bindsym $win+Shift+4 move container to workspace $ws4
 bindsym $win+Shift+5 move container to workspace $ws5
 bindsym $win+Shift+6 move container to workspace $ws6
 bindsym $win+Shift+7 move container to workspace $ws7
-bindsym $win+Shift+8 move container to workspace $ws8
-bindsym $win+Shift+9 move container to workspace $ws9
-bindsym $win+Shift+0 move container to workspace $ws10
+bindsym $win+Shift+8 move container to workspace $ws-gaming
+bindsym $win+Shift+9 move container to workspace $ws-sysmon
+bindsym $win+Shift+0 move container to workspace $ws-music
 
 # move the currently focused window to the scratchpad
 bindsym $win+Shift+grave move scratchpad
@@ -268,6 +268,7 @@ bindsym $win+grave scratchpad show
 
 # allow to press the same button when changing ws to go to the previous one
 workspace_auto_back_and_forth no
+
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Application rules
@@ -279,10 +280,10 @@ for_window [class="Steam" title="Friends List"] floating enable
 for_window [class="Steam" title="Steam - News"] floating enable
 
 # workspace assignment
-assign [class="Telegram"] $ws2
-assign [class="discord"] $ws2
-for_window [class="kitty" title="gotop"] move container to workspace $ws9
-for_window [class="kitty" title="cmus*"] move container to workspace $ws10
+assign [class="Telegram"] $ws-social
+assign [class="discord"] $ws-social
+for_window [class="kitty" title="gotop"] move container to workspace $ws-sysmon
+for_window [class="kitty" title="cmus*"] move container to workspace $ws-music
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
