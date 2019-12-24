@@ -303,7 +303,8 @@ bindsym $alt+$win+F4 --release exec --no-startup-id xkill
 
 # rofi
 bindsym $win+d exec --no-startup-id rofi -show combi
-bindsym $alt+Tab exec --no-startup-id rofi -show window
+#bindsym $alt+Tab exec --no-startup-id rofi -show window
+bindsym $alt+Tab exec --no-startup-id "rofi -show window -kb-accept-entry \\"!Alt-Tab,Return\\" -kb-row-down \\"Alt-Tab\\" -kb-cancel \\"Alt-Escape,Escape\\""
 
 # terminal
 bindsym $win+Return exec kitty
