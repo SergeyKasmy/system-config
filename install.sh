@@ -43,7 +43,7 @@ function get_input()
 package_list=()
 for pkg in "$SCRIPT_DIR"/pkg/*/; do
 	pkg=$(basename "$pkg")
-	package_list+=("$pkg")
+	package_list+=("$pkg")	
 done
 
 function arch_build_install_package
@@ -104,4 +104,9 @@ fi
 for pkg in "$SCRIPT_DIR"/user/*/; do
 	pkg=$(basename "$pkg")
 	stow --no-folding --dir "$SCRIPT_DIR"/user/ --target "$HOME" "$pkg"
+done
+
+for pkg in "$SCRIPT_DIR"/system/*/; do
+	cd "$pkg"
+	sudo ./install.sh
 done
