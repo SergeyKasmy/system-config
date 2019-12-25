@@ -101,7 +101,7 @@ if ! which stow &>/dev/null; then
 	esac
 fi
 
-for pkg in "$SCRIPT_DIR"/stow/*/; do
+for pkg in "$SCRIPT_DIR"/user/*/; do
 	pkg=$(basename "$pkg")
-	stow --no-folding --dir "$SCRIPT_DIR"/stow/ --target "$HOME" "$pkg"
+	stow --no-folding --dir "$SCRIPT_DIR"/user/ --target "$HOME" "$pkg"
 done
