@@ -108,5 +108,5 @@ done
 
 for pkg in "$SCRIPT_DIR"/system/*/; do
 	cd "$pkg"
-	sudo ./install.sh
+	sudo ./script.sh
 done
