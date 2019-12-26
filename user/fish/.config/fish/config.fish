@@ -46,6 +46,10 @@ if status is-interactive
 	alias systemctlu 'systemctl --user'
 	alias whatsmyip 'curl ipinfo.io/ip'
 	
+	if type trash-put >/dev/null 2>&1
+		alias tp trash-put
+	end
+	
 	## ls
 	# 
 	##   -A, --almost-all           do not list implied . and ..
@@ -82,17 +86,6 @@ if status is-interactive
 
 	# overrides
 	#
-	
-	# disable rm in favor of tp
-	if type trash-put >/dev/null 2>&1
-		function rm -w rm
-			echo 'This is not the command you are looking for. Use tp'
-			false
-		end
-		
-		alias rm_ /bin/rm
-		alias tp trash-put
-	end
 	
 	# dissalow nested ranger instances
 	if type ranger >/dev/null 2>&1
