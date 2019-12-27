@@ -57,7 +57,7 @@ if (( $MODE == 0 )); then
 	echo -n "Copy sudoers-wheel?"
 	if get_input; then
 		while true; do
-			su -c "cp ./sudoers-wheel /etc/sudoers.d/wheel"
+			su -c "cp ./sudoers-wheel /etc/sudoers.d/10-wheel"
 			if (( $? != 0 )); then 
 				echo 'Error copying sudoers file'
 				continue
@@ -78,6 +78,28 @@ if (( $MODE == 0 )); then
 			if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
 		done
 	fi
+
+	function create_second_space
+	{
+		if id -u island >/dev/null 2>&1; then
+			echo "Second space user account already exists, skipping..."
+			return
+		fi
+		
+		sudo useradd --system --create-home island
+
+		echo "$(id -un)	ALL=(island) NOPASSWD: ALL" | sudo cp /dev/stdin /etc/sudoers.d/30-island
+
+		# TODO: check if empty
+		mkdir "$HOME/.config/pulse"
+		cat > "$HOME/.config/pulse/default.pa" <<- EOF
+		.include /etc/pulse/default.pa
+
+		load-module module-native-protocol-unix auth-group=audio socket=/tmp/pulse-server
+		EOF
+	}
+
+	create_second_space
 
 elif (( $MODE == 1 )); then
 
@@ -110,3 +132,4 @@ for pkg in "$SCRIPT_DIR"/system/*/; do
 	cd "$pkg"
 	sudo ./script.sh
 done
+
