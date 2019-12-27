@@ -171,6 +171,11 @@ if status is-interactive
 		end
 	end
 
+	if id -u island >/dev/null 2>&1
+		alias island 'sudo -iu island --preserve-env=DISPLAY'
+		alias stisland 'start sudo -iu island --preserve-env=DISPLAY'
+	end
+
 	#if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
 	#	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
 	#end
