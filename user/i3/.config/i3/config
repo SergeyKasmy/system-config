@@ -284,8 +284,8 @@ for_window [class="steam"] floating disable, fullscreen enable
 for_window [class="obs" title="^Settings$"] floating disable, border none
 
 # workspace assignment
-assign [class="Vivaldi-snapshot"] $ws-browser
-for_window [class="Vivaldi-snapshot" title="Sign in - Google Accounts - Vivaldi"] floating enable
+assign [class="Vivaldi-*"] $ws-browser
+for_window [class="Vivaldi-*" title="Sign in - Google Accounts - Vivaldi"] floating enable
 
 assign [class="Telegram"] $ws-social
 assign [class="discord"] $ws-social
