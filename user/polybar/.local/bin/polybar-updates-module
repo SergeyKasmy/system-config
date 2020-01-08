@@ -20,6 +20,7 @@ if [ "$OS" = "arch" ]; then
 	updates=$(( $updates_repo + $updates_aur ))
 
 elif [ "$OS" = "debian" ]; then
+	sudo apt update
 	updates=$(aptitude search "~U" | wc -l)
 fi
 
