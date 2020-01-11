@@ -9,7 +9,7 @@
 font pango:sans 8
 
 # disable borders
-default_border none
+default_border pixel 1
 hide_edge_borders smart
 
 # color - background
