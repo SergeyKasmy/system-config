@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
-if grep "^ID_LIKE=" /etc/os-release &>/dev/null; then
+if grep "^ID_LIKE=" /etc/os-release >/dev/null 2>&1; then
         OS=$(grep "^ID_LIKE" /etc/os-release | cut -d= -f2)
-elif grep "^ID=" /etc/os-release &>/dev/null; then
+elif grep "^ID=" /etc/os-release >/dev/null 2>&1; then
         OS=$(grep "^ID" /etc/os-release | cut -d= -f2)
 fi
 
