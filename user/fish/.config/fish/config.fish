@@ -49,6 +49,13 @@ if status is-interactive
 	if type gio >/dev/null 2>&1
 		alias tp 'gio trash'
 	end
+
+	if type tar >/dev/null 2>&1
+		function tarz
+			set cpus (cat /proc/cpuinfo | grep processor | wc -l)
+			tar -I "zstd -T$cpus" $argv
+		end
+	end
 	
 	## ls
 	# 
