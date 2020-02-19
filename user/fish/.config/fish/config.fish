@@ -46,8 +46,8 @@ if status is-interactive
 	alias systemctlu 'systemctl --user'
 	alias whatsmyip 'curl ipinfo.io/ip'
 	
-	if type trash-put >/dev/null 2>&1
-		alias tp trash-put
+	if type gio >/dev/null 2>&1
+		alias tp 'gio trash'
 	end
 	
 	## ls
