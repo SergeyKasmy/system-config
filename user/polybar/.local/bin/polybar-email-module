@@ -6,7 +6,7 @@ output=$(curl -su "SleeplessSloth79:${password}" https://mail.google.com/mail/fe
 number=$(xpath -e 'string(//fullcount)' <(echo "$output") 2>/dev/null)
 
 echo -n "Number of emails: "
-if [ -f /tmp/polybar/email ] && (( $number > $(cat /tmp/polybar/email) )); then
+if [ -f /tmp/polybar/email ] && (( number > $(cat /tmp/polybar/email) )); then
 	notify-send "$(( $number - $(cat /tmp/polybar/email) )) new email(s)!"
 fi
 echo "$number" | tee /tmp/polybar/email
