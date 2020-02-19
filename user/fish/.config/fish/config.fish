@@ -56,6 +56,17 @@ if status is-interactive
 			tar -I "zstd -T$cpus" $argv
 		end
 	end
+
+	if type udisksctl >/dev/null 2>&1
+		function mount-loop
+			udisksctl mount -b "/dev/"(udisksctl loop-setup -f $argv[1] | cut -d'/' -f3 | cut -d'.' -f1)
+		end
+
+		function umount-loop
+			udisksctl unmount -b "/dev/"$argv[1]
+			udisksctl loop-delete -b "/dev/"$argv[1]
+		end
+	end
 	
 	## ls
 	# 
