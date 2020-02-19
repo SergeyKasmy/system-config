@@ -68,6 +68,18 @@ if status is-interactive
 		end
 	end
 	
+	if type rsync >/dev/null 2>&1
+		function mvrs
+			rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
+			if type fd >/dev/null 2>&1
+				fd . $argv[1] -Hte -x rmdir -p
+			else
+				find $argv[1] -empty -x rmdir -p /;
+			end
+		end
+	end
+
+
 	## ls
 	# 
 	##   -A, --almost-all           do not list implied . and ..
