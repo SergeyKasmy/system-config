@@ -4,5 +4,8 @@
 polybar-module-timer email 5m &
 polybar-module-timer updates 10m &
 polybar-module-timer cmus 1s &
+
+polybar-module-timer cpu-temp 2s &
+
 trap 'kill $(jobs -p)' EXIT
 wait

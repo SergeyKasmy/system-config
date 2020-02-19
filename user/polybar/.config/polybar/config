@@ -13,7 +13,7 @@ alert = #bd2c40
 [bar/main]
 modules-left = i3
 modules-center = cmus
-modules-right = updates email xkeyboard cpu memory pulseaudio date
+modules-right = updates email xkeyboard cpu-temp cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
 foreground = ${colors.normal-font}
@@ -89,6 +89,13 @@ format-prefix = " "
 label-indicator-background = ${colors.special-background}
 label-indicator-foreground = ${colors.special-font}
 label-indicator-padding = 2
+
+[module/cpu-temp]
+type = custom/ipc
+hook-0 = cat /tmp/polybar/cpu-temp
+hook-1 = echo ?
+format-prefix = " "
+initial = 2
 
 [module/cpu]
 type = internal/cpu
