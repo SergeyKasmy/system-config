@@ -1,0 +1,201 @@
+pkgbase=ciren-meta-packages
+pkgname=('ciren-meta-audio'
+	'ciren-meta-desktop'
+	'ciren-meta-fonts'
+	'ciren-meta-gaming'
+	'ciren-meta-gaming-native'
+	'ciren-meta-graphics'
+	'ciren-meta-media'
+	'ciren-meta-networking'
+	'ciren-meta-dev'
+	'ciren-meta-terminal-build-tools'
+	'ciren-meta-terminal-tools'
+	'ciren-meta-themes'
+	'ciren-meta-wine'
+	'ciren-meta-xorg'
+	'ciren-meta-vm')
+pkgver=0.1
+pkgrel=1
+arch=('any')
+license=('GPL')
+
+package_ciren-meta-terminal-tools() {
+	depends=('base'
+		'fish'
+		'bash'
+		'dash'
+		'dashbinsh'
+		'python'
+
+		'diskus'
+		'fd'
+		'htop'
+		'lsd'
+		'man-db'
+		'ncdu'
+		'neovim'
+		'pacman-contrib'
+		'ranger'
+		'stow'
+		'sudo'
+		'udisks2'
+		'yay'
+		'zstd')
+	
+	optdepends=('terminus-font: for hiDPI displays'
+			'translate-shell')
+}
+
+package_ciren-meta-graphics() {
+	depends=('opengl-driver'
+		'vulkan-driver'
+		'vulkan-icd-loader')
+}
+
+package_ciren-meta-fonts() {
+	depends=('fontconfig'
+		'noto-fonts'
+		'noto-fonts-cjk'
+		'noto-fonts-emoji'
+		'ttf-ubuntu-font-family')
+}
+
+package_ciren-meta-xorg() {
+	depends=('ciren-meta-graphics'
+		'ciren-meta-fonts'
+		'xorg-server'
+		'xorg-xhost'
+		'xorg-xinit'
+		'xorg-xkill'
+		'xorg-xprop'
+		'xorg-xrandr'
+		'xdg-utils'
+		'xdotool'
+		'wmctrl'
+		'i3-wm'
+		'polybar'
+		'dunst'
+		'rofi'
+		'feh'
+		'compton-tryone-git'
+		'flashfocus'
+		'redshift-qt'
+
+		'perl-xml-xpath')	# polybar-email-module: xml parser
+}
+
+package_ciren-meta-audio() {
+	depends=('pulseaudio'
+		'pulseaudio-alsa'
+		'pamixer'
+		'alsa-utils')
+
+	optdepends=('pavucontrol-qt')
+	provides=('jack')
+}
+
+package_ciren-meta-media() {
+	depends=('ciren-meta-audio'
+		'ciren-meta-graphics'
+		'ffmpeg'
+		# TODO: decouple GUI apps from ffmpeg & friends
+		'cmus'
+		'vlc'
+
+		'libva'
+
+		# codecs
+		'faad2'		# AAC
+		'flac'
+		'libmad' 	# MPEG
+		'libmatroska'
+		'libmp4v2'	# MPEG-4
+		'libmpeg2' 	# MPEG-12
+		'libogg'
+		'libvorbis'
+		'libvpx'
+		'mpg123' 	# MPEG-123
+		'opusfile'
+		'wavpack'
+		'x264'
+		'x265')
+}
+
+package_ciren-meta-themes() {
+	depends=('kvantum-qt5'
+		'qt5ct'
+		'papirus-icon-theme')
+}
+
+package_ciren-meta-desktop() {
+	depends=('ciren-meta-graphics'
+		'ciren-meta-audio'
+		'ciren-meta-xorg'
+		'ciren-meta-themes'
+		'ciren-meta-media'
+		'ark'
+		'discord'
+		'dolphin'
+		'firefox'
+		'keepassxc'
+		'kitty'
+		'spectacle'
+		'telegram-desktop'
+		'vivaldi-snapshot')
+}
+
+package_ciren-meta-networking() {
+	depends=('dhcpcd'
+		'avahi'
+		'nss-mdns'
+		'curl'
+		'aria2'
+		'speedtest-cli')
+	optdepends=('zerotier-one')
+}
+
+package_ciren-meta-gaming-native() {
+	depends=('ciren-meta-graphics'
+		'ciren-meta-audio'
+		'steam'
+		'lutris')
+
+	optdepends=('vkbasalt')
+
+	provides=('mesa-demos')		# lutris dep
+}
+
+package_ciren-meta-wine() {
+	depends=('wine'
+		'winetricks')
+}
+
+
+package_ciren-meta-gaming() {
+	depends=('ciren-meta-gaming-native'
+		'ciren-meta-wine'
+		'protontricks')
+}
+
+package_ciren-meta-terminal-build-tools() {
+	depends=('ciren-meta-terminal-tools'
+		'meta-group-base-devel'
+		'make'
+		'cmake'
+		'gcc')
+}
+
+
+package_ciren-meta-dev() {
+	depends=('ciren-meta-terminal-build-tools'
+		'wireshark-qt')
+}
+
+package_ciren-meta-vm() {
+	depends=('qemu'
+		'libvirt'
+		'virt-manager'
+		'virt-viewer')
+}
+
+#libmicrodns

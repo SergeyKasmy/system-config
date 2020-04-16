@@ -41,7 +41,7 @@ function get_input()
 
 # get a list of the all custom arch packages
 package_list=()
-for pkg in "$SCRIPT_DIR"/pkg/*/; do
+for pkg in "$SCRIPT_DIR"/metapkg/*/; do
 	pkg=$(basename "$pkg")
 	package_list+=("$pkg")	
 done
