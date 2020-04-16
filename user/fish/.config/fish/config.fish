@@ -98,10 +98,9 @@ if status is-interactive
 	##   -F, --classify             append indicator (one of */=>@|) to entries
 	##   -h, --human-readable       with -l and/or -s, print human readable sizes
 	##   -C                         list entries by columns
-	#alias l 'ls -CF'
-	#alias la 'ls -A'
-	#alias lla 'ls -AlFh'
-	alias ls 'lsd'
+	if type lsd &>/dev/null
+		alias ls 'lsd'
+	end
 	alias la 'ls -A'
 	alias ll 'ls -l'
 	alias lla 'ls -Al'
