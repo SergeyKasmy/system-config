@@ -58,12 +58,20 @@ if status is-interactive
 	end
 
 	if type udisksctl >/dev/null 2>&1
-		function mount-loop
-			udisksctl mount -b "/dev/"(udisksctl loop-setup -f $argv[1] | cut -d'/' -f3 | cut -d'.' -f1)
+		function mountusr
+			udisksctl mount -b "/dev/"$argv[1]
 		end
 
-		function umount-loop
+		function umountusr
 			udisksctl unmount -b "/dev/"$argv[1]
+		end
+
+		function mountusr-loop
+			mountusr (udisksctl loop-setup -f $argv[1] | cut -d'/' -f3 | cut -d'.' -f1)
+		end
+
+		function umountusr-loop
+			umountusr $argv[1]
 			udisksctl loop-delete -b "/dev/"$argv[1]
 		end
 	end
