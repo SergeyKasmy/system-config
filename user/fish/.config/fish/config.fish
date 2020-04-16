@@ -91,6 +91,10 @@ if status is-interactive
 		alias dff 'df -h | head -n1 && df -h | grep /dev/sd | sort'
 	end
 
+	if type yay &>/dev/null
+		alias y 'yay'
+	end
+
 	## ls
 	# 
 	##   -A, --almost-all           do not list implied . and ..
@@ -106,21 +110,6 @@ if status is-interactive
 	alias lla 'ls -Al'
 	alias ls_ '/bin/ls'
 	
-	begin
-		set -g pkgman
-		begin
-			set -l package_managers yay pacman apt
-			for pkgman in $package_managers
-				if which $pkgman >/dev/null 2>&1
-					break
-				end
-			end
-		end
-	
-		function y -w $pkgman
-			eval $pkgman $argv
-		end
-	end
 	
 	alias reboot-windows "sudo efibootmgr --bootnext (efibootmgr | grep Windows | tail -n1 | cut -d' ' -f1 | cut -d't' -f2) && syscontrol reboot"
 
