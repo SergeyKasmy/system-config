@@ -8,8 +8,7 @@ set -gx XDG_CURRENT_DESKTOP KDE
 set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx GTK_USE_PORTAL 1
 
-set -gx SSH_AUTH_SOCK "/run/user/"(id -u)"/ssh-agent.socket"
-
+#set -gx (gnome-keyring-daemon --start | string split "=")
 
 
 if status is-login
