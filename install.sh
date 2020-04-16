@@ -86,7 +86,7 @@ if (( $MODE == 0 )); then
 			return
 		fi
 		
-		sudo useradd --system --create-home island
+		sudo useradd --system --create-home --groups wheel island
 
 		echo "$(id -un)	ALL=(island) NOPASSWD: ALL" | sudo cp /dev/stdin /etc/sudoers.d/30-island
 
