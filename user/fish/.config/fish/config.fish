@@ -87,6 +87,9 @@ if status is-interactive
 		end
 	end
 
+	if type df >/dev/null 2>&1
+		alias dff 'df -h | head -n1 && df -h | grep /dev/sd | sort'
+	end
 
 	## ls
 	# 
