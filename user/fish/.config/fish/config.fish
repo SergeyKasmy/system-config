@@ -94,6 +94,10 @@ if status is-interactive
 		alias y 'yay'
 	end
 
+	if type apt &>/dev/null
+		alias update 'sudo apt update && sudo apt dist-upgrade'
+	end
+
 	## ls
 	# 
 	##   -A, --almost-all           do not list implied . and ..
