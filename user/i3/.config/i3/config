@@ -134,15 +134,17 @@ bindsym $win+Shift+c reload
 bindsym $win+Shift+r restart
 
 # Pulseaudio controls
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Media player controls
-bindsym XF86AudioPlay exec sh -c 'cmus-remote -C player-pause || playerctl play-pause'
-bindsym XF86AudioPause exec sh -c 'cmus-remote -C player-pause || playerctl play-pause'
-bindsym XF86AudioNext exec sh -c 'cmus-remote -C player-next || playerctl next'
-bindsym XF86AudioPrev exec sh -c 'cmus-remote -C player-prev || playerctl previous'
+bindsym XF86AudioPlay exec --no-startup-id "playerctl -p cmus,vlc play-pause"
+bindsym XF86AudioPause exec --no-startup-id "playerctl -p cmus,vlc play-pause"
+bindsym XF86AudioNext exec --no-startup-id "playerctl -p cmus,vlc next"
+bindsym XF86AudioPrev exec --no-startup-id "playerctl -p cmus,vlc previous"
+bindsym Control+XF86AudioRaiseVolume exec --no-startup-id "playerctl -p cmus,vlc volume 0.05+"
+bindsym Control+XF86AudioLowerVolume exec --no-startup-id "playerctl -p cmus,vlc volume 0.05-"
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Modes
