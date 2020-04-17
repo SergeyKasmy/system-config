@@ -316,11 +316,8 @@ bindsym Control+Print exec spectacle --current
 bindsym Shift+Print exec spectacle --region
 bindsym Control+Shift+Print exec spectacle --activewindow
 
-# feh - change the wallpaper
-bindsym $win+F1 exec --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/wallpaper.jpg"
-
 # autostart
-exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill "/usr/local/share/wallpaper.jpg"
+exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill ~/pictures/wallpapers/current.jpg
 exec --no-startup-id compton 
 exec --no-startup-id flashfocus
 exec --no-startup-id polybar
