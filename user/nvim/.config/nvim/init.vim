@@ -1,5 +1,7 @@
 " enable 24-bit color
 set termguicolors
+set exrc
+set secure
 
 " spell check English: [s, ]s, z=, zg, zw
 set spell spelllang=en
