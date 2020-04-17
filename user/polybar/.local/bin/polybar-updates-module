@@ -18,7 +18,7 @@ if [ "$OS" = "arch" ]; then
 	updates=$(( $updates_repo + $updates_aur ))
 
 	echo -n "Number of available updates: "
-	echo "$updates" | tee /tmp/polybar/updates
+	echo "$updates" | tee /run/user/$(id -u)/polybar/updates
 	polybar-msg hook updates 1
 fi
 

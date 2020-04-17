@@ -1,13 +1,16 @@
 #!/bin/bash
 
+file=/run/user/$(id -u)/polybar/email
+
 password=$(secret-tool lookup application keepassxc | keepassxc-cli show -qa Password ~/keepass.kdbx '/Other/Google app passwords/curl')
 output=$(curl -su "SleeplessSloth79:${password}" https://mail.google.com/mail/feed/atom)
 
 number=$(xpath -e 'string(//fullcount)' <(echo "$output") 2>/dev/null)
 
 echo -n "Number of emails: "
-if [ -f /tmp/polybar/email ] && (( number > $(cat /tmp/polybar/email) )); then
-	notify-send "$(( $number - $(cat /tmp/polybar/email) )) new email(s)!"
+if [ -f "$file" ]; then
+	num=$(cat "$file")
+	if $(( $number > $num )); then notify-send "$(( $number - $num )) new email(s)!"; fi
 fi
-echo "$number" | tee /tmp/polybar/email
+echo "$number" | tee "$file"
 polybar-msg hook email 1

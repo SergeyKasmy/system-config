@@ -29,7 +29,7 @@ if info=$(cmus-remote -Q 2>/dev/null); then
 			vol="${vol_left}/${vol_right}"
 		fi
 
-		echo "${icon}${artist} - ${title} [vol: ${vol}]" > /tmp/polybar/cmus
+		echo "${icon}${artist} - ${title} [vol: ${vol}]" > /run/user/$(id -u)/polybar/cmus
 		polybar-msg hook cmus 1
 	fi
 else
