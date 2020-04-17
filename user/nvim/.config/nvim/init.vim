@@ -40,7 +40,7 @@ Plug 'wellle/targets.vim'
 Plug 'tommcdo/vim-lion'
 
 Plug 'scrooloose/nerdtree'
-"Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
 
