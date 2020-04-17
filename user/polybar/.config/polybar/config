@@ -12,7 +12,7 @@ alert = #bd2c40
 
 [bar/main]
 modules-left = i3
-modules-center = cmus
+modules-center = media
 modules-right = updates email xkeyboard cpu-temp cpu memory pulseaudio date
 module-margin = 2
 background = ${colors.normal-background}
@@ -54,15 +54,15 @@ label-urgent-background = ${colors.alert}
 label-urgent-padding-left = 2
 label-urgent-padding-right = 3
 
-[module/cmus]
+[module/media]
 type = custom/ipc
-hook-0 = cat /run/user/$(id -u)/polybar/cmus
+hook-0 = cat /run/user/$(id -u)/polybar/media
 hook-1 = echo
-click-left = cmus-remote --pause && polybar-cmus-module
-click-right = cmus-remote --next && polybar-cmus-module
-click-middle = cmus-remote --prev && polybar-cmus-module
-scroll-up = cmus-remote --volume +5% && polybar-cmus-module
-scroll-down = cmus-remote --volume -5% && polybar-cmus-module
+click-left = playerctl -p cmus,vlc play-pause && polybar-media-module
+click-right = playerctl -p cmus,vlc next && polybar-media-module
+click-middle = playerctl -p cmus,vlc previous && polybar-media-module
+scroll-up = playerctl -p cmus,vlc volume 0.05+ && polybar-media-module
+scroll-down = playerctl -p cmus,vlc volume 0.05- && polybar-media-module
 
 [module/updates]
 type = custom/ipc
