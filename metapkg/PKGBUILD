@@ -6,9 +6,10 @@ pkgname=('ciren-meta-audio'
 	'ciren-meta-gaming-native'
 	'ciren-meta-graphics'
 	'ciren-meta-media'
+	'ciren-meta-media-edit'
 	'ciren-meta-networking'
 	'ciren-meta-dev'
-	'ciren-meta-terminal-build-tools'
+	'ciren-meta-terminal-dev'
 	'ciren-meta-terminal-tools'
 	'ciren-meta-themes'
 	'ciren-meta-wine'
@@ -28,7 +29,11 @@ package_ciren-meta-terminal-tools() {
 		'python'
 
 		'diskus'
+		'efibootmgr'
 		'fd'
+		'gist'
+		'glances'	# htop alternative
+		'glow'		# markdown viewer
 		'htop'
 		'lsd'
 		'man-db'
@@ -38,12 +43,22 @@ package_ciren-meta-terminal-tools() {
 		'ranger'
 		'stow'
 		'sudo'
+		'openssh'
+		'pv'
+		'sshfs'
+		'tmux'
 		'udisks2'
 		'yay'
+		'translate-shell'
 		'zstd')
 	
-	optdepends=('terminus-font: for hiDPI displays'
-			'translate-shell')
+	optdepends=('compsize: btrfs compressed file size'
+		'dhex: terminal hex viewer'
+		'nbd'
+		'nbdkit'
+		'terminus-font: for hiDPI displays'
+		'snap-pac: btrfs snapshots'
+		'syncthing')
 }
 
 package_ciren-meta-graphics() {
@@ -70,27 +85,30 @@ package_ciren-meta-xorg() {
 		'xorg-xprop'
 		'xorg-xrandr'
 		'xdg-utils'
+		'xdg-desktop-portal-kde'
 		'xdotool'
 		'wmctrl'
+		'arandr'
 		'i3-wm'
 		'polybar'
-		'dunst'
+		'deadd-notification-center'
 		'rofi'
 		'feh'
 		'compton-tryone-git'
 		'flashfocus'
 		'redshift-qt'
-
+		'numlockx'
 		'perl-xml-xpath')	# polybar-email-module: xml parser
+
 }
 
 package_ciren-meta-audio() {
 	depends=('pulseaudio'
 		'pulseaudio-alsa'
 		'pamixer'
-		'alsa-utils')
+		'alsa-utils'
+		'pavucontrol-qt')
 
-	optdepends=('pavucontrol-qt')
 	provides=('jack')
 }
 
@@ -101,6 +119,7 @@ package_ciren-meta-media() {
 		# TODO: decouple GUI apps from ffmpeg & friends
 		'cmus'
 		'vlc'
+		'playerctl'
 
 		'libva'
 
@@ -121,6 +140,13 @@ package_ciren-meta-media() {
 		'x265')
 }
 
+package_ciren-meta-media-edit() {
+	depends=('obs-studio'
+		'gimp'
+		'kdenlive'
+		'id3v2')
+}
+
 package_ciren-meta-themes() {
 	depends=('kvantum-qt5'
 		'qt5ct'
@@ -137,11 +163,24 @@ package_ciren-meta-desktop() {
 		'discord'
 		'dolphin'
 		'firefox'
+		'gparted'
+		'gsimplecal'
+		'gwenview'
+		'joplin'
+		'libreoffice'
+		'libreoffice-ru'
+		'libreoffice-de'
 		'keepassxc'
 		'kitty'
 		'spectacle'
+		'speedcrunch'
 		'telegram-desktop'
 		'vivaldi-snapshot')
+
+	optdepends=('anki'
+		'chromium'
+		'deezloader-remix-bin'
+		'digikam: photo management')
 }
 
 package_ciren-meta-networking() {
@@ -151,51 +190,66 @@ package_ciren-meta-networking() {
 		'curl'
 		'aria2'
 		'speedtest-cli')
-	optdepends=('zerotier-one')
+
+	optdepends=('zerotier-one'
+		'bind-tools')
 }
 
 package_ciren-meta-gaming-native() {
 	depends=('ciren-meta-graphics'
 		'ciren-meta-audio'
 		'steam'
-		'lutris')
+		'lutris'
+		'gamemode')
 
-	optdepends=('vkbasalt')
-
-	provides=('mesa-demos')		# lutris dep
+	optdepends=('vkbasalt'
+		'mangohud')
 }
 
 package_ciren-meta-wine() {
 	depends=('wine'
 		'winetricks')
+
+	optdepends=('dxvk-bin'
+		'protontricks')
 }
 
 
 package_ciren-meta-gaming() {
 	depends=('ciren-meta-gaming-native'
-		'ciren-meta-wine'
-		'protontricks')
+		'ciren-meta-wine')
 }
 
-package_ciren-meta-terminal-build-tools() {
+package_ciren-meta-terminal-dev() {
 	depends=('ciren-meta-terminal-tools'
 		'meta-group-base-devel'
 		'make'
 		'cmake'
-		'gcc')
+		'ninja'
+		'gcc'
+		'cgdb'
+		'gdb-dashboard')
 }
 
 
 package_ciren-meta-dev() {
-	depends=('ciren-meta-terminal-build-tools'
+	depends=('ciren-meta-terminal-dev'
 		'wireshark-qt')
+
+	optdepends=('android-studio'
+		'scrcpy: android remote control')
 }
 
 package_ciren-meta-vm() {
 	depends=('qemu'
 		'libvirt'
 		'virt-manager'
-		'virt-viewer')
+		'virt-viewer'
+
+		'docker'
+		'lxd')
+
+	optdepends=('virtio-win')
 }
 
 #libmicrodns
