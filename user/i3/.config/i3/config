@@ -318,16 +318,4 @@ bindsym Control+Print exec spectacle --current
 bindsym Shift+Print exec spectacle --region
 bindsym Control+Shift+Print exec spectacle --activewindow
 
-# autostart
-exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill ~/pictures/wallpapers/current.jpg
-exec --no-startup-id compton 
-exec --no-startup-id flashfocus
-exec --no-startup-id polybar
-exec --no-startup-id deadd-notification-center
-
-#exec --no-startup-id qlipper
-exec --no-startup-id redshift-qt
-
-exec --no-startup-id telegram-desktop
-exec --no-startup-id keepassxc-autounlock
 exec --no-startup-id xrandr --output DP-1 --mode 2560x1440 --rate 144
