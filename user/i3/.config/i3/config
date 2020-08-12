@@ -320,9 +320,10 @@ bindsym $alt+Tab exec --no-startup-id "rofi -show window -kb-accept-entry \\"!Al
 bindsym $win+Return exec kitty
 
 # screenshoting
-bindsym Print exec spectacle --fullscreen
-bindsym Control+Print exec spectacle --current
+bindsym Print exec spectacle --current
+bindsym Control+Print exec spectacle --fullscreen
 bindsym Shift+Print exec spectacle --region
 bindsym Control+Shift+Print exec spectacle --activewindow
 
-exec --no-startup-id xrandr --output DP-1 --mode 2560x1440 --rate 144
+exec --no-startup-id xrandr --output DP-1 --right-of HDMI-1 --mode 2560x1440 --rate 144
+exec --no-startup-id xrandr --output HDMI-1 --pos 0x200
