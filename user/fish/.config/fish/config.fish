@@ -12,8 +12,8 @@ set -gx GTK_USE_PORTAL 1
 
 
 if status is-login
-	if test -z "$DISPLAY" -a $XDG_VTNR = 1
-		exec startx -- -keeptty >/dev/null 2>&1
+	if [ -z $DISPLAY ]; and [ (tty) = /dev/tty1 ]
+		startx -- -keeptty &>/dev/null
 	end
 end
 
