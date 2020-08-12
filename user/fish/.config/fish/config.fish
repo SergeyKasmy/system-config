@@ -175,10 +175,6 @@ if status is-interactive
 		alias plasma-restart 'killall plasmashell; start plasmashell'
 	end
 
-	if type compton >/dev/null 2>&1
-		alias compton-restart 'killall -USR1 compton'
-	end
-	
 	# functions
 	#
 	
