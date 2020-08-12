@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cmd=$(basename "$0")
+
+case "$cmd" in
+	*-start)
+		what="start"
+		;;
+	*-stop)
+		what="stop"
+		;;
+	'')
+		echo "Usage: $cmd start || stop || restart"
+		exit 1
+		;;
+	*)
+		what="$*"
+		;;
+esac
+
+case "$what" in
+	stop)
+		killall compton
+		;;
+	start)
+		unset GALLIUM_HUD
+		nohup compton >/dev/null 2>&1 &
+		disown
+		;;
+	restart)
+		killall compton
+		nohup compton &>/dev/null &
+		;;
+esac
