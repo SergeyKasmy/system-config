@@ -276,23 +276,29 @@ workspace_auto_back_and_forth no
 ##-----------------------------------------------------------------------------------------------------------
 ## Application rules
 
+for_window [workspace=$ws-gaming] floating enable
+
 # set all Steam windows as floating except for the main one
-for_window [class="Steam"] floating enable
+#for_window [class="Steam"] floating enable
 for_window [class="Steam" title="^Steam$"] floating disable
 # big picture
-for_window [class="steam"] floating disable, fullscreen enable
+#for_window [class="steam"] floating disable, fullscreen enable
+for_window [class="Lutris"] floating disable
 
 for_window [class="obs" title="^Settings$"] floating disable, border none
+
 
 # workspace assignment
 assign [class="Vivaldi-*"] $ws-browser
 for_window [class="Vivaldi-*" title="Sign in - Google Accounts - Vivaldi"] floating enable
 
-assign [class="Telegram"] $ws-social
+assign [instance="telegram-desktop"] $ws-social
 assign [class="discord"] $ws-social
 
 assign [class="Steam"] $ws-gaming
 assign [class="Lutris"] $ws-gaming
+assign [class="steam_app_*"] $ws-gaming
+assign [class="csgo_linux64"] $ws-gaming
 
 for_window [class="kitty" title="gotop"] move container to workspace $ws-sysmon
 for_window [class="kitty" title="htop"] move container to workspace $ws-sysmon
