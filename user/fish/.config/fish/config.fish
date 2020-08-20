@@ -157,6 +157,14 @@ if status is-interactive
 	if type virsh >/dev/null 2>&1
 		alias virsh 'virsh --connect qemu:///system'
 		alias virsh_ /bin/virsh
+
+		if [ -e /etc/libvirt/qemu/win.xml ]
+			alias winvm 'virsh start win; virtview win || start virt-manager'
+		end
+
+		if [ -e /etc/libvirt/qemu/win-passthrough.xml ]
+			alias winp 'virsh start win-passthrough'
+		end
 	end
 
 	if type virt-viewer >/dev/null 2>&1
