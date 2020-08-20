@@ -12,8 +12,11 @@ set -gx GTK_USE_PORTAL 1
 
 
 if status is-login
-	if [ -z $DISPLAY ]; and [ (tty) = /dev/tty1 ]
+	set tty (tty)
+	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
 		startx -- -keeptty &>/dev/null
+	else if type -q winp && [ $tty = /dev/tty2 ]
+		winp
 	end
 end
 
