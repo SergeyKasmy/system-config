@@ -52,6 +52,7 @@ Plug 'tommcdo/vim-lion'
 
 Plug 'scrooloose/nerdtree'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'obreitwi/vim-sort-folds'
 
 call plug#end()
 
