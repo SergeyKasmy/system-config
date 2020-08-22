@@ -1,10 +1,21 @@
 #!/bin/bash
 
+lock_file='/run/user/1000/polybar.lock'
+
+function cleanup {
+	kill $(jobs -p)
+	rm "$lock_file"
+}
+
+if [ -e "$lock_file" ]; then exit 1; fi
+
 /usr/bin/polybar main &
 polybar-module-timer email 5m &
 polybar-module-timer updates 10m &
 polybar-module-timer media 1s &
 polybar-module-timer cpu-temp 2s &
 
-trap 'kill $(jobs -p)' EXIT
+touch "$lock_file"
+
+trap 'cleanup()' EXIT
 wait
