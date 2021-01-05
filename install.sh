@@ -6,19 +6,6 @@ if (( $UID == 0 )); then
 	exit 1
 fi
 
-# set current mode from the argument
-case $1 in
-	"install")
-		MODE=0
-		;;
-	"update")
-		MODE=1
-		;;
-	*)
-		echo "Incorrect mode: neither install nor update"
-		exit 1
-esac
-
 # check current OS
 # available options: arch, debian
 OS=unknown
@@ -27,6 +14,7 @@ if grep "^ID_LIKE=" /etc/os-release &>/dev/null; then
 elif grep "^ID=" /etc/os-release &>/dev/null; then
 	OS=$(grep "^ID" /etc/os-release | cut -d= -f2)
 fi
+echo "Running on $OS"
 
 SCRIPT_DIR="$PWD"
 
@@ -39,53 +27,26 @@ function get_input()
 	return 0
 }
 
-# get a list of the all custom arch packages
-package_list=()
-for pkg in "$SCRIPT_DIR"/metapkg/*/; do
-	pkg=$(basename "$pkg")
-	package_list+=("$pkg")	
-done
-
-function arch_build_install_package
-{
-       cd "$SCRIPT_DIR/pkg/$1"
-       makepkg --syncdeps --install --clean --noconfirm >/dev/null
-}
-arch_custom_package_list=('ttf-ubuntu-font-family')
-
-if (( $MODE == 0 )); then
-	echo -n "Copy sudoers-wheel?"
-	if get_input; then
-		while true; do
-			su -c "cp ./sudoers-wheel /etc/sudoers.d/10-wheel"
-			if (( $? != 0 )); then 
-				echo 'Error copying sudoers file'
-				continue
-			fi
-			break
-		done
-	fi
-
-	if [[ "$OS" == arch ]]; then
-		for pkg in ${package_list[@]}; do
-			echo -n "Install $pkg? ->"
-			if get_input; then arch_build_install_package "$pkg"; fi
-		done
-		
-		# install custom packages
-		for pkg in ${arch_custom_package_list[@]}; do
-			echo -n "Install $pkg? ->"
-			if get_input; then sudo pacman -S --noconfirm "$pkg"; fi
-		done
-	fi
-
-	function create_second_space
-	{
-		if id -u island >/dev/null 2>&1; then
-			echo "Second space user account already exists, skipping..."
-			return
+if ! getent group wheel &>/dev/null; then
+	echo "sudo isn't configured, setting up the wheel group..."
+	su -c "groupadd wheel"
+	su -c "gpasswd -a $(id -un) wheel"
+	
+	while true; do
+		su -c "cp ./sudoers-wheel /etc/sudoers.d/10-wheel"
+		if (( $? != 0 )); then 
+			echo 'Error copying sudoers file. Try again'
+			continue
 		fi
-		
+		break
+	done
+else
+	echo 'sudo is already set up, skipping...'
+fi
+
+if ! id -u island &>/dev/null; then
+	echo -n 'Install second space? ->'
+	if get_input; then
 		sudo useradd --system --create-home --groups wheel island
 
 		echo "$(id -un)	ALL=(island) NOPASSWD: ALL" | sudo cp /dev/stdin /etc/sudoers.d/30-island
@@ -97,20 +58,19 @@ if (( $MODE == 0 )); then
 
 		load-module module-native-protocol-unix auth-group=audio socket=/tmp/pulse-server
 		EOF
-	}
-
-	create_second_space
-
-elif (( $MODE == 1 )); then
-
-	if [[ "$OS" == arch ]]; then
-		for pkg in ${package_list[@]}; do
-			full_pkg="gray-${pkg}"
-			if pacman -Qq "${full_pkg}" &>/dev/null; then arch_build_install_package "$pkg"; fi
-		done
 	fi
-
+else
+	echo 'Second space is already set up, skipping...'
 fi
+
+# install the meta packages
+if [[ "$OS" == arch ]]; then
+	echo 'Installing meta packages'
+	cd "$SCRIPT_DIR"/metapkg
+	#makepkg --sync --install --needed --clean
+	makepkg >/dev/null
+fi
+
 if ! which stow &>/dev/null; then
 	echo "Stow is not installed, installing"
 	case "$OS" in
@@ -123,13 +83,22 @@ if ! which stow &>/dev/null; then
 	esac
 fi
 
+echo 'Stowing user configs: '
 for pkg in "$SCRIPT_DIR"/user/*/; do
 	pkg=$(basename "$pkg")
+
+	echo ' -> Stowing' "$pkg"
 	stow --no-folding --dir "$SCRIPT_DIR"/user/ --target "$HOME" "$pkg"
 done
 
+echo 'Copying system configs: '
 for pkg in "$SCRIPT_DIR"/system/*/; do
+	echo ' -> Copying' "$pkg"
 	cd "$pkg"
 	sudo ./script.sh
+	if (( $? != 0 )); then
+		echo ' -> An error occured, skipping...'
+		break
+	fi
 done
 
