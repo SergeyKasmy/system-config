@@ -176,13 +176,13 @@ mode "app_launching"
 {
 	bindsym c exec vivaldi; mode "default"
 	bindsym Control+c exec "vivaldi --incognito"; mode "default"
-	bindsym e exec "kitty ranger"; mode "default"
+	bindsym e exec "alacritty -e ranger"; mode "default"
 	bindsym Control+e exec dolphin; mode "default"
-	bindsym h exec "kitty htop"; mode "default"
+	bindsym h exec "alacritty -e htop"; mode "default"
 	bindsym Control+h exec ksysguard; mode "default"
 	bindsym x exec speedcrunch; mode "default"
 	bindsym Control+x exec kcalc; mode "default"
-	bindsym m exec "kitty cmus"; mode "default"
+	bindsym m exec "alacritty -e cmus"; mode "default"
 	bindsym t exec telegram-desktop; mode "default"
 	bindsym l exec lutris; mode "default"
 	bindsym s exec steam; mode "default"
@@ -304,7 +304,7 @@ mode "activity #3"
 
 	bindsym Escape mode "default"
 }
-bindsym $win+F2 mode "activity #3"
+bindsym $win+F3 mode "activity #3"
 
 mode "activity #4"
 {
@@ -332,7 +332,7 @@ mode "activity #4"
 
 	bindsym Escape mode "default"
 }
-bindsym $win+F2 mode "activity #4"
+bindsym $win+F4 mode "activity #4"
 
 mode "activity #5"
 {
@@ -360,7 +360,7 @@ mode "activity #5"
 
 	bindsym Escape mode "default"
 }
-bindsym $win+F2 mode "activity #5"
+bindsym $win+F5 mode "activity #5"
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Workspaces
@@ -444,10 +444,10 @@ assign [class="Lutris"] $ws-gaming
 assign [class="steam_app_*"] $ws-gaming
 assign [class="csgo_linux64"] $ws-gaming
 
-for_window [class="kitty" title="gotop"] move container to workspace $ws-sysmon
-for_window [class="kitty" title="htop"] move container to workspace $ws-sysmon
+for_window [class="alacritty" title="gotop"] move container to workspace $ws-sysmon
+for_window [class="alacritty" title="htop"] move container to workspace $ws-sysmon
 
-for_window [class="kitty" title="cmus*"] move container to workspace $ws-music
+for_window [class="alacritty" title="cmus*"] move container to workspace $ws-music
 
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
@@ -461,7 +461,7 @@ bindsym $win+d exec --no-startup-id rofi -show combi
 bindsym $alt+Tab exec --no-startup-id "rofi -show window -kb-accept-entry \\"!Alt-Tab,Return\\" -kb-row-down \\"Alt-Tab\\" -kb-cancel \\"Alt-Escape,Escape\\""
 
 # terminal
-bindsym $win+Return exec kitty
+bindsym $win+Return exec alacritty
 
 # screenshoting
 bindsym Print exec spectacle --current
@@ -469,5 +469,6 @@ bindsym Control+Print exec spectacle --fullscreen
 bindsym Shift+Print exec spectacle --region
 bindsym Control+Shift+Print exec spectacle --activewindow
 
-exec --no-startup-id xrandr --output DP-1 --right-of HDMI-1 --mode 2560x1440 --rate 144
-exec --no-startup-id xrandr --output HDMI-1 --pos 0x200
+#exec --no-startup-id xrandr --output DP-1 --right-of HDMI-1 --mode 2560x1440 --rate 144
+#exec --no-startup-id xrandr --output HDMI-1 --pos 0x200
+#exec xrandr --output HDMI-1 --auto --right-of HDMI-2 --primary --dpi 120
