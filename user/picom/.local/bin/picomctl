@@ -20,15 +20,14 @@ esac
 
 case "$what" in
 	stop)
-		killall compton
+		killall picom
 		;;
 	start)
 		unset GALLIUM_HUD
-		nohup compton >/dev/null 2>&1 &
-		disown
+		picom &>/dev/null & disown -h
 		;;
 	restart)
-		killall compton
-		nohup compton &>/dev/null &
+		killall picom
+		picom &>/dev/null & disown -h
 		;;
 esac
