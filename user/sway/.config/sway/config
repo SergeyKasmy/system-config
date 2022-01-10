@@ -1,0 +1,513 @@
+#exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK# General i3 settings
+
+# gaps
+#gaps inner 10
+#gaps outer 0
+#smart_gaps on
+
+# titlebar font
+font pango:sans 8
+
+# disable borders
+default_border pixel 1
+hide_edge_borders smart
+
+# color - background
+set $cbg	#556064
+
+# color - inactive background
+set $cinbg	#2F3D44
+
+# color - placeholder background
+set $cphbg	#0c0c0c 
+
+# color - urgent background
+set $curbg	#FDF6E3
+
+# color - urgent border
+set $curbr	#CB4B16
+
+# color - placeholder border
+set $cphbr	#000000 
+
+# color - text
+set $ctx	#80FFF9
+
+# color - inactive text
+set $cintx	#1ABC9C
+
+# color - placeholder text
+set $cphtx	#ffffff
+
+# color - indicator
+set $cind	#FDF6E3
+
+# color - inactive indicator
+set $cinind	#454948
+
+# color - urgent indicator
+set $curind	#268BD2
+
+# color - placeholder indicator
+set $cphind	#000000
+
+# window colors
+#                       border	bg	text	indicator
+client.focused		$cbg	$cbg	$ctx	$cind
+client.focused_inactive	$cinbg	$cinbg	$cintx	$cinind
+client.unfocused	$cinbg	$cinbg	$cintx	$cinind
+client.urgent		$curbr	$curbg	$cintx	$curind
+client.placeholder	$cphbr	$cphbg	$cphtx	$cphind 
+
+
+#set $my_cursor default
+set $my_cursor BreezeX-Dark
+set $my_cursor_size 22
+
+seat * xcursor_theme $my_cursor $my_cursor_size
+exec_always {
+	gsettings set org.gnome.desktop.interface cursor-theme $my_cursor
+	gsettings set org.gnome.desktop.interface cursor-size $my_cursor_size
+}
+
+seat * hide_cursor 30000
+
+##-----------------------------------------------------------------------------------------------------------
+## Keybinds 
+
+# set keys
+set $win Mod4
+set $alt Mod1
+
+# use Mouse+$alt to drag floating windows
+floating_modifier $alt
+
+# kill focused window
+bindsym $alt+F4 kill
+
+# move focus 
+bindsym $win+Left focus left
+bindsym $win+Down focus down
+bindsym $win+Up focus up
+bindsym $win+Right focus right
+
+bindsym $win+h focus left
+bindsym $win+j focus down
+bindsym $win+k focus up
+bindsym $win+l focus right
+
+# move focused window
+bindsym $win+Shift+Left move left
+bindsym $win+Shift+Down move down
+bindsym $win+Shift+Up move up
+bindsym $win+Shift+Right move right
+
+bindsym $win+Shift+h move left
+bindsym $win+Shift+j move down
+bindsym $win+Shift+k move up
+bindsym $win+Shift+l move right
+
+bindsym $win+$alt+h move workspace to output left
+bindsym $win+$alt+l move workspace to output right
+bindsym $win+$alt+Left move workspace to output left
+bindsym $win+$alt+Right move workspace to output right
+
+# split in horizontal orientation
+bindsym $win+b split h
+
+# split in vertical orientation
+bindsym $win+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $win+f fullscreen toggle
+# fullscreen the container
+bindsym $win+Shift+f focus parent; fullscreen; focus child
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $win+s layout stacking
+bindsym $win+w layout tabbed
+bindsym $win+e layout toggle split
+
+# toggle tiling / floating
+bindsym $win+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $win+space focus mode_toggle
+
+bindsym $alt+space exec --no-startup-id nc_flash_window
+
+# focus the parent container
+bindsym $win+q focus parent
+
+# focus the child container
+bindsym $win+Shift+q focus child
+
+# toggle sticky mode
+bindsym $win+$alt+space sticky toggle
+
+# reload the configuration file
+bindsym $win+Shift+c reload
+# restart i3 inplace 
+bindsym $win+Shift+r restart
+
+# Pulseaudio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# Media player controls
+bindsym XF86AudioPlay exec --no-startup-id "playerctl -p cmus,vlc play-pause"
+bindsym XF86AudioPause exec --no-startup-id "playerctl -p cmus,vlc play-pause"
+bindsym XF86AudioNext exec --no-startup-id "playerctl -p cmus,vlc next"
+bindsym XF86AudioPrev exec --no-startup-id "playerctl -p cmus,vlc previous"
+bindsym Control+XF86AudioRaiseVolume exec --no-startup-id "playerctl -p cmus,vlc volume 0.05+"
+bindsym Control+XF86AudioLowerVolume exec --no-startup-id "playerctl -p cmus,vlc volume 0.05-"
+
+##-----------------------------------------------------------------------------------------------------------
+## Modes
+
+# resize window (mouse can also be used)
+mode "resize"
+{
+        # left to shrink the window’s width.
+        # right to grow the window’s width.
+        # up to shrink the window’s height.
+        # down to grow the window’s height.
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $win+r mode "resize"
+
+mode "app_launching" 
+{
+	bindsym c exec vivaldi; mode "default"
+	bindsym Control+c exec "vivaldi --incognito"; mode "default"
+	bindsym e exec "alacritty ranger"; mode "default"
+	bindsym Control+e exec dolphin; mode "default"
+	bindsym h exec "alacritty htop"; mode "default"
+	bindsym Control+h exec ksysguard; mode "default"
+	bindsym x exec speedcrunch; mode "default"
+	bindsym Control+x exec kcalc; mode "default"
+	bindsym m exec "alacritty cmus"; mode "default"
+	bindsym t exec telegram-desktop; mode "default"
+	bindsym l exec lutris; mode "default"
+	bindsym s exec steam; mode "default"
+        
+	# back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $win+a mode "app_launching"
+
+mode "link_opening" 
+{
+	bindsym g exec --no-startup-id "xdg-open https://mail.google.com/"; mode "default" 
+	bindsym p exec --no-startup-id "xdg-open https://photos.google.com/"; mode "default" 
+	bindsym d exec --no-startup-id "xdg-open https://drive.google.com/"; mode "default" 
+	bindsym a exec --no-startup-id "xdg-open https://anilist.co/home"; mode "default" 
+	bindsym y exec --no-startup-id "xdg-open https://youtube.com"; mode "default" 
+	bindsym s exec --no-startup-id "xdg-open https://steamcommunity.com/id/ciren__/"; mode "default" 
+	
+	# back to normal: Enter or Escape or $win+Shift+a
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $win+Shift+a mode "link_opening"
+
+mode "syscontrol"
+{
+	bindsym s exec --no-startup-id "syscontrol shutdown"; mode "default" 
+	bindsym r exec --no-startup-id "syscontrol reboot"; mode "default"
+	bindsym i exec --no-startup-id "syscontrol logout"; mode "default"
+	bindsym d exec --no-startup-id "syscontrol suspend"; mode "default"
+	bindsym l --release exec --no-startup-id "syscontrol lock"; mode "default"
+
+	# back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $win+x mode "syscontrol"
+
+mode "activity #1"
+{
+	bindsym $win+1 workspace "11"; mode "default"
+	bindsym $win+2 workspace "12"; mode "default"
+	bindsym $win+3 workspace "13"; mode "default"
+	bindsym $win+4 workspace "14"; mode "default"
+	bindsym $win+5 workspace "15"; mode "default"
+	bindsym $win+6 workspace "16"; mode "default"
+	bindsym $win+7 workspace "17"; mode "default"
+	bindsym $win+8 workspace "18"; mode "default"
+	bindsym $win+9 workspace "19"; mode "default"
+	bindsym $win+0 workspace "10"; mode "default"
+
+	bindsym $win+Shift+1 move container to workspace "11"; mode "default"
+	bindsym $win+Shift+2 move container to workspace "12"; mode "default"
+	bindsym $win+Shift+3 move container to workspace "13"; mode "default"
+	bindsym $win+Shift+4 move container to workspace "14"; mode "default"
+	bindsym $win+Shift+5 move container to workspace "15"; mode "default"
+	bindsym $win+Shift+6 move container to workspace "16"; mode "default"
+	bindsym $win+Shift+7 move container to workspace "17"; mode "default"
+	bindsym $win+Shift+8 move container to workspace "18"; mode "default"
+	bindsym $win+Shift+9 move container to workspace "19"; mode "default"
+	bindsym $win+Shift+0 move container to workspace "10"; mode "default"
+
+	bindsym Escape mode "default"
+}
+bindsym $win+F1 mode "activity #1"
+
+mode "activity #2"
+{
+	bindsym $win+1 workspace "21"; mode "default"
+	bindsym $win+2 workspace "22"; mode "default"
+	bindsym $win+3 workspace "23"; mode "default"
+	bindsym $win+4 workspace "24"; mode "default"
+	bindsym $win+5 workspace "25"; mode "default"
+	bindsym $win+6 workspace "26"; mode "default"
+	bindsym $win+7 workspace "27"; mode "default"
+	bindsym $win+8 workspace "28"; mode "default"
+	bindsym $win+9 workspace "29"; mode "default"
+	bindsym $win+0 workspace "20"; mode "default"
+
+	bindsym $win+Shift+1 move container to workspace "21"; mode "default"
+	bindsym $win+Shift+2 move container to workspace "22"; mode "default"
+	bindsym $win+Shift+3 move container to workspace "23"; mode "default"
+	bindsym $win+Shift+4 move container to workspace "24"; mode "default"
+	bindsym $win+Shift+5 move container to workspace "25"; mode "default"
+	bindsym $win+Shift+6 move container to workspace "26"; mode "default"
+	bindsym $win+Shift+7 move container to workspace "27"; mode "default"
+	bindsym $win+Shift+8 move container to workspace "28"; mode "default"
+	bindsym $win+Shift+9 move container to workspace "29"; mode "default"
+	bindsym $win+Shift+0 move container to workspace "20"; mode "default"
+
+	bindsym Escape mode "default"
+}
+bindsym $win+F2 mode "activity #2"
+
+mode "activity #3"
+{
+	bindsym $win+1 workspace "31"; mode "default"
+	bindsym $win+2 workspace "32"; mode "default"
+	bindsym $win+3 workspace "33"; mode "default"
+	bindsym $win+4 workspace "34"; mode "default"
+	bindsym $win+5 workspace "35"; mode "default"
+	bindsym $win+6 workspace "36"; mode "default"
+	bindsym $win+7 workspace "37"; mode "default"
+	bindsym $win+8 workspace "38"; mode "default"
+	bindsym $win+9 workspace "39"; mode "default"
+	bindsym $win+0 workspace "30"; mode "default"
+
+	bindsym $win+Shift+1 move container to workspace "31"; mode "default"
+	bindsym $win+Shift+2 move container to workspace "32"; mode "default"
+	bindsym $win+Shift+3 move container to workspace "33"; mode "default"
+	bindsym $win+Shift+4 move container to workspace "34"; mode "default"
+	bindsym $win+Shift+5 move container to workspace "35"; mode "default"
+	bindsym $win+Shift+6 move container to workspace "36"; mode "default"
+	bindsym $win+Shift+7 move container to workspace "37"; mode "default"
+	bindsym $win+Shift+8 move container to workspace "38"; mode "default"
+	bindsym $win+Shift+9 move container to workspace "39"; mode "default"
+	bindsym $win+Shift+0 move container to workspace "30"; mode "default"
+
+	bindsym Escape mode "default"
+}
+bindsym $win+F3 mode "activity #3"
+
+mode "activity #4"
+{
+	bindsym $win+1 workspace "41"; mode "default"
+	bindsym $win+2 workspace "42"; mode "default"
+	bindsym $win+3 workspace "43"; mode "default"
+	bindsym $win+4 workspace "44"; mode "default"
+	bindsym $win+5 workspace "45"; mode "default"
+	bindsym $win+6 workspace "46"; mode "default"
+	bindsym $win+7 workspace "47"; mode "default"
+	bindsym $win+8 workspace "48"; mode "default"
+	bindsym $win+9 workspace "49"; mode "default"
+	bindsym $win+0 workspace "40"; mode "default"
+
+	bindsym $win+Shift+1 move container to workspace "41"; mode "default"
+	bindsym $win+Shift+2 move container to workspace "42"; mode "default"
+	bindsym $win+Shift+3 move container to workspace "43"; mode "default"
+	bindsym $win+Shift+4 move container to workspace "44"; mode "default"
+	bindsym $win+Shift+5 move container to workspace "45"; mode "default"
+	bindsym $win+Shift+6 move container to workspace "46"; mode "default"
+	bindsym $win+Shift+7 move container to workspace "47"; mode "default"
+	bindsym $win+Shift+8 move container to workspace "48"; mode "default"
+	bindsym $win+Shift+9 move container to workspace "49"; mode "default"
+	bindsym $win+Shift+0 move container to workspace "40"; mode "default"
+
+	bindsym Escape mode "default"
+}
+bindsym $win+F4 mode "activity #4"
+
+mode "activity #5"
+{
+	bindsym $win+1 workspace "51"; mode "default"
+	bindsym $win+2 workspace "52"; mode "default"
+	bindsym $win+3 workspace "53"; mode "default"
+	bindsym $win+4 workspace "54"; mode "default"
+	bindsym $win+5 workspace "55"; mode "default"
+	bindsym $win+6 workspace "56"; mode "default"
+	bindsym $win+7 workspace "57"; mode "default"
+	bindsym $win+8 workspace "58"; mode "default"
+	bindsym $win+9 workspace "59"; mode "default"
+	bindsym $win+0 workspace "50"; mode "default"
+
+	bindsym $win+Shift+1 move container to workspace "51"; mode "default"
+	bindsym $win+Shift+2 move container to workspace "52"; mode "default"
+	bindsym $win+Shift+3 move container to workspace "53"; mode "default"
+	bindsym $win+Shift+4 move container to workspace "54"; mode "default"
+	bindsym $win+Shift+5 move container to workspace "55"; mode "default"
+	bindsym $win+Shift+6 move container to workspace "56"; mode "default"
+	bindsym $win+Shift+7 move container to workspace "57"; mode "default"
+	bindsym $win+Shift+8 move container to workspace "58"; mode "default"
+	bindsym $win+Shift+9 move container to workspace "59"; mode "default"
+	bindsym $win+Shift+0 move container to workspace "50"; mode "default"
+
+	bindsym Escape mode "default"
+}
+bindsym $win+F5 mode "activity #5"
+
+##-----------------------------------------------------------------------------------------------------------
+## Workspaces
+
+# workspace names
+set $ws-browser "1  "
+set $ws-social "2  "
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws-gaming "8  "
+set $ws-sysmon "9  "
+set $ws-music "0  "
+
+# switch to workspace
+bindsym $win+1 workspace $ws-browser
+bindsym $win+2 workspace $ws-social
+bindsym $win+3 workspace $ws3
+bindsym $win+4 workspace $ws4
+bindsym $win+5 workspace $ws5
+bindsym $win+6 workspace $ws6
+bindsym $win+7 workspace $ws7
+bindsym $win+8 workspace $ws-gaming
+bindsym $win+9 workspace $ws-sysmon
+bindsym $win+0 workspace $ws-music
+
+# cycle through workspaces
+bindsym $win+Control+Left workspace prev
+bindsym $win+Control+Right workspace next
+bindsym $win+Control+h workspace prev
+bindsym $win+Control+l workspace next
+
+# move focused container to workspace
+bindsym $win+Shift+1 move container to workspace $ws-browser
+bindsym $win+Shift+2 move container to workspace $ws-social
+bindsym $win+Shift+3 move container to workspace $ws3
+bindsym $win+Shift+4 move container to workspace $ws4
+bindsym $win+Shift+5 move container to workspace $ws5
+bindsym $win+Shift+6 move container to workspace $ws6
+bindsym $win+Shift+7 move container to workspace $ws7
+bindsym $win+Shift+8 move container to workspace $ws-gaming
+bindsym $win+Shift+9 move container to workspace $ws-sysmon
+bindsym $win+Shift+0 move container to workspace $ws-music
+
+# move the currently focused window to the scratchpad
+bindsym $win+Shift+grave move scratchpad
+
+# cycle through all scratchpad'ed windows
+bindsym $win+grave scratchpad show
+
+# allow to press the same button when changing ws to go to the previous one
+workspace_auto_back_and_forth no
+
+
+##-----------------------------------------------------------------------------------------------------------
+## Application rules
+
+for_window [workspace=$ws-gaming] floating enable
+
+# set all Steam windows as floating except for the main one
+#for_window [class="Steam"] floating enable
+for_window [class="Steam" title="^Steam$"] floating disable
+# big picture
+#for_window [class="steam"] floating disable, fullscreen enable
+for_window [app_id="lutris"] floating disable
+
+for_window [class="obs" title="^Settings$"] floating disable, border none
+
+
+# workspace assignment
+#assign [class="Vivaldi-*"] $ws-browser
+#for_window [class="Vivaldi-*" title="Sign in - Google Accounts - Vivaldi"] floating enable
+
+assign [app_id="telegramdesktop"] $ws-social
+assign [app_id="discord"] $ws-social
+
+assign [class="Steam"] $ws-gaming
+assign [app_id="lutris"] $ws-gaming
+assign [class="steam_app_*"] $ws-gaming
+assign [class="csgo_linux64"] $ws-gaming
+
+#for_window [class="alacritty" title="gotop"] move container to workspace $ws-sysmon
+#for_window [class="alacritty" title="htop"] move container to workspace $ws-sysmon
+
+#for_window [class="alacritty" title="cmus*"] move container to workspace $ws-music
+
+##-----------------------------------------------------------------------------------------------------------
+## Apps
+
+# xkill
+bindsym $alt+$win+F4 --release exec --no-startup-id xkill
+
+# rofi
+bindsym $win+d exec --no-startup-id rofi -show combi
+#bindsym $alt+Tab exec --no-startup-id rofi -show window
+#bindsym $alt+Tab exec --no-startup-id "rofi -show window -kb-accept-entry \\"!Alt-Tab,Return\\" -kb-row-down \\"Alt-Tab\\" -kb-cancel \\"Alt-Escape,Escape\\""
+
+# terminal
+bindsym $win+Return exec alacritty
+
+# screenshoting
+#bindsym Print exec spectacle --current
+#bindsym Control+Print exec spectacle --fullscreen
+#bindsym Shift+Print exec spectacle --region
+#bindsym Control+Shift+Print exec spectacle --activewindow
+
+input type:keyboard {
+	xkb_layout us,ru
+	xkb_options "grp:alt_shift_toggle,compose:menu"
+	xkb_numlock	enabled
+}
+
+input type:mouse {
+	accel_profile flat
+	pointer_accel 0.8
+}
+
+output DP-1 res 2560x1440@144Hz adaptive_sync on scale 1.25
+output HDMI-A-1 pos 0 300 scale 1.1
+output * bg ~/pictures/wallpapers/current.jpg fill
+
+# gtk 20 sec lag fix??
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK 
+
+bar {
+    swaybar_command waybar
+}
+exec mako
+exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
+
+exec keepassxc-autostart
+exec telegram-desktop
