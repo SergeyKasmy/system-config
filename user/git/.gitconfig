@@ -10,3 +10,5 @@
 	gpgsign = true
 [core]
 	autocrlf = input
+[init]
+	defaultBranch = main
