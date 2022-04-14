@@ -1,0 +1,10 @@
+#!/bin/sh
+
+OUTPUT="DP-1"
+SCALING="1.25"
+
+if [ $(swaymsg -rt get_outputs | jq ".[] | select(.name == \"$OUTPUT\") | .scale") != "1" ]; then
+	swaymsg output $OUTPUT scale 1
+else
+	swaymsg output $OUTPUT scale $SCALING
+fi
