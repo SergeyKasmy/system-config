@@ -130,6 +130,9 @@ bindsym $win+s layout stacking
 bindsym $win+w layout tabbed
 bindsym $win+e layout toggle split
 
+# toggle scaling
+bindsym $win+n exec sway-toggle-scaling
+
 # toggle tiling / floating
 bindsym $win+Shift+space floating toggle
 
@@ -478,10 +481,10 @@ bindsym $win+d exec --no-startup-id rofi -show combi
 bindsym $win+Return exec alacritty
 
 # screenshoting
-#bindsym Print exec spectacle --current
-#bindsym Control+Print exec spectacle --fullscreen
-#bindsym Shift+Print exec spectacle --region
-#bindsym Control+Shift+Print exec spectacle --activewindow
+bindsym Print exec sway-screenshot --current-screen
+bindsym Shift+Print exec sway-screenshot --region
+bindsym Control+Print exec sway-screenshot --full
+bindsym Control+Shift+Print exec sway-screenshot --current-window
 
 input type:keyboard {
 	xkb_layout us,ru
@@ -502,10 +505,12 @@ output * bg ~/pictures/wallpapers/current.jpg fill
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK 
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 bar {
     swaybar_command waybar
 }
+
 exec mako
 exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
 

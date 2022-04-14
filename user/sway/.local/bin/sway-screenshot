@@ -1,0 +1,24 @@
+#!/bin/sh
+SCREENSHOT_NAME="$HOME/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png"
+
+case "$@" in
+	""|"--current-screen")
+		grim -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')" "$SCREENSHOT_NAME"
+		;;
+	"--region")
+		grim -g "$(slurp)" "$SCREENSHOT_NAME"
+		;;
+	"--full")
+		grim "$SCREENSHOT_NAME"
+		;;
+	"--current-window")
+		grim -g "$(swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')" "$SCREENSHOT_NAME"
+		;;
+	*)
+		echo "Unknown command: $@" >&2
+		echo "Available commands: --current-screen/--region/--full/--current-window" >&2
+		exit 1
+		;;
+esac
+
+wl-copy < "$SCREENSHOT_NAME"
