@@ -1,10 +1,21 @@
 if not contains "$HOME/.local/bin" $PATH
-	set -gx PATH "$HOME/.local/bin" $PATH
+	set -gx PATH "$HOME/.local/bin" "$HOME/.cargo/bin" $PATH
 end
+
+# set -l XDG_DATA_HOME $XDG_DATA_HOME ~/.local/share
+# set -gx --path XDG_DATA_DIRS $XDG_DATA_HOME/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+# 
+# for flatpakdir in ~/.local/share/flatpak/exports/bin /var/lib/flatpak/exports/bin
+#     if test -d $flatpakdir
+#         contains $flatpakdir $PATH; or set -a PATH $flatpakdir
+#     end
+# end
+
+set -gx --path XDG_DATA_DIRS '/home/ciren/.local/share/flatpak/exports/share' $XDG_DATA_DIRS
 
 set -gx EDITOR nvim
 
-set -gx XDG_CURRENT_DESKTOP KDE
+#set -gx XDG_CURRENT_DESKTOP KDE
 set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx GTK_USE_PORTAL 1
 
@@ -14,9 +25,10 @@ set -gx GTK_USE_PORTAL 1
 if status is-login
 	set tty (tty)
 	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
-		startx -- -keeptty &>/dev/null
-	else if type -q winp && [ $tty = /dev/tty2 ]
-		winp
+		#startx -- -keeptty &>/dev/null
+		swayv
+#	else if type -q winp && [ $tty = /dev/tty2 ]
+#		winp
 	end
 end
 
@@ -37,10 +49,11 @@ if status is-interactive
 	
 	# config edit aliases
 	#
+	alias cfg-sway '$EDITOR ~/.config/sway/config'
 	alias cfg-i3 '$EDITOR ~/.config/i3/config'
 	alias cfg-fish '$EDITOR ~/.config/fish/config.fish'
 	alias cfg-polybar '$EDITOR ~/.config/polybar/config'
-	alias cfg-nvim '$EDITOR ~/.config/nvim/init.vim'
+	alias cfg-nvim '$EDITOR ~/.config/nvim/init.lua'
 	alias cfg-tmux '$EDITOR ~/.config/tmux/tmux.conf'
 	
 	# command shortcuts
@@ -61,19 +74,19 @@ if status is-interactive
 
 	if type udisksctl >/dev/null 2>&1
 		function mountusr
-			udisksctl mount -b "/dev/"$argv[1]
+			udisksctl mount -b $argv[1]
 		end
 
 		function umountusr
-			udisksctl unmount -b "/dev/"$argv[1]
+			udisksctl unmount -b $argv[1]
 		end
 
 		function mountusr-loop
-			mountusr (udisksctl loop-setup -f $argv[1] | cut -d'/' -f3 | cut -d'.' -f1)
+			mountusr (udisksctl loop-setup -f $argv[1] | sed -E 's:.*(/dev/loop[0-9]+).*:\1:')
 		end
 
 		function umountusr-loop
-			umountusr $argv[1]
+			umountusr /dev/$argv[1]
 			udisksctl loop-delete -b "/dev/"$argv[1]
 		end
 	end
@@ -90,11 +103,12 @@ if status is-interactive
 	end
 
 	if type df >/dev/null 2>&1
-		alias dff "df -h | head -n1 && df -h | grep '^/dev/' | sort"
+		# alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
+		alias dff "df -h"
 	end
 
-	if type yay &>/dev/null
-		alias y 'yay'
+	if type paru &>/dev/null
+		alias y 'paru'
 	end
 
 	if type apt &>/dev/null
@@ -177,7 +191,7 @@ if status is-interactive
 	end
 
 	if type nvim >/dev/null 2>&1
-		alias vim nvim
+		alias v nvim
 	end
 
 	# restart aliases
