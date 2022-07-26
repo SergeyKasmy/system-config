@@ -312,6 +312,7 @@ end
 opt.completeopt = {'menu', 'menuone', 'noselect'} -- TODO: mb add noinsert
 opt.signcolumn = 'yes'
 opt.number = true
+opt.relativenumber = true
 opt.mouse = 'a'
 opt.splitright = true
 opt.ignorecase = true
@@ -355,7 +356,7 @@ cmd 'colorscheme material'
 g.goyo_width = 150
 
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = 'maintained',
+	ensure_installed = 'all',
 
 	highlight = {
 		enable = true,
