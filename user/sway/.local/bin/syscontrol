@@ -1,0 +1,25 @@
+#!/bin/sh
+
+case "$1" in
+	shutdown)
+		poweroff
+		;;
+	reboot)
+		reboot
+		;;
+	logout)
+		swaymsg exit
+		;;
+	suspend)
+		systemctl suspend
+		;;
+	lock)
+		swaylock -i pictures/wallpapers/current.jpg
+		;;
+	*)
+		echo "syscontrol: missing or invalid argument"
+		echo "Available commands: shutdown, reboot, logout, suspend, lock"
+		exit 1
+esac
+
+exit 0
