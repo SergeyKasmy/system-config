@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo $(sensors coretemp-isa-0000 | grep Package | cut -d+ -f2 | cut -d' ' -f1) > /run/user/$(id -u)/polybar/cpu-temp
-polybar-msg hook cpu-temp 1
