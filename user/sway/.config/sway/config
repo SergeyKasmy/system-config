@@ -199,8 +199,10 @@ mode "app_launching"
 	bindsym Control+h exec ksysguard; mode "default"
 	bindsym x exec speedcrunch; mode "default"
 	bindsym Control+x exec kcalc; mode "default"
-	bindsym t exec telegram-desktop; mode "default"
 	bindsym m exec "alacritty -e cmus"; mode "default"
+	#bindsym t exec telegram-desktop; mode "default"
+	bindsym t exec flatpak run org.telegram.desktop; mode "default"
+	bindsym d exec flatpak run com.discordapp.Discord; mode "default"
 	bindsym l exec lutris; mode "default"
 	bindsym s exec steam; mode "default"
         
@@ -231,7 +233,7 @@ mode "syscontrol"
 	bindsym r exec --no-startup-id "syscontrol reboot"; mode "default"
 	bindsym i exec --no-startup-id "syscontrol logout"; mode "default"
 	bindsym d exec --no-startup-id "syscontrol suspend"; mode "default"
-	bindsym l --release exec --no-startup-id "syscontrol lock"; mode "default"
+	bindsym l exec --no-startup-id "syscontrol lock"; mode "default"
 
 	# back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -454,7 +456,11 @@ for_window [class="obs" title="^Settings$"] floating disable, border none
 #for_window [class="Vivaldi-*" title="Sign in - Google Accounts - Vivaldi"] floating enable
 
 assign [app_id="telegramdesktop"] $ws-social
+# flatpak
+assign [app_id="org.telegram.desktop"] $ws-social
 assign [app_id="discord"] $ws-social
+# flatpak
+assign [class="discord"] $ws-social
 
 assign [class="Steam"] $ws-gaming
 assign [app_id="lutris"] $ws-gaming
@@ -515,4 +521,5 @@ exec mako
 exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
 
 exec keepassxc-autostart
-exec telegram-desktop
+# exec telegram-desktop
+exec flatpak run org.telegram.desktop
