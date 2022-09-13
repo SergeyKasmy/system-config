@@ -119,6 +119,12 @@ require'packer'.startup(function(use)
 		requires = 'nvim-treesitter/nvim-treesitter',
 		after = 'nvim-treesitter',
 	}
+	use {
+		'nvim-treesitter/nvim-treesitter-context',
+		config = function()
+			require'treesitter-context'.setup {}
+		end
+	}
 	use 'tpope/vim-fugitive'	-- :Git commands
 	use 'chaoren/vim-wordmotion'	-- CamelCase and snake_case movements with ',', e.g. ',w'
 	use {
@@ -144,6 +150,7 @@ map('n', '<Leader>s', ':set spell!<enter>')
 map('n', '<Leader>dd', '<cmd>Telescope git_files<enter>')
 map('n', '<Leader>dD', '<cmd>Telescope find_files<enter>')
 map('n', '<Leader>ds', '<cmd>Telescope lsp_document_symbols<enter>')
+map('n', '<Leader>de', '<cmd>Telescope diagnostics<enter>')
 map('n', '<Leader>df', '<cmd>Telescope live_grep<enter>')
 map('n', '<Leader>dt', '<cmd>Telescope treesitter<enter>')
 map('n', '<Leader>dp', '<cmd>Telescope projects<enter>')
@@ -283,12 +290,14 @@ require'rust-tools'.setup {
 		capabilities = capabilities,
 		settings = {
 			 ['rust-analyzer'] = {
-                -- enable clippy on save
                 checkOnSave = {
                     command = "clippy"
                 },
 				inlayHints = {
 					closureReturnTypeHints = true,
+				},
+				imports = {
+					prefix = "self",
 				},
             }
 		},
