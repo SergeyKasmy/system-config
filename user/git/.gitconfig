@@ -3,12 +3,21 @@
 	email = SleeplessSloth79@gmail.com
 	signingkey = 324F28DB1BD0D0EC
 [alias]
+	s = status
+	l = log --graph
 	lg = log --oneline --graph
 	lga = log --oneline --all --graph
+	d = diff
+	dc = diff --cached
+	dcs = diff --cached --stat
+	a = add
+	aa = add -A
+	c = commit
 	exec = "!exec "
 [commit]
 	gpgsign = true
 [core]
 	autocrlf = input
+	pager = bat -p
 [init]
 	defaultBranch = main
