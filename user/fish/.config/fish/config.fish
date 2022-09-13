@@ -36,6 +36,9 @@ if status is-interactive
 	
 	# disable the greeting
 	set fish_greeting
+
+
+	jump shell fish | source
 	
 
 	## Variables
