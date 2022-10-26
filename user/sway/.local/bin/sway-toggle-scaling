@@ -3,8 +3,28 @@
 OUTPUT="DP-1"
 SCALING="1.25"
 
-if [ $(swaymsg -rt get_outputs | jq ".[] | select(.name == \"$OUTPUT\") | .scale") != "1" ]; then
-	swaymsg output $OUTPUT scale 1
+if [ -n "$1" ]; then
+	if [ "$1" = "scale" ]; then
+		SET=SCALE
+	elif [ "$1" = "normal" ]; then
+		SET=NORMAL
+	else
+		echo "Usage: $0 normal|scale"
+		exit 1
+	fi
 else
+	if [ "$(swaymsg -rt get_outputs | jq ".[] | select(.name == \"$OUTPUT\") | .scale")" != "1" ]; then
+		SET=NORMAL
+	else
+		SET=SCALE
+	fi
+fi
+
+if [ "$SET" = "NORMAL" ]; then
+	swaymsg output $OUTPUT scale 1
+elif [ "$SET" = "SCALE" ]; then
 	swaymsg output $OUTPUT scale $SCALING
+else
+	echo "Something went wrong. \$SET is $SET and not NORMAL or SCALE"
+	exit 1
 fi
