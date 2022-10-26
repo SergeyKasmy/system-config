@@ -4,6 +4,7 @@
 	signingkey = 324F28DB1BD0D0EC
 [alias]
 	s = status
+	sw = switch
 	l = log --graph
 	lg = log --oneline --graph
 	lga = log --oneline --all --graph
@@ -13,6 +14,7 @@
 	a = add
 	aa = add -A
 	c = commit
+	r = restore
 	exec = "!exec "
 [commit]
 	gpgsign = true
