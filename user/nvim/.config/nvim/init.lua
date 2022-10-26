@@ -17,7 +17,6 @@ end
 require'packer'.startup(function(use)
 	use 'wbthomason/packer.nvim'
 
-
 	-- lsp
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/nvim-cmp'
@@ -33,14 +32,13 @@ require'packer'.startup(function(use)
 
 	-- ui
 	use 'marko-cerovac/material.nvim'
-	-- use 'shaunsingh/nord.nvim'
 
 	use {
 		'nvim-lualine/lualine.nvim',
 		config = function()
 			require'lualine'.setup {
 				options = {
-					theme = 'material-nvim',
+					theme = 'material',
 				},
 				sections = {
 					-- disable {'encoding', 'fileformat', 'filetype'},
@@ -60,23 +58,6 @@ require'packer'.startup(function(use)
 	use {	-- file picker
 		'nvim-telescope/telescope.nvim',
 		requires = 'nvim-lua/plenary.nvim',
-	}
-
-	use {
-		'ahmedkhalf/project.nvim',
-		requires = 'telescope.nvim',
-		after = 'telescope.nvim',
-		config = function()
-			require'project_nvim'.setup {
-				exclude_dirs = {
-					"~/.cargo/*",
-					-- "/mnt/raid/coding/projects/pc/*",
-					-- "/mnt/raid/coding/testing/pc/*",
-				},
-			}
-
-			require'telescope'.load_extension 'projects'
-		end,
 	}
 
 	use {
@@ -156,6 +137,7 @@ map('n', '<Leader>dt', '<cmd>Telescope treesitter<enter>')
 map('n', '<Leader>dp', '<cmd>Telescope projects<enter>')
 map('n', '<Leader>h', '<cmd>lua require"treesitter-unit".toggle_highlighting()<enter>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<enter>')
+map('n', '<LeftRelease>', '<cmd>lua vim.lsp.buf.hover()<enter>')
 map('n', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<enter>')
 map('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<enter>')
 map('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<enter>')
@@ -225,7 +207,7 @@ local lsp = require'lspconfig'
 	-- mapb('gf', '<cmd>lua vim.lsp.buf.formatting()<enter>')
 	-- mapb('gp', '<cmd>lua vim.diagnostic.setloclist()<enter>')
 -- end
-local capabilities  = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local cmp = require'cmp'
 cmp.setup {
@@ -265,7 +247,7 @@ cmp.setup {
 			{ name = 'nvim_lsp' },
 			{ name = 'vsnip' },
 			{ name = 'buffer' },
-			-- { name = 'path' },
+			{ name = 'path' },
 	}
 }
 
@@ -281,12 +263,20 @@ lsp.sumneko_lua.setup {
 	}
 }
 
-lsp.ccls.setup {}
-lsp.pyright.setup {}
+-- lsp.ccls.setup {}
+lsp.clangd.setup {
+	capabilities = capabilities
+}
+lsp.pyright.setup {
+	capabilities = capabilities
+}
+lsp.tsserver.setup {
+	capabilities = capabilities
+}
+
 
 require'rust-tools'.setup {
 	server = {
-		-- on_attach = on_attach,
 		capabilities = capabilities,
 		settings = {
 			 ['rust-analyzer'] = {
@@ -313,7 +303,7 @@ local auto_fmt_ft = {
 	'rs',
 }
 for _, ft in ipairs(auto_fmt_ft) do
-	cmd(string.format('autocmd BufWritePre *.%s lua vim.lsp.buf.formatting_sync(nil, 1000)', ft))
+	cmd(string.format('autocmd BufWritePre *.%s lua vim.lsp.buf.format()', ft))
 end
 
 
@@ -345,7 +335,13 @@ g.rust_recommended_style = 0	-- disable tabs in rust
 
 --- ui
 g.material_style = 'deep ocean'
+-- doesn't work in packer's config fn for some reason
 require'material'.setup {
+	plugins = {
+		"gitsigns",
+		"nvim-cmp",
+		"telescope",
+	},
 	contrast = {
 		sidebars = true,
 		floating_windows = true,
