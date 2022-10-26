@@ -191,24 +191,23 @@ bindsym $win+r mode "resize"
 
 mode "app_launching" 
 {
-	bindsym c exec vivaldi; mode "default"
-	bindsym Control+c exec "vivaldi --incognito"; mode "default"
-	bindsym e exec "alacritty -e ranger"; mode "default"
-	bindsym Control+e exec dolphin; mode "default"
+	bindsym c exec firefox; mode "default"
+	bindsym Control+c exec vivaldi; mode "default"
+	bindsym e exec dolphin; mode "default"
 	bindsym h exec "alacritty -e htop"; mode "default"
 	bindsym Control+h exec ksysguard; mode "default"
 	bindsym x exec speedcrunch; mode "default"
 	bindsym Control+x exec kcalc; mode "default"
-	bindsym m exec "alacritty -e cmus"; mode "default"
+	# bindsym m exec "alacritty -e cmus"; mode "default"
 	#bindsym t exec telegram-desktop; mode "default"
 	bindsym t exec flatpak run org.telegram.desktop; mode "default"
 	bindsym d exec flatpak run com.discordapp.Discord; mode "default"
-	bindsym l exec lutris; mode "default"
-	bindsym s exec steam; mode "default"
+	# bindsym l exec lutris; mode "default"
+	# bindsym s exec steam; mode "default"
         
 	# back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 bindsym $win+a mode "app_launching"
 
@@ -222,8 +221,8 @@ mode "link_opening"
 	bindsym s exec --no-startup-id "xdg-open https://steamcommunity.com/id/ciren__/"; mode "default" 
 	
 	# back to normal: Enter or Escape or $win+Shift+a
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 bindsym $win+Shift+a mode "link_opening"
 
@@ -236,8 +235,8 @@ mode "syscontrol"
 	bindsym l exec --no-startup-id "syscontrol lock"; mode "default"
 
 	# back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 bindsym $win+x mode "syscontrol"
 
@@ -444,10 +443,7 @@ for_window [workspace=$ws-gaming] floating enable
 # set all Steam windows as floating except for the main one
 #for_window [class="Steam"] floating enable
 for_window [class="Steam" title="^Steam$"] floating disable
-# big picture
-#for_window [class="steam"] floating disable, fullscreen enable
 for_window [app_id="lutris"] floating disable
-
 for_window [class="obs" title="^Settings$"] floating disable, border none
 
 
@@ -456,11 +452,10 @@ for_window [class="obs" title="^Settings$"] floating disable, border none
 #for_window [class="Vivaldi-*" title="Sign in - Google Accounts - Vivaldi"] floating enable
 
 assign [app_id="telegramdesktop"] $ws-social
-# flatpak
 assign [app_id="org.telegram.desktop"] $ws-social
 assign [app_id="discord"] $ws-social
-# flatpak
 assign [class="discord"] $ws-social
+assign [title="WebCord*" app_id="Electron"] $ws-social
 
 assign [class="Steam"] $ws-gaming
 assign [app_id="lutris"] $ws-gaming
@@ -500,7 +495,7 @@ input type:keyboard {
 
 input type:mouse {
 	accel_profile flat
-	pointer_accel 0.8
+	pointer_accel 0.9
 }
 
 output DP-1 res 2560x1440@144Hz adaptive_sync on scale 1.25
