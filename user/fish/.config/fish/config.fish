@@ -94,7 +94,7 @@ if status is-interactive
 		end
 	end
 	
-	if type rsync >/dev/null 2>&1
+	if type rsync &>/dev/null
 		function mvrs
 			rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
 			if type fd >/dev/null 2>&1
@@ -105,17 +105,27 @@ if status is-interactive
 		end
 	end
 
-	if type df >/dev/null 2>&1
+	if type duf &>/dev/null
 		# alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
-		alias dff "df -h"
+		# alias dff "df -h"
+		alias dff duf
 	end
 
+	if type hyperfine &>/dev/null
+		alias bench 'hyperfine'
+	end
+
+	# these 2 are usually exlusive
 	if type paru &>/dev/null
 		alias y 'paru'
 	end
 
 	if type apt &>/dev/null
-		alias update 'sudo apt update && sudo apt dist-upgrade'
+		alias y 'sudo apt update && sudo apt dist-upgrade'
+	end
+
+	if type topgrade &>/dev/null
+		alias yy 'topgrade'
 	end
 
 	## ls
