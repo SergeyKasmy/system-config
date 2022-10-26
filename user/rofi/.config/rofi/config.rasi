@@ -1,8 +1,8 @@
 configuration {
 	combi-modi: "drun,run,ssh";
 	font: "sans 12";
-	terminal: "kitty";
-	run-shell-command: "kitty '{cmd}'";
+	terminal: "alacritty";
+	run-shell-command: "alacritty -e '{cmd}'";
 	matching: "glob";
 	run-command: "fish -c '{cmd}'";
 	run-list-command: "fish -c functions";
