@@ -6,14 +6,17 @@ configuration {
 }
 */
 
-@import "colors"
-
 * {
     columns: 1;
     background-color: @xbg;
     border-color: #00000000;
     text-color: @xfg;
     font: "SF Pro Display 15";
+
+    xbs:#4b5cc4;
+    xfs:#f2eeed;
+    xbg:#19191995;
+    xfg:#f2eeed;
 }
 
 #window {
