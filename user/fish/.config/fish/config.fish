@@ -216,7 +216,7 @@ if status is-interactive
 	# functions
 	#
 	
-	if type pacman >/dev/null 2>&1
+	if type pacman &>/dev/null
 		
 		# what packages depend on $pkg
 		function whoneeds
@@ -226,12 +226,14 @@ if status is-interactive
 		end
 
 		# download a package from AUR
-		function aur
-			if set -q argv[1]
-				git clone https://aur.archlinux.org/$argv[1].git
-				cd $argv[1]
-				makepkg -si
-			else; false; end
+		if ! type aur &>/dev/null
+			function aur
+				if set -q argv[1]
+					git clone https://aur.archlinux.org/$argv[1].git
+					cd $argv[1]
+					makepkg -si
+				else; false; end
+			end
 		end
 	end
 
