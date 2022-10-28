@@ -6,14 +6,12 @@ pkgname=(
 	'ciren-meta-gaming'
 	'ciren-meta-media-edit'
 	'ciren-meta-vm'
-	'ciren-meta-wayland'
 	'ciren-meta-wine'
-	'ciren-meta-xorg'
 	)
-pkgver=0.5
+pkgver=0.6
 pkgrel=1
 arch=('any')
-license=('GPL')
+license=('MIT')
 
 package_ciren-meta-base() {
 	depends=(
@@ -25,6 +23,7 @@ package_ciren-meta-base() {
 		'mkmm'
 		'python'
 
+		'absolutely-proprietary'
 		'advcp'
 		'aria2'
 		'avahi'
@@ -32,8 +31,12 @@ package_ciren-meta-base() {
 		'curl'
 		'dhcpcd'
 		'diskus'
+		'dua-cli'	# ncdu alternative
+		'duf'	# better df
+		'dust'	# non-interactive ncdu
 		'expect'	# for unbuffer
 		'fd'
+		'firejail'
 		'flatpak'
 		'fwupd'
 		'gist'	# github gists
@@ -42,18 +45,24 @@ package_ciren-meta-base() {
 		'gocryptfs'
 		'gotop'	# htop alternative #2
 		'htop'
+		'hyperfine'	# benchmarking
 		'inxi'
 		'iotop'
 		'iperf'
+		'jless'	# JSON viewer
+		'jump'
+		'just'
 		'lsd'
 		'man-db'
 		'man-pages'
 		'megatools'
 		'miniserve'	# serve files via HTTP
+		'mosh'	# mobile ssh
 		'nano'
-		'ncdu'
+		'needrestart'	# used by topgrade for restart detection
 		'neovim'
 		'nss-mdns'
+		'nvme-cli'
 		'openssh'
 		'openvpn'
 		'pacman-contrib'
@@ -61,10 +70,12 @@ package_ciren-meta-base() {
 		'paru'
 		'pdftk'	# PDF stuff
 		'pkgstats'
-		'pv'
+		'pv'	# progress bar
 		'ranger'
+		'rclone'	# sync with cloud storage
 		'rmlint'
 		'rsync'
+		'sd'	# better sed
 		'shellcheck'
 		'smartmontools'
 		'speedtest-cli'
@@ -75,83 +86,17 @@ package_ciren-meta-base() {
 		'syncthing'
 		'systemd-swap'
 		'tmux'
+		'topgrade'	# check all pkg mngrs for updates
 		'translate-shell'
 		'udisks2'
-		'xorg-xev'
-		'xorg-xeyes'
-		'xorg-xlsclients'
+		'unzip'
 		'zerotier-one'
+		'zip'
 		'zstd'
-		)
-	
-	optdepends=(
-		'compsize: btrfs compressed file size'
-		'dhex: terminal hex viewer'
-		'efibootmgr'
-		'liquidctl'
-		'nbd'
-		'nbdkit'
-		'snap-pac: btrfs snapshots'
-		'steamcmd'
-		'terminus-font: for hiDPI displays'
-		'testdisk: photorec for file recovery'
-		'uwuify'
-		'ventoy: multiboot USB'
-		'zfs-dkms'
-		)
-}
 
-package_ciren-meta-desktop() {
-	depends=(
-		'alacritty'
-		'alsa-utils'
-		'anydesk'	# teamviewer replacement
-		'ark'
-		'baobab'	# visual ncdu
-		'bluez'		# bluetooth
-		'bluez-utils'
-		'discord'
-		'dolphin'
-		'feh'
-		'firefox'
-		'gparted'
-		'gsimplecal'
-		'gwenview'
-		'keepassxc'
-		'okular'
-		'pavucontrol-qt'
-		'piper'
-		'pipewire'
-		'pipewire-alsa'
-		'pipewire-jack'
-		'pipewire-pulse'
-		'qbittorrent'
-		'remmina'
-		'rofi'
-		'spectacle'
-		'speedcrunch'
-		'telegram-desktop'
-		'tigervnc'
-		'tor-browser'
-		'vivaldi'
-		'xdg-desktop-portal'
-		'xdg-utils'
-
-		# graphics
-		'opengl-driver'
-		'vulkan-driver'
-		'vulkan-icd-loader'
-		'vulkan-tools'
-
-		# media
-		'cmus'
+		## media and codecs
 		'ffmpeg'
-		'libva'
-		'libva-utils'
-		'playerctl'
-		'vlc'
-
-		## codecs
+		'ffpb'	# ffmpeg progress bar
 		'faad2'		# AAC
 		'flac'
 		'libmad' 	# MPEG
@@ -166,6 +111,108 @@ package_ciren-meta-desktop() {
 		'wavpack'
 		'x264'
 		'x265'
+		)
+	
+	optdepends=(
+		'aurutils'
+		'compsize: btrfs compressed file size'
+		'efibootmgr'
+		'liquidctl'
+		'nbd'
+		'nbdkit'
+		'onefetch: project summary'
+		'plex-media-server'
+		'snap-pac: btrfs snapshots'
+		'steamcmd'
+		'terminus-font: for hiDPI displays'
+		'testdisk: photorec for file recovery'
+		'tokei: code line calculator'
+		'uwuify'
+		'ventoy: multiboot USB'
+		'zfs-dkms'
+		)
+}
+
+package_ciren-meta-desktop() {
+	depends=(
+		## wayland
+		'sway'
+		'gammastep'
+		'grim'
+		'waypipe'
+		'wdisplays'
+
+		## xorg
+		# 'dunst'
+		# 'flashfocus'
+		# 'i3-wm'
+		# 'perl-xml-xpath'	# polybar-email-module: xml parser
+		# 'picom'
+		# 'polybar'
+		# 'wmctrl'
+		# 'xdotool'
+		'arandr'
+		'numlockx'
+		'openbox'
+		'redshift-qt'
+		'xorg-server'
+		'xorg-xhost'
+		'xorg-xinit'
+		'xorg-xinput'
+		'xorg-xkill'
+		'xorg-xprop'
+		'xorg-xrandr'
+
+		'alacritty'
+		'alsa-utils'
+		'anydesk'	# teamviewer replacement
+		'ark'
+		'baobab'	# visual ncdu
+		'bluez'		# bluetooth
+		'bluez-utils'
+		'cups'	# printers
+		'dolphin'
+		'easyeffects'	# pipewire effects
+		'feh'
+		'firefox'
+		'gparted'
+		'gsimplecal'
+		'gwenview'
+		'keepassxc'
+		'okular'
+		'pavucontrol-qt'
+		'piper'
+		'pipewire'
+		'pipewire-alsa'
+		'pipewire-jack'
+		'pipewire-pulse'
+		'qbittorrent'
+		'qjackctl'	# manage jack/pipewire
+		'remmina'
+		'rofi'
+		'rustdesk'	# OSS teamviewer alternative
+		'spectacle'
+		'speedcrunch'
+		'tigervnc'
+		'tor-browser'
+		'xdg-desktop-portal'
+		'xdg-utils'
+		'xorg-xev'
+		'xorg-xeyes'
+		'xorg-xlsclients'
+
+		# graphics
+		'opengl-driver'
+		'vulkan-driver'
+		'vulkan-icd-loader'
+		'vulkan-tools'
+		'libva'
+		'libva-utils'
+
+		# media
+		'cmus'
+		'playerctl'
+		'vlc'
 
 		# fonts
 		'fontconfig'
@@ -197,21 +244,34 @@ package_ciren-meta-desktop() {
 		'libreoffice-ru'
 		'onlyoffice'
 		'radeontop'
+		'telegram-desktop'
+		'vivaldi'
+		'webcord'
 		'weechat: IRC TUI'
+		'xorg-server-xephyr: nested X server'
 		)
 }
 
 package_ciren-meta-dev() {
 	depends=(
 		'adbfs-rootless-git'
+		'bacon'	# rust cargo check background runner
 		'bear'	# generate clang build options file for C/C++ LSP
-		'cargo-audit'
-		'cargo-edit'
+		'cargo-audit' # rust audit for vulnerabilities
+		'cargo-edit' # cargo upgrade and rm
+		'cargo-expand'	# rust expand macros
+		'cargo-geiger'	# rust check for deps with unsafe
+		'cargo-license'	# rust check dep license
+		'cargo-llvm-lines'	# rust check number of llvm lines for generic code
+		'cargo-msrv' # rust minimum supported version
+		'cargo-udeps'	# rust find unused deps
+		'cbindgen' # gen C bindings for rust
 		'ccls'	# C/C++ LSP
 		'cgdb'
 		'cmake'
 		'code'
 		'd-feet'
+		'dhex'
 		'gcc'
 		'gdb-dashboard'
 		'lua-language-server'
@@ -220,16 +280,22 @@ package_ciren-meta-dev() {
 		'meta-group-base-devel'
 		'nasm'	# Assebler
 		'ninja'
+		'pyright'	# python lsp
 		'rust-analyzer'
+		'rust-bindgen'	# generate rust bindings for C
 		'rustup'
+		'tidy'	# HTML formatter
+		'typescript-language-server'
 		'wireshark-qt'
 		'xxd-standalone'
 		)
 
 	optdepends=(
-		'android-studio'
 		'android-apktool'
+		'android-studio'
+		'flatpak-builder'
 		'godot'
+		'mold: improved linker'
 		'scrcpy: android remote control'
 		'vulkan-extra-layers'
 		'vulkan-extra-tools'
@@ -248,6 +314,7 @@ package_ciren-meta-gaming() {
 	optdepends=(
 		'ciren-meta-wine'
 		'itch'
+		'ferium'	# mc mod manager
 		'legendary'	# Epic Game Store CLI
 		'lib32-gamemode'
 		'lib32-mangohud'
@@ -259,15 +326,19 @@ package_ciren-meta-gaming() {
 
 package_ciren-meta-media-edit() {
 	depends=(
-		'obs-studio'
 		'gimp'
 		'kdenlive'
+		'obs-studio'
+		'wf-recorder'
 
 		'id3v2'
 		'imagemagick'
-		)
+	)
 	
-	optdepends=('blender')
+	optdepends=(
+		'blender'
+		'inkscape'
+	)
 }
 
 package_ciren-meta-vm() {
@@ -294,40 +365,5 @@ package_ciren-meta-wine() {
 		'dxvk-bin'
 		'protontricks'
 		)
-}
-
-package_ciren-meta-xorg() {
-	depends=(
-		'arandr'
-		'dunst'
-		'flashfocus'
-		'i3-wm'
-		'numlockx'
-		'perl-xml-xpath'	# polybar-email-module: xml parser
-		'picom'
-		'polybar'
-		'redshift-qt'
-		'wmctrl'
-		'xdotool'
-		'xorg-server'
-		'xorg-xhost'
-		'xorg-xinit'
-		'xorg-xinput'
-		'xorg-xkill'
-		'xorg-xprop'
-		'xorg-xrandr'
-		)
-
-	optdepends=('openbox')
-}
-
-package_ciren-meta-wayland() {
-	depends=(
-		'gammastep'
-		'sway'
-		'waypipe'
-		'wdisplays'
-		'wf-recorder'
-	)
 }
 #libmicrodns
