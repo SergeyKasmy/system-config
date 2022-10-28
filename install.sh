@@ -65,10 +65,16 @@ fi
 
 # install the meta packages
 if [[ "$OS" == arch ]]; then
-	echo 'Installing meta packages'
+	echo 'Building meta packages'
 	cd "$SCRIPT_DIR"/metapkg
-	makepkg --sync --install --needed --clean
-	# makepkg >/dev/null
+	makepkg --sync --needed --clean
+	for pkg in "$SCRIPT_DIR"/metapkg/*.pkg*; do
+		BASE_NAME=$(basename "$pkg")
+		echo -n "  -> Install $BASE_NAME? ->"
+		if get_input; then
+			sudo pacman -U "$pkg"
+		fi
+	done
 fi
 
 if ! which stow &>/dev/null; then
