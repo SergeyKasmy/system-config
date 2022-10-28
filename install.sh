@@ -67,8 +67,8 @@ fi
 if [[ "$OS" == arch ]]; then
 	echo 'Installing meta packages'
 	cd "$SCRIPT_DIR"/metapkg
-	#makepkg --sync --install --needed --clean
-	makepkg >/dev/null
+	makepkg --sync --install --needed --clean
+	# makepkg >/dev/null
 fi
 
 if ! which stow &>/dev/null; then
