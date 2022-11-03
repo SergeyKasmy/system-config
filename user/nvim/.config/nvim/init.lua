@@ -20,14 +20,23 @@ require'packer'.startup(function(use)
 	-- lsp
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/nvim-cmp'
-	use 'hrsh7th/cmp-nvim-lsp'
-	use 'hrsh7th/cmp-vsnip'
-	-- use 'hrsh7th/cmp-path'
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/vim-vsnip'
-	use 'hrsh7th/vim-vsnip-integ'
 	use 'simrat39/rust-tools.nvim'
 	use 'mfussenegger/nvim-lint'
+
+	-- cmp sources
+	use {
+		'hrsh7th/cmp-buffer',
+		'hrsh7th/cmp-nvim-lsp',
+		'hrsh7th/cmp-nvim-lsp-signature-help',
+		'hrsh7th/cmp-nvim-lua',	-- nvim lua API
+		'hrsh7th/cmp-path',
+		'hrsh7th/cmp-vsnip',
+		'hrsh7th/vim-vsnip',
+		'hrsh7th/vim-vsnip-integ',
+
+		after = 'hrsh7th/nvim-cmp',
+		requires = 'hrsh7th/nvim-cmp',
+	}
 
 
 	-- ui
@@ -151,7 +160,6 @@ map('n', 'gr', '<cmd>lua vim.lsp.buf.rename()<enter>')
 
 
 --- lsp
-local lsp = require'lspconfig'
 -- local on_attach = function(_, bufnr)
 		--  local opts = { noremap=true, silent=true }
 		--    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -207,7 +215,6 @@ local lsp = require'lspconfig'
 	-- mapb('gf', '<cmd>lua vim.lsp.buf.formatting()<enter>')
 	-- mapb('gp', '<cmd>lua vim.diagnostic.setloclist()<enter>')
 -- end
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local cmp = require'cmp'
 cmp.setup {
@@ -227,7 +234,7 @@ cmp.setup {
 					cmp.select_prev_item()
 				else
 					cmp.close()
-					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, true, true), 'nt', true)
+					-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, true, true), 'nt', true)
 				end
 				return
 			end
@@ -244,13 +251,27 @@ cmp.setup {
 		}),
 	},
 	sources = {
-			{ name = 'nvim_lsp' },
-			{ name = 'vsnip' },
 			{ name = 'buffer' },
+			{ name = 'nvim_lsp' },
+			{ name = 'nvim_lsp_signature_help' },
+			{ name = 'nvim_lua' },
 			{ name = 'path' },
+			{ name = 'vsnip' },
 	}
 }
 
+-- lsp
+local lsp = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local default_lsp_servers = { 'clangd', 'pyright', 'tsserver' }
+for _, s in ipairs(default_lsp_servers) do
+	lsp[s].setup {
+		capabilities = capabilities,
+	}
+end
+
+-- custom lsp servers
 lsp.sumneko_lua.setup {
 	-- on_attach = on_attach,
 	capabilities = capabilities,
@@ -263,19 +284,12 @@ lsp.sumneko_lua.setup {
 	}
 }
 
--- lsp.ccls.setup {}
-lsp.clangd.setup {
-	capabilities = capabilities
-}
-lsp.pyright.setup {
-	capabilities = capabilities
-}
-lsp.tsserver.setup {
-	capabilities = capabilities
-}
-
-
 require'rust-tools'.setup {
+	tools = {
+		inlay_hints = {
+			only_current_line = true,
+		},
+	},
 	server = {
 		capabilities = capabilities,
 		settings = {
@@ -299,6 +313,15 @@ require'lint'.linters_by_ft = {
 }
 cmd('autocmd BufWritePost *.sh lua require"lint".try_lint()')
 
+-- TODO: replace with
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	pattern = "*.rs",
+-- 	callback = function()
+-- 	 vim.lsp.buf.formatting_sync(nil, 200)
+-- 	end,
+-- 	group = format_sync_grp,
+-- })
+
 local auto_fmt_ft = {
 	'rs',
 }
@@ -308,6 +331,7 @@ end
 
 
 --- options
+opt.shortmess = opt.shortmess + 'c' 	-- avoid showing short messages -- TODO: what short messages are you even talking about???
 opt.completeopt = {'menu', 'menuone', 'noselect'} -- TODO: mb add noinsert
 opt.signcolumn = 'yes'
 opt.number = true
@@ -390,10 +414,11 @@ require'toggleterm'.setup {
 }
 
 
+-- TODO: replace with vim.api.nvim_create_autocmd and user_command()
+
 --- other
 cmd 'command! Reload :source $MYVIMRC'
 cmd 'command! Cfg :edit $MYVIMRC'
 
 -- highlight on yank
 cmd 'autocmd TextYankPost * lua vim.highlight.on_yank { timeout = 300 }'
--- g.wordmotion_prefix = ','
