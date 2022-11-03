@@ -8,7 +8,7 @@ pkgname=(
 	'ciren-meta-vm'
 	'ciren-meta-wine'
 	)
-pkgver=0.6
+pkgver=0.7
 pkgrel=1
 arch=('any')
 license=('MIT')
@@ -27,6 +27,7 @@ package_ciren-meta-base() {
 		'advcp'
 		'aria2'
 		'avahi'
+		'bat'
 		'bind'	# dns stuff
 		'curl'
 		'dhcpcd'
