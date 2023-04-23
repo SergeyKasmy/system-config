@@ -246,3 +246,7 @@ if status is-interactive
 	#	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
 	#end
 end
+
+if [ -e $HOME/.config/fish/autoexec.fish ]
+	source $HOME/.config/fish/autoexec.fish
+end
