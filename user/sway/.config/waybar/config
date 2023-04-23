@@ -15,6 +15,7 @@
 	    "clock": {
 	        "format": "{:%A, %b %d, %H:%M}",
 	        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+			"on-click": "gsimplecal",
 	    },
 	    "cpu": {
 	        "format": "{usage}% ",

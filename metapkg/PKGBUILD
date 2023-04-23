@@ -3,12 +3,12 @@ pkgname=(
 	'ciren-meta-base'
 	'ciren-meta-desktop'
 	'ciren-meta-dev'
-	'ciren-meta-gaming'
-	'ciren-meta-media-edit'
 	'ciren-meta-vm'
-	'ciren-meta-wine'
+	# 'ciren-meta-gaming'
+	# 'ciren-meta-media-edit'
+	# 'ciren-meta-wine'
 	)
-pkgver=0.7
+pkgver=0.8
 pkgrel=1
 arch=('any')
 license=('MIT')
@@ -34,7 +34,6 @@ package_ciren-meta-base() {
 		'diskus'
 		'dua-cli'	# ncdu alternative
 		'duf'	# better df
-		'dust'	# non-interactive ncdu
 		'expect'	# for unbuffer
 		'fd'
 		'firejail'
@@ -136,26 +135,22 @@ package_ciren-meta-base() {
 
 package_ciren-meta-desktop() {
 	depends=(
+		## graphics
+		'opengl-driver'
+		'vulkan-driver'
+		'vulkan-icd-loader'
+		'vulkan-tools'
+		'libva'
+		'libva-utils'
+
 		## wayland
 		'sway'
 		'gammastep'
 		'grim'
 		'waypipe'
-		'wdisplays'
 
 		## xorg
-		# 'dunst'
-		# 'flashfocus'
-		# 'i3-wm'
-		# 'perl-xml-xpath'	# polybar-email-module: xml parser
-		# 'picom'
-		# 'polybar'
-		# 'wmctrl'
-		# 'xdotool'
-		'arandr'
-		'numlockx'
 		'openbox'
-		'redshift-qt'
 		'xorg-server'
 		'xorg-xhost'
 		'xorg-xinit'
@@ -164,74 +159,60 @@ package_ciren-meta-desktop() {
 		'xorg-xprop'
 		'xorg-xrandr'
 
-		'alacritty'
+		## desktop functionality
 		'alsa-utils'
-		'anydesk'	# teamviewer replacement
-		'ark'
-		'baobab'	# visual ncdu
 		'bluez'		# bluetooth
 		'bluez-utils'
 		'cups'	# printers
-		'dolphin'
-		'easyeffects'	# pipewire effects
-		'feh'
-		'firefox'
-		'gparted'
-		'gsimplecal'
-		'gwenview'
-		'keepassxc'
-		'okular'
-		'pavucontrol-qt'
-		'piper'
 		'pipewire'
 		'pipewire-alsa'
 		'pipewire-jack'
 		'pipewire-pulse'
-		'qbittorrent'
-		'qjackctl'	# manage jack/pipewire
-		'remmina'
-		'rofi'
-		'rustdesk'	# OSS teamviewer alternative
-		'spectacle'
-		'speedcrunch'
 		'tigervnc'
-		'tor-browser'
 		'xdg-desktop-portal'
 		'xdg-utils'
-		'xorg-xev'
-		'xorg-xeyes'
 		'xorg-xlsclients'
 
-		# graphics
-		'opengl-driver'
-		'vulkan-driver'
-		'vulkan-icd-loader'
-		'vulkan-tools'
-		'libva'
-		'libva-utils'
-
-		# media
-		'cmus'
-		'playerctl'
-		'vlc'
-
-		# fonts
+		## fonts
 		'fontconfig'
 		'noto-fonts'
 		'noto-fonts-cjk'
 		'noto-fonts-emoji'
 		'ttf-ubuntu-font-family'
 
-		# theming
+		## theming
 		'breezex-cursor-theme'
 		'flat-remix-gtk'
 		'kvantum-qt5'
 		'papirus-icon-theme'
 		'qt5ct'
+
+		## must have desktop apps
+		'alacritty'
+		'dolphin'
+		'feh'
+		'firefox'
+		'gparted'
+		'gsimplecal'
+		'pavucontrol-qt'
+		'qjackctl'	# manage jack/pipewire
+		'rofi'
+		'speedcrunch'
+		'vlc'
+		'xorg-server-xephyr'
+		'xorg-xev'
+		'xorg-xeyes'
+
+		## cli only used with sound (which is only available on the desktop)
+		'cmus'
+		'playerctl'
 		)
 
 	optdepends=(
 		'anki'
+		'anydesk'
+		'ark'
+		'baobab: visual ncdu'
 		'barrier'
 		'barrier-headless'
 		'calibre: book management'
@@ -239,17 +220,25 @@ package_ciren-meta-desktop() {
 		'deezloader-remix-bin'
 		'digikam: photo management'
 		'discord'
+		'easyeffects' # pipewire effects
+		'gwenview'
 		'joplin-desktop'
+		'keepassxc'
 		'libreoffice'
 		'libreoffice-de'
 		'libreoffice-ru'
+		'okular'
 		'onlyoffice'
+		'piper'
+		'qbittorrent'
 		'radeontop'
+		'remmina'
+		'rustdesk'
 		'telegram-desktop'
+		'tor-browser'
 		'vivaldi'
 		'webcord'
 		'weechat: IRC TUI'
-		'xorg-server-xephyr: nested X server'
 		)
 }
 
@@ -279,7 +268,7 @@ package_ciren-meta-dev() {
 		'make'
 		'meson'
 		'meta-group-base-devel'
-		'nasm'	# Assebler
+		'nasm'	# Assembler
 		'ninja'
 		'pyright'	# python lsp
 		'rust-analyzer'
@@ -292,7 +281,7 @@ package_ciren-meta-dev() {
 		)
 
 	optdepends=(
-		'android-apktool'
+		# 'android-apktool'
 		'android-studio'
 		'flatpak-builder'
 		'godot'
@@ -301,45 +290,6 @@ package_ciren-meta-dev() {
 		'vulkan-extra-layers'
 		'vulkan-extra-tools'
 		)
-}
-
-package_ciren-meta-gaming() {
-	depends=(
-		'gamemode'
-		'gamescope'
-		'libstrangle'	# FPS limiter
-		'lutris'
-		'mangohud'
-		)
-
-	optdepends=(
-		'ciren-meta-wine'
-		'itch'
-		'ferium'	# mc mod manager
-		'legendary'	# Epic Game Store CLI
-		'lib32-gamemode'
-		'lib32-mangohud'
-		'multimc-bin'
-		'steam'
-		'vkbasalt'
-	)
-}
-
-package_ciren-meta-media-edit() {
-	depends=(
-		'gimp'
-		'kdenlive'
-		'obs-studio'
-		'wf-recorder'
-
-		'id3v2'
-		'imagemagick'
-	)
-	
-	optdepends=(
-		'blender'
-		'inkscape'
-	)
 }
 
 package_ciren-meta-vm() {
@@ -356,15 +306,55 @@ package_ciren-meta-vm() {
 	optdepends=('virtio-win')
 }
 
-package_ciren-meta-wine() {
-	depends=(
-		'wine'
-		'winetricks'
-		)
+# package_ciren-meta-gaming() {
+# 	depends=(
+# 		'gamemode'
+# 		'gamescope'
+# 		'libstrangle'	# FPS limiter
+# 		'lutris'
+# 		'mangohud'
+# 		)
 
-	optdepends=(
-		'dxvk-bin'
-		'protontricks'
-		)
-}
+# 	optdepends=(
+# 		'ciren-meta-wine'
+# 		'itch'
+# 		'ferium'	# mc mod manager
+# 		'legendary'	# Epic Game Store CLI
+# 		'lib32-gamemode'
+# 		'lib32-mangohud'
+# 		'multimc-bin'
+# 		'steam'
+# 		'vkbasalt'
+# 	)
+# }
+
+# package_ciren-meta-media-edit() {
+# 	depends=(
+# 		# 'gimp'
+# 		# 'kdenlive'
+# 		'obs-studio'
+# 		'wf-recorder'
+
+# 		'id3v2'
+# 		'imagemagick'
+# 	)
+	
+# 	optdepends=(
+# 		# 'blender'
+# 		# 'inkscape'
+# 	)
+# }
+
+
+# package_ciren-meta-wine() {
+# 	depends=(
+# 		'wine'
+# 		'winetricks'
+# 		)
+
+# 	optdepends=(
+# 		'dxvk-bin'
+# 		'protontricks'
+# 		)
+# }
 #libmicrodns
