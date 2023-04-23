@@ -1,6 +1,7 @@
 [
 	{
 		"output": "DP-1",
+		/* "ipc": true, */
 	    "layer": "top",
 	    "position": "top",
 	    "height": 30,
