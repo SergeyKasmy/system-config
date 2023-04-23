@@ -479,7 +479,7 @@ bindsym $win+d exec --no-startup-id rofi -show combi
 #bindsym $alt+Tab exec --no-startup-id "rofi -show window -kb-accept-entry \\"!Alt-Tab,Return\\" -kb-row-down \\"Alt-Tab\\" -kb-cancel \\"Alt-Escape,Escape\\""
 
 # terminal
-bindsym $win+Return exec alacritty
+bindsym --to-code $win+Return exec alacritty
 
 # screenshoting
 bindsym Print exec sway-screenshot --current-screen
@@ -498,7 +498,7 @@ input type:mouse {
 	pointer_accel 0.9
 }
 
-output DP-1 res 2560x1440@144Hz adaptive_sync on scale 1.25
+output DP-1 res 2560x1440@144Hz scale 1.25
 output HDMI-A-1 pos 0 0 scale 1.1
 output * bg ~/pictures/wallpapers/current.jpg fill
 
@@ -517,4 +517,4 @@ exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
 
 exec keepassxc-autostart
 # exec telegram-desktop
-exec flatpak run org.telegram.desktop
+exec org.telegram.desktop
