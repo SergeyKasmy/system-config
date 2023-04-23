@@ -11,6 +11,8 @@
 	d = diff
 	dc = diff --cached
 	dcs = diff --cached --stat
+	dt = difftool --tool=nvimdiff
+	dtc = difftool --tool=nvimdiff --cached
 	a = add
 	aa = add -A
 	c = commit
