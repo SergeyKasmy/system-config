@@ -88,12 +88,17 @@ require'packer'.startup(function(use)
 		end
 	}
 
-	use 'junegunn/goyo.vim'-- writer mode with :Goyo
+	use {
+		"nvim-zh/colorful-winsep.nvim",
+		config = function ()
+			require('colorful-winsep').setup()
+		end
+	}
 
-	-- use {
-	-- 	'nvim-lua/popup.nvim',
-	-- 	requires = {'nvim-lua/plenary.nvim'},
-	-- }
+	-- use 'junegunn/goyo.vim'-- writer mode with :Goyo
+	-- provides commands :TZAtaraxis :TZFocus :TZNarrow :TZMinimalist
+	use 'Pocco81/true-zen.nvim'
+
 
 	use 'akinsho/toggleterm.nvim'
 
@@ -121,6 +126,13 @@ require'packer'.startup(function(use)
 		'norcalli/nvim-colorizer.lua',
 		config = function()
 			require'colorizer'.setup {}
+		end
+	}
+
+	use {
+		'kylechui/nvim-surround',
+		config = function()
+			require("nvim-surround").setup()
 		end
 	}
 end)
@@ -264,7 +276,7 @@ cmp.setup {
 local lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local default_lsp_servers = { 'clangd', 'pyright', 'tsserver' }
+local default_lsp_servers = { 'clangd', 'cmake', 'hls',  'pyright', 'tsserver' }
 for _, s in ipairs(default_lsp_servers) do
 	lsp[s].setup {
 		capabilities = capabilities,
@@ -272,7 +284,7 @@ for _, s in ipairs(default_lsp_servers) do
 end
 
 -- custom lsp servers
-lsp.sumneko_lua.setup {
+lsp.lua_ls.setup {
 	-- on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
