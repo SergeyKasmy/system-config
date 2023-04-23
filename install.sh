@@ -41,6 +41,7 @@ if ! getent group wheel &>/dev/null; then
 		break
 	done
 else
+	# TODO: prompt to still install sudoers file even if wheel already exists
 	echo 'sudo is already set up, skipping...'
 fi
 
