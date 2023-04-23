@@ -1,5 +1,5 @@
 if not contains "$HOME/.local/bin" $PATH
-	set -gx PATH "$HOME/.local/bin" "$HOME/.cargo/bin" $PATH
+	set -gx PATH "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/flatpak/exports/bin" "/var/lib/flatpak/exports/bin" "$PATH"
 end
 
 # set -l XDG_DATA_HOME $XDG_DATA_HOME ~/.local/share
