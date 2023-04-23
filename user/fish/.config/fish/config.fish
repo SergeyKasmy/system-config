@@ -13,7 +13,6 @@ end
 
 set -gx --path XDG_DATA_DIRS '/home/ciren/.local/share/flatpak/exports/share' $XDG_DATA_DIRS
 
-set -gx EDITOR nvim
 
 #set -gx XDG_CURRENT_DESKTOP KDE
 set -gx QT_QPA_PLATFORMTHEME qt5ct
@@ -22,13 +21,20 @@ set -gx GTK_USE_PORTAL 1
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
 
+
 if status is-login
 	set tty (tty)
 	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
-		#startx -- -keeptty &>/dev/null
-		swayv
-#	else if type -q winp && [ $tty = /dev/tty2 ]
-#		winp
+		set -gx XDG_SESSION_TYPE wayland
+		set -gx XDG_CURRENT_DESKTOP sway
+		set -gx QT_QPA_PLATFORM wayland
+		#set -gx SDL_VIDEODRIVER wayland
+		set -gx MOZ_ENABLE_WAYLAND 1
+
+		systemctl --user import-environment XDG_CURRENT_DESKTOP
+		dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=sway
+
+		sway
 	end
 end
 
@@ -37,8 +43,9 @@ if status is-interactive
 	# disable the greeting
 	set fish_greeting
 
-
-	jump shell fish | source
+	if type jump &>/dev/null
+		jump shell fish | source
+	end
 	
 
 	## Variables
@@ -46,6 +53,12 @@ if status is-interactive
 	# set global vars
 	#
 	set -gx GPG_TTY (tty)
+	set -gx EDITOR nvim
+	set -gx AUR_PAGER nvim
+
+	if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
+		set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+	end
 	
 
 	## Aliases and functions
