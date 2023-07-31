@@ -444,8 +444,8 @@ for_window [workspace=$ws-gaming] floating enable
 
 # set all Steam windows as floating except for the main one
 #for_window [class="Steam"] floating enable
-for_window [class="Steam" title="^Steam$"] floating disable
-for_window [app_id="lutris"] floating disable
+# for_window [class="Steam" title="^Steam$"] floating disable
+# for_window [app_id="lutris"] floating disable
 for_window [class="obs" title="^Settings$"] floating disable, border none
 
 
@@ -502,6 +502,8 @@ input type:mouse {
 
 output DP-1 res 2560x1440@144Hz scale 1.25
 output HDMI-A-1 pos 0 0 scale 1.1
+# TV
+# output HDMI-A-1 res 1920x1080@120Hz
 output * bg ~/pictures/wallpapers/current.jpg fill
 
 # gtk 20 sec lag fix??
@@ -517,6 +519,5 @@ bar {
 exec mako
 exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
 
-exec keepassxc-autostart
-# exec telegram-desktop
 exec org.telegram.desktop
+# exec wayvnc 0.0.0.0
