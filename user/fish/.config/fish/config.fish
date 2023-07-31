@@ -218,6 +218,10 @@ if status is-interactive
 
 	if type nvim >/dev/null 2>&1
 		alias v nvim
+
+		function cmp-tree
+			nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
+		end
 	end
 
 	# restart aliases
