@@ -21,7 +21,7 @@ SCRIPT_DIR="$PWD"
 # ask a yes/no question
 function get_input()
 {
-	read -n1 input
+	read input
 	echo ''
 	if [[ "$input" != "y" && "$input" != "Y" && "$input" != "1" ]]; then return 1; fi
 	return 0
