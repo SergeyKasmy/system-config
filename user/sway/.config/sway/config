@@ -219,6 +219,8 @@ mode "link_opening"
 	bindsym a exec --no-startup-id "xdg-open https://anilist.co/home"; mode "default" 
 	bindsym y exec --no-startup-id "xdg-open https://youtube.com"; mode "default" 
 	bindsym s exec --no-startup-id "xdg-open https://steamcommunity.com/id/ciren__/"; mode "default" 
+	bindsym b exec --no-startup-id "xdg-open https://bing.com/"; mode "default" 
+	bindsym Control+b exec --no-startup-id "xdg-open https://bing.com/chat"; mode "default" 
 	
 	# back to normal: Enter or Escape or $win+Shift+a
 	bindsym Return mode "default"
