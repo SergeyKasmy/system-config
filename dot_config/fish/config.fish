@@ -109,6 +109,12 @@ if status is-interactive
 			udisksctl loop-delete -b "/dev/"$argv[1]
 		end
 	end
+
+	if type chezmoi &>/dev/null
+		function chezmoi-cd
+			cd (chezmoi source-path)
+		end
+	end
 	
 	if type rsync &>/dev/null
 		function mvrs
