@@ -227,6 +227,10 @@ if status is-interactive
 		end
 	end
 
+	function cmp-hex
+		nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
+	end
+
 	# restart aliases
 	#
 	if type plasmashell >/dev/null 2>&1
