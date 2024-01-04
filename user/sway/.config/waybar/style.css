@@ -65,6 +65,7 @@ window#waybar.chromium {
     border-bottom: 3px solid #ffffff;
 }
 
+#custom-free_space,
 #clock,
 #battery,
 #cpu,
@@ -251,4 +252,8 @@ label:focus {
 
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
+}
+
+#custom-free_space {
+    background-color: #333300;
 }

@@ -1,6 +1,6 @@
 [
 	{
-		"output": "DP-1",
+		"output": "DP-3",
 		/* "ipc": true, */
 	    "layer": "top",
 	    "position": "top",
@@ -8,7 +8,7 @@
 		"spacing": 7,
 	    "modules-left": ["sway/workspaces", "sway/mode"],
 	    "modules-center": ["sway/window"],
-	    "modules-right": ["pulseaudio", "cpu", "memory", "temperature", "backlight", "sway/language", "battery", "tray", "clock"],
+	    "modules-right": ["pulseaudio", "cpu", "memory", "custom/free_space", "temperature", "backlight", "sway/language", "battery", "tray", "clock"],
 		"sway/workspaces": {
 			"all-outputs": true,
 		},
@@ -74,41 +74,9 @@
 	        },
 	        "on-click": "pavucontrol-qt"
 	    },
+		"custom/free_space": {
+			"exec": "free-space min --ignore '/boot,/.root,/.snapshots,/home/ciren/.snapshots,/mnt/hdd/.root,/mnt/hdd/.snapshots'",
+			"interval": 30,
+		}
 	}
-	//{
-	//	"output": "HDMI-A-2",
-	//	"name": "second",
-	//    "layer": "overlay",
-	//    "position": "left",
-	//	"width": 10,
-	//    "modules-right": ["pulseaudio", "cpu", "memory", "temperature", "clock"],
-	//    "cpu": {
-	//        "format": "{usage}% ",
-	//    },
-	//    "memory": {
-	//        "format": "{}% "
-	//    },
-	//    "temperature": {
-	//        "format": "{temperatureC}°C {icon}",
-	//        "format-icons": ["", "", ""],
-	//        "critical-threshold": 80,
-	//    },
-	//    "pulseaudio": {
-	//        "format": "{volume}% {icon}{format_source}",
-	//        "format-bluetooth": "{volume}% {icon} {format_source}",
-	//        "format-bluetooth-muted": " {icon} {format_source}",
-	//        "format-muted": " {format_source}",
-	//        //"format-source": "{volume}% ",
-	//        "format-source-muted": " ",
-	//        "format-icons": {
-	//            "headphone": "",
-	//            "hands-free": "",
-	//            "headset": "",
-	//            "phone": "",
-	//            "portable": "",
-	//            "default": ["", "", ""]
-	//        },
-	//        "on-click": "pavucontrol-qt"
-	//    },
-	//},
 ]
