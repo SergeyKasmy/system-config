@@ -21,7 +21,7 @@ return {
 			local lsp = require('lspconfig')
 			LspCapabilities = require('cmp_nvim_lsp').default_capabilities()
 
-			local default_lsp_servers = { 'clangd', 'cmake', 'hls',  'pyright', 'tsserver', 'cssls', 'eslint', 'html', 'jsonls' }
+			local default_lsp_servers = { 'clangd', 'cmake', 'gopls', 'hls',  'pyright', 'tsserver', 'cssls', 'eslint', 'html', 'jsonls' }
 			for _, s in ipairs(default_lsp_servers) do
 				lsp[s].setup {
 					capabilities = LspCapabilities,
@@ -137,9 +137,9 @@ return {
 					capabilities = LspCapabilities,
 					settings = {
 						 ['rust-analyzer'] = {
-							checkOnSave = {
-								command = "clippy"
-							},
+							-- checkOnSave = {
+							-- 	command = "clippy"
+							-- },
 							inlayHints = {
 								closureReturnTypeHints = true,
 							},
