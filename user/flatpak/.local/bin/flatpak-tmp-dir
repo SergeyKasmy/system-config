@@ -1,3 +1,0 @@
-#!/bin/sh
-
-echo flatpak override --user --filesystem="$1" "$2" && flatpak run "$2" && flatpak override --user --nofilesystem="$1" "$2"
