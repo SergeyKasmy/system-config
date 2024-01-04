@@ -1,6 +1,6 @@
 #!/bin/sh
 
-OUTPUT="DP-1"
+OUTPUT="DP-3"
 SCALING="1.25"
 
 if [ -n "$1" ]; then
@@ -13,7 +13,7 @@ if [ -n "$1" ]; then
 		exit 1
 	fi
 else
-	if [ "$(swaymsg -rt get_outputs | jq ".[] | select(.name == \"$OUTPUT\") | .scale")" != "1" ]; then
+	if [ "$(swaymsg -rt get_outputs | jq ".[] | select(.name == \"$OUTPUT\") | .scale")" != "1.0" ]; then
 		SET=NORMAL
 	else
 		SET=SCALE
