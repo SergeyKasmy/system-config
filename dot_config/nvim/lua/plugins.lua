@@ -115,16 +115,20 @@ return {
 		},
 		config = function()
 			require('nvim-tree').setup {
-				view = {
-					mappings = {
-						list = {
-							{ key = { "l", "<CR>", "o" }, action = "edit", mode = "n" },
-							{ key = "h", action = "close_node" },
-							{ key = "v", action = "vsplit" },
-							{ key = "C", action = "cd" },
-						}
-					}
-				}
+				on_attach = function(bufnr)
+					local api = require('nvim-tree.api')
+
+					api.config.mappings.default_on_attach(bufnr)
+
+					local opts = function(desc)
+						return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true, nowait = true }
+					end
+
+					vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+					vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+					vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+					vim.keymap.set('n', 'C', api.tree.change_root_to_node, opts('cd'))
+				end
 			}
 		end,
 	},
