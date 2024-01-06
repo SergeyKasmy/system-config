@@ -18,41 +18,80 @@ return {
 			{ 'gr', '<cmd>lua vim.lsp.buf.rename()<enter>' },
 		},
 		config = function()
+			-- enable inlay hints
+			vim.api.nvim_create_autocmd('LspAttach', {
+				callback = function(args)
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+					if client.server_capabilities.inlayHintProvider then
+						vim.lsp.inlay_hint.enable(args.buf, true)
+					else
+					end
+				end
+			})
 			local lsp = require('lspconfig')
 			LspCapabilities = require('cmp_nvim_lsp').default_capabilities()
 
-			local default_lsp_servers = { 'clangd', 'cmake', 'gopls', 'hls',  'pyright', 'tsserver', 'cssls', 'eslint', 'html', 'jsonls' }
-			for _, s in ipairs(default_lsp_servers) do
-				lsp[s].setup {
+			-- servers that don't require any custom configuration
+			local common_servers = {
+											'clangd',
+											'cmake',
+											'cssls',
+											'eslint',
+											'gopls',
+											'hls',
+											'html',
+											'jsonls',
+											'pyright',
+											'tsserver',
+										}
+
+			for _, server in ipairs(common_servers) do
+				lsp[server].setup {
 					capabilities = LspCapabilities,
 				}
 			end
 
 			lsp.lua_ls.setup {
 				capabilities = LspCapabilities,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { 'vim' }
-						}
-					}
-				}
+				on_init = function(client)
+					local path = client.workspace_folders[1].name
+
+					-- if editing nvim config files, add vim runtime library to the library path
+					if vim.endswith(path, '/nvim/lua/') then
+						client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+							Lua = {
+								runtime = {
+									-- Tell the language server which version of Lua you're using
+									-- (most likely LuaJIT in the case of Neovim)
+									version = 'LuaJIT'
+								},
+							-- Make the server aware of Neovim runtime files
+							workspace = {
+								checkThirdParty = false,
+								--[[	just the vim runtime
+								library = {
+									vim.env.VIMRUNTIME
+								}
+								]]
+								-- or everything, including plugins
+								library = vim.api.nvim_get_runtime_file("", true),
+								}
+							}
+						})
+
+						client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+					end
+					return true
+				end,
 			}
 
-			-- TODO: replace with
-			-- vim.api.nvim_create_autocmd("BufWritePre", {
-			-- 	pattern = "*.rs",
-			-- 	callback = function()
-			-- 	 vim.lsp.buf.formatting_sync(nil, 200)
-			-- 	end,
-			-- 	group = format_sync_grp,
-			-- })
-
-			local auto_fmt_ft = {
-				'rs',
-			}
-			for _, ft in ipairs(auto_fmt_ft) do
-				vim.cmd(string.format('autocmd BufWritePre *.%s lua vim.lsp.buf.format()', ft))
+			-- autoformat on save using lsp formatter
+			for _, ft in ipairs({ 'rs' }) do
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					pattern = string.format('*.%s', ft),
+					callback = vim.lsp.buf.format
+				})
 			end
 
 			--[[ 
@@ -123,34 +162,40 @@ return {
 		end
 	},
 
+	-- {
+	-- 	'simrat39/rust-tools.nvim',
+	-- 	ft = "rust",
+	-- 	config = function()
+	-- 		require('rust-tools').setup {
+	-- 			tools = {
+	-- 				inlay_hints = {
+	-- 					only_current_line = true,
+	-- 				},
+	-- 			},
+	-- 			server = {
+	-- 				capabilities = LspCapabilities,
+	-- 				settings = {
+	-- 					 ['rust-analyzer'] = {
+	-- 						-- checkOnSave = {
+	-- 						-- 	command = "clippy"
+	-- 						-- },
+	-- 						inlayHints = {
+	-- 							closureReturnTypeHints = true,
+	-- 						},
+	-- 						imports = {
+	-- 							prefix = "self",
+	-- 						},
+	-- 					}
+	-- 				},
+	-- 			}
+	-- 		}
+	-- 	end,
+	-- },
+
 	{
-		'simrat39/rust-tools.nvim',
-		ft = "rust",
-		config = function()
-			require('rust-tools').setup {
-				tools = {
-					inlay_hints = {
-						only_current_line = true,
-					},
-				},
-				server = {
-					capabilities = LspCapabilities,
-					settings = {
-						 ['rust-analyzer'] = {
-							-- checkOnSave = {
-							-- 	command = "clippy"
-							-- },
-							inlayHints = {
-								closureReturnTypeHints = true,
-							},
-							imports = {
-								prefix = "self",
-							},
-						}
-					},
-				}
-			}
-		end,
+		'mrcjkb/rustaceanvim',
+		version = '^3', -- Recommended
+		ft = { 'rust' },
 	},
 
 	{
@@ -171,7 +216,7 @@ return {
 
 	{	-- lsp startup progress
 		'j-hui/fidget.nvim',
-		config = true,
+		-- config = true,
 	},
 
 	-- {	-- lsp context
