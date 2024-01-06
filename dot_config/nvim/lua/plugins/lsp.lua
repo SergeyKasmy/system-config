@@ -2,6 +2,7 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		dependencies = {
+			-- lsp startup progress
 			'j-hui/fidget.nvim',
 
 			-- lsp completions
@@ -29,6 +30,7 @@ return {
 					end
 				end
 			})
+
 			local lsp = require('lspconfig')
 			LspCapabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -214,11 +216,6 @@ return {
 		 end
 	},
 
-	{	-- lsp startup progress
-		'j-hui/fidget.nvim',
-		-- config = true,
-	},
-
 	-- {	-- lsp context
 	-- 	'SmiteshP/nvim-navic',
 	-- 	dependencies = 'neovim/nvim-lspconfig',
@@ -241,4 +238,17 @@ return {
 		end,
 	}
 	]]
+
+	{
+		'j-hui/fidget.nvim',
+		config = true,
+	},
+
+	{
+		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+		config = true,
+		init = function()
+			vim.diagnostic.config({ virtual_text = false })
+		end
+	},
 }
