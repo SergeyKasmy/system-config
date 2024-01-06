@@ -20,20 +20,6 @@ set -gx GTK_USE_PORTAL 1
 
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
-function gui
-	set -gx XDG_SESSION_TYPE wayland
-	set -gx XDG_CURRENT_DESKTOP sway
-	set -gx QT_QPA_PLATFORM wayland
-	#set -gx SDL_VIDEODRIVER wayland
-	set -gx MOZ_ENABLE_WAYLAND 1
-
-	systemctl --user import-environment XDG_CURRENT_DESKTOP
-	dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=sway
-
-	sway
-end
-
-
 if status is-login
 	set tty (tty)
 	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
