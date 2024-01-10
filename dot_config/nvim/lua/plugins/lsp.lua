@@ -24,7 +24,7 @@ return {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-					if client.server_capabilities.inlayHintProvider then
+					if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
 						vim.lsp.inlay_hint.enable(args.buf, true)
 					else
 					end
