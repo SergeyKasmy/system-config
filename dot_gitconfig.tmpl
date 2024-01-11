@@ -6,6 +6,18 @@
 
 [commit]
 	gpgsign = true
+{{- else }}
+
+[diff]
+	tool = winmerge
+[difftool "winmerge"]
+	cmd = "/mnt/c/Users/SCASMI/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
+
+[merge]
+	tool = winmerge
+[mergetool "winmerge"]
+	cmd = "/mnt/c/Users/SCASMI/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
+
 {{- end }}
 
 [core]
