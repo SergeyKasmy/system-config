@@ -6,6 +6,12 @@
 
 [commit]
 	gpgsign = true
+
+[diff]
+	tool = nvimdiff
+
+[merge]
+	tool = nvimdiff
 {{- else }}
 
 [diff]
@@ -17,7 +23,6 @@
 	tool = winmerge
 [mergetool "winmerge"]
 	cmd = "/mnt/c/Users/SCASMI/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
-
 {{- end }}
 
 [core]
@@ -36,8 +41,8 @@
 	d = diff
 	dc = diff --cached
 	dcs = diff --cached --stat
-	dt = difftool --tool=nvimdiff
-	dtc = difftool --tool=nvimdiff --cached
+	dt = difftool
+	dtc = difftool --cached
 	a = add
 	aa = add -A
 	c = commit
