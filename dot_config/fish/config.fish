@@ -28,7 +28,6 @@ if status is-login
 end
 
 if status is-interactive
-	
 	# disable the greeting
 	set fish_greeting
 
@@ -48,7 +47,6 @@ if status is-interactive
 	if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
 		set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 	end
-	
 
 	## Aliases and functions
 	
@@ -62,7 +60,11 @@ if status is-interactive
 	
 	# command shortcuts
 	#
+	alias ch 'chezmoi'
+	alias ch-git 'chezmoi git --'
+	alias ch-cd 'cd (chezmoi source-path)'
 	alias systemctlu 'systemctl --user'
+	alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	alias whatsmyip 'curl ipinfo.io/ip'
 	
 	if type gio >/dev/null 2>&1
@@ -95,12 +97,6 @@ if status is-interactive
 		end
 	end
 
-	if type chezmoi &>/dev/null
-		function chezmoi-cd
-			cd (chezmoi source-path)
-		end
-	end
-	
 	if type rsync &>/dev/null
 		function mvrs
 			rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
@@ -112,12 +108,6 @@ if status is-interactive
 		end
 	end
 
-	if type duf &>/dev/null
-		# alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
-		# alias dff "df -h"
-		alias dff duf
-	end
-
 	if type hyperfine &>/dev/null
 		alias bench 'hyperfine'
 	end
@@ -125,9 +115,7 @@ if status is-interactive
 	# these 2 are usually exlusive
 	if type paru &>/dev/null
 		alias y 'paru'
-	end
-
-	if type apt &>/dev/null
+	else if type apt &>/dev/null
 		alias y 'sudo apt update && sudo apt dist-upgrade'
 	end
 
@@ -216,23 +204,16 @@ if status is-interactive
 		function cmp-tree
 			nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
 		end
-	end
 
-	function cmp-hex
-		nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
-	end
-
-	# restart aliases
-	#
-	if type plasmashell >/dev/null 2>&1
-		alias plasma-restart 'killall plasmashell; start plasmashell'
+		function cmp-hex
+			nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
+		end
 	end
 
 	# functions
 	#
 	
 	if type pacman &>/dev/null
-		
 		# what packages depend on $pkg
 		function whoneeds
 			set -l pkg $argv[1]
@@ -260,8 +241,9 @@ if status is-interactive
 	#if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
 	#	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
 	#end
+
+	if [ -e $HOME/.config/fish/autoexec.fish ]
+		source $HOME/.config/fish/autoexec.fish
+	end
 end
 
-if [ -e $HOME/.config/fish/autoexec.fish ]
-	source $HOME/.config/fish/autoexec.fish
-end
