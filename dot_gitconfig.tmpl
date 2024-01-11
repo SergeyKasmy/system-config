@@ -1,6 +1,9 @@
 [user]
+{{- if .personal }}
 	name = {{ .personal.name }}
 	email = {{ .personal.email }}
+{{- end }}
+{{- /* personal machine*/}}
 {{- if ne .chezmoi.hostname "star" }}
 	signingkey = 324F28DB1BD0D0EC
 
@@ -12,6 +15,7 @@
 
 [merge]
 	tool = nvimdiff
+{{- /* work machine*/}}
 {{- else }}
 
 {{- /* wsl: don't touch line endings */}}
