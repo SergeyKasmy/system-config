@@ -54,12 +54,11 @@ if status is-interactive
 	
 	# config edit aliases
 	#
-	alias cfg-sway '$EDITOR ~/.config/sway/config'
-	alias cfg-i3 '$EDITOR ~/.config/i3/config'
-	alias cfg-fish '$EDITOR ~/.config/fish/config.fish'
-	alias cfg-polybar '$EDITOR ~/.config/polybar/config'
-	alias cfg-nvim '$EDITOR ~/.config/nvim/init.lua'
-	alias cfg-tmux '$EDITOR ~/.config/tmux/tmux.conf'
+	alias cfg-fish		'chezmoi edit -av ~/.config/fish/'
+	alias cfg-nvim		'chezmoi edit -av ~/.config/nvim/'
+	alias cfg-sway		'chezmoi edit -av ~/.config/sway/config'
+	alias cfg-tmux		'chezmoi edit -av ~/.config/tmux/tmux.conf'
+	alias cfg-waybar	'chezmoi edit -av ~/.config/waybar/'
 	
 	# command shortcuts
 	#
