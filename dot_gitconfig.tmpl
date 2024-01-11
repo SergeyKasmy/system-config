@@ -14,6 +14,10 @@
 	tool = nvimdiff
 {{- else }}
 
+{{- /* wsl: don't touch line endings */}}
+[core]
+	autocrlf = false
+
 [diff]
 	tool = winmerge
 [difftool "winmerge"]
@@ -26,7 +30,6 @@
 {{- end }}
 
 [core]
-	autocrlf = input
 	pager = bat -p
 
 [init]
