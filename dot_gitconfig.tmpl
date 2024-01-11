@@ -1,7 +1,20 @@
 [user]
-	name = Sergey Kasmy
-	email = SleeplessSloth79@gmail.com
+	name = {{ .personal.name }}
+	email = {{ .personal.email }}
+{{- if ne .chezmoi.hostname "star" }}
 	signingkey = 324F28DB1BD0D0EC
+
+[commit]
+	gpgsign = true
+{{- end }}
+
+[core]
+	autocrlf = input
+	pager = bat -p
+
+[init]
+	defaultBranch = main
+
 [alias]
 	s = status
 	sw = switch
@@ -18,10 +31,3 @@
 	c = commit
 	r = restore
 	exec = "!exec "
-[commit]
-	gpgsign = true
-[core]
-	autocrlf = input
-	pager = bat -p
-[init]
-	defaultBranch = main
