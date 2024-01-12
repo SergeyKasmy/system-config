@@ -60,6 +60,16 @@ if status is-interactive
 	
 	# command shortcuts
 	#
+
+	# util
+	function is_defined
+		type $argv[1] &>/dev/null
+	end
+
+	function alias_if_defined
+		is_defined $argv[2] && alias $argv[1] $argv[2]
+	end
+
 	alias ch 'chezmoi'
 	alias ch-git 'chezmoi git --'
 	alias ch-cd 'cd (chezmoi source-path)'
@@ -67,18 +77,18 @@ if status is-interactive
 	alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	alias whatsmyip 'curl ipinfo.io/ip'
 	
-	if type gio >/dev/null 2>&1
+	if is_defined gio
 		alias tp 'gio trash'
 	end
 
-	if type tar >/dev/null 2>&1
+	if is_defined tar
 		function tarz
 			set cpus (cat /proc/cpuinfo | grep processor | wc -l)
 			tar -I "zstd -T$cpus" $argv
 		end
 	end
 
-	if type udisksctl >/dev/null 2>&1
+	if is_defined udisksctl
 		function mountusr
 			udisksctl mount -b $argv[1]
 		end
@@ -97,7 +107,7 @@ if status is-interactive
 		end
 	end
 
-	if type rsync &>/dev/null
+	if is_defined rsync
 		function mvrs
 			rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
 			if type fd >/dev/null 2>&1
@@ -108,20 +118,28 @@ if status is-interactive
 		end
 	end
 
-	if type hyperfine &>/dev/null
-		alias bench 'hyperfine'
-	end
+	alias_if_defined bench 'hyperfine'
 
-	# these 2 are usually exlusive
-	if type paru &>/dev/null
+	if is_defined paru
 		alias y 'paru'
-	else if type apt &>/dev/null
-		alias y 'sudo apt update && sudo apt dist-upgrade'
+	else if is_defined pacman
+		alias y 'pacman'
+	else if is_defined apt
+		alias y 'apt'
 	end
 
-	if type topgrade &>/dev/null
+	if is_defined topgrade
 		alias yy 'topgrade'
+	else if is_defined paru
+		alias yy 'paru -Syu'
+	else if is_defined pacman
+		alias yy 'sudo pacman -Syu'
+	else if is_defined apt
+		alias yy 'sudo apt update && sudo apt dist-upgrade'
+	else if is_defined zypper
+		alias yy 'sudo zypper update && sudo zypper dist-upgrade'
 	end
+
 
 	## ls
 	# 
@@ -130,9 +148,7 @@ if status is-interactive
 	##   -F, --classify             append indicator (one of */=>@|) to entries
 	##   -h, --human-readable       with -l and/or -s, print human readable sizes
 	##   -C                         list entries by columns
-	if type lsd &>/dev/null
-		alias ls 'lsd'
-	end
+	alias_if_defined ls 'lsd'
 	alias la 'ls -A'
 	alias ll 'ls -l'
 	alias lla 'ls -Al'
@@ -143,7 +159,7 @@ if status is-interactive
 	#
 	
 	# dissalow nested ranger instances
-	if type ranger >/dev/null 2>&1
+	if is_defined ranger
 		function ranger
 			if [ -z "$RANGER_LEVEL" ]
 				/usr/bin/ranger "$argv"	
@@ -154,32 +170,22 @@ if status is-interactive
 	end
 	
 	# use .config/tmux.conf as the tmux config
-	if type tmux >/dev/null 2>&1
-		alias tmux "tmux -f $HOME/.config/tmux/tmux.conf"
-	end
+	alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 
 	# use bat instead of cat
-	if type bat >/dev/null 2>&1
-		alias cat bat
-	end
+	alias_if_defined cat bat
 
 	# custom lsblk colums
-	if type lsblk >/dev/null 2>&1
-		alias lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
-	end
+	alias_if_defined lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
 
 	# always create parent dirs
-	if type mkdir >/dev/null 2>&1
-		alias mkdir 'mkdir -p'
-	end
+	alias_if_defined mkdir 'mkdir -p'
 	
 	# colored ip
-	if type ip >/dev/null 2>&1
-		alias ip 'ip -c'
-	end
+	alias_if_defined ip 'ip -c'
 
 	# virsh - connect to qemu:///system by default
-	if type virsh >/dev/null 2>&1
+	if is_defined virsh
 		alias virsh 'virsh --connect qemu:///system'
 		alias virsh_ /bin/virsh
 
@@ -192,37 +198,47 @@ if status is-interactive
 		end
 	end
 
-	if type virt-viewer >/dev/null 2>&1
+	if is_defined virt-viewer
 		function virtview
 			start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
 		end
 	end
 
-	if type nvim >/dev/null 2>&1
+	if is_defined nvim
 		alias v nvim
 
-		function cmp-tree
-			nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
+		if is_defined tree
+			function cmp-tree
+				nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
+			end
 		end
 
-		function cmp-hex
-			nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
+		if is_defined xxd
+			function cmp-hex
+				nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
+			end
 		end
+	else if is_defined vim
+		alias v vim
+	else if is_defined vi
+		alias v vi
 	end
 
 	# functions
 	#
 	
-	if type pacman &>/dev/null
-		# what packages depend on $pkg
-		function whoneeds
-			set -l pkg $argv[1]
-			echo "Packages that depend on [$pkg]"
-			comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
+	if is_defined pacman
+		if is_defined pactree
+			# what packages depend on $pkg
+			function whoneeds
+				set -l pkg $argv[1]
+				echo "Packages that depend on [$pkg]"
+				comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
+			end
 		end
 
 		# download a package from AUR
-		if ! type aur &>/dev/null
+		if ! is_defined aur && is_defined git && is_defined makepkg
 			function aur
 				if set -q argv[1]
 					git clone https://aur.archlinux.org/$argv[1].git
