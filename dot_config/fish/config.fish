@@ -123,9 +123,11 @@ if status is-interactive
 	if is_defined paru
 		alias y 'paru'
 	else if is_defined pacman
-		alias y 'pacman'
+		alias y 'sudo pacman'
+	else if is_defined nala
+		alias y 'sudo nala'
 	else if is_defined apt
-		alias y 'apt'
+		alias y 'sudo apt'
 	end
 
 	if is_defined topgrade
@@ -134,6 +136,8 @@ if status is-interactive
 		alias yy 'paru -Syu'
 	else if is_defined pacman
 		alias yy 'sudo pacman -Syu'
+	else if is_defined nala
+		alias yy 'sudo nala upgrade'
 	else if is_defined apt
 		alias yy 'sudo apt update && sudo apt dist-upgrade'
 	else if is_defined zypper
