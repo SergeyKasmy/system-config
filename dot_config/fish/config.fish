@@ -177,7 +177,7 @@ if status is-interactive
 	alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 
 	# use bat instead of cat
-	alias_if_defined cat bat
+	alias_if_defined cat 'bat -pp'
 
 	# custom lsblk colums
 	alias_if_defined lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
