@@ -1,0 +1,13 @@
+layout {
+	pane
+
+	// tab bar & status bar at the bottom
+	pane split_direction="vertical" size=1 {
+		pane size="45%" {
+			plugin location="zellij:compact-bar"
+		}
+		pane {
+			plugin location="zellij:status-bar"
+		}
+	}
+}
