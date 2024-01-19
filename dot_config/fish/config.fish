@@ -31,9 +31,21 @@ if status is-interactive
 	# disable the greeting
 	set fish_greeting
 
-	if type jump &>/dev/null
-		jump shell fish | source
+	# util
+	function is_defined
+		type $argv[1] &>/dev/null
 	end
+
+	function alias_if_defined
+		is_defined $argv[2] && alias $argv[1] $argv[2]
+	end
+
+
+	# replace shell with zellij if this session is run through ssh
+	if [ -n "$SSH_CLIENT" ] && is_defined zellij && [ -z "$ZELLIJ" ]
+		exec zellij attach --create
+	end
+
 	
 
 	## Variables
@@ -61,25 +73,16 @@ if status is-interactive
 	# command shortcuts
 	#
 
-	# util
-	function is_defined
-		type $argv[1] &>/dev/null
-	end
 
-	function alias_if_defined
-		is_defined $argv[2] && alias $argv[1] $argv[2]
-	end
-
+	# chezmoi should always be defined because the config wouldn't exist without it
 	alias ch 'chezmoi'
 	alias ch-git 'chezmoi git --'
 	alias ch-cd 'cd (chezmoi source-path)'
-	alias systemctlu 'systemctl --user'
-	alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
-	alias whatsmyip 'curl ipinfo.io/ip'
+	is_defined systemctl	&& alias systemctlu 'systemctl --user'
+	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
+	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
 	
-	if is_defined gio
-		alias tp 'gio trash'
-	end
+	is_defined gio && alias tp 'gio trash'
 
 	if is_defined tar
 		function tarz
@@ -119,6 +122,7 @@ if status is-interactive
 	end
 
 	alias_if_defined bench 'hyperfine'
+	is_defined zellij && alias z 'zellij attach --create'
 
 	if is_defined paru
 		alias y 'paru'
@@ -144,7 +148,6 @@ if status is-interactive
 		alias yy 'sudo zypper update && sudo zypper dist-upgrade'
 	end
 
-
 	## ls
 	# 
 	##   -A, --almost-all           do not list implied . and ..
@@ -157,6 +160,10 @@ if status is-interactive
 	alias ll 'ls -l'
 	alias lla 'ls -Al'
 	alias ls_ '/bin/ls'
+
+	if is_defined jump
+		jump shell fish | source
+	end
 	
 
 	# overrides
