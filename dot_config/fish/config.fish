@@ -163,10 +163,12 @@ if status is-interactive
 	#
 	
 	# dissalow nested ranger instances
-	if is_defined ranger
+	if is_defined joshuto
+		alias ranger 'joshuto'
+	else if is_defined ranger
 		function ranger
 			if [ -z "$RANGER_LEVEL" ]
-				/usr/bin/ranger "$argv"	
+				command ranger "$argv"	
 			else
 				exit
 			end
