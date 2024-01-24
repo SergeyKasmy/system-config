@@ -216,7 +216,11 @@ if status is-interactive
 	end
 
 	if is_defined nvim
-		alias v nvim
+		alias v 'nvim'
+
+		function voil
+			nvim oil://$argv[1]
+		end
 
 		if is_defined tree
 			function cmp-tree
