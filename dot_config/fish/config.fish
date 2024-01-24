@@ -39,13 +39,6 @@ if status is-interactive
 	function alias_if_defined
 		is_defined $argv[2] && alias $argv[1] $argv[2]
 	end
-
-
-	# replace shell with zellij if this session is run through ssh
-	if [ -n "$SSH_CLIENT" ] && is_defined zellij && [ -z "$ZELLIJ" ]
-		exec zellij attach --create
-	end
-
 	
 
 	## Variables
