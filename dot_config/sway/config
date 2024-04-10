@@ -500,7 +500,7 @@ input type:mouse {
 	pointer_accel 0.9
 }
 
-output DP-3 res 2560x1440@144Hz scale 1.25
+output DP-1 res 2560x1440@170Hz scale 1.25
 output HDMI-A-1 pos 0 0 scale 1.1
 # TV
 # output HDMI-A-1 res 1920x1080@120Hz
