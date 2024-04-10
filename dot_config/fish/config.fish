@@ -37,7 +37,12 @@ if status is-interactive
 	end
 
 	function alias_if_defined
-		is_defined $argv[2] && alias $argv[1] $argv[2]
+		set basename (echo -- $argv[2] | string split ' ')[1]
+		if is_defined $basename
+			alias $argv[1] $argv[2]
+		else
+			alias $argv[1] "echo $basename isn\'t installed"
+		end
 	end
 	
 
