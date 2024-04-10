@@ -77,6 +77,7 @@ if status is-interactive
 	alias ch 'chezmoi'
 	alias chgit 'chezmoi git --'
 	alias chcd 'cd (chezmoi source-path)'
+	alias che 'chezmoi edit -av'
 	is_defined systemctl	&& alias systemctlu 'systemctl --user'
 	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
