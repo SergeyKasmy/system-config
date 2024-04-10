@@ -1,6 +1,6 @@
 #!/bin/sh
 
-OUTPUT="DP-3"
+OUTPUT="DP-1"
 SCALING="1.25"
 
 if [ -n "$1" ]; then
