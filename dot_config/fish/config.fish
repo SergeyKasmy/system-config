@@ -79,8 +79,13 @@ if status is-interactive
 	is_defined systemctl	&& alias systemctlu 'systemctl --user'
 	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
+	is_defined gio			&& alias tp 'gio trash'
 	
-	is_defined gio && alias tp 'gio trash'
+	if is_defined dua
+		alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
+		test -d /mnt/hdd	&& alias dua-hdd	'dua -i /mnt/hdd/.root -i /mnt/hdd/.snapshots i /mnt/hdd'
+		test -d /mnt/raid	&& alias dua-raid	'dua  i /mnt/raid'
+	end
 
 	if is_defined tar
 		function tarz
@@ -130,6 +135,10 @@ if status is-interactive
 		alias y 'sudo nala'
 	else if is_defined apt
 		alias y 'sudo apt'
+	else if is_defined zypper
+		alias y 'sudo zypper'
+	else
+		alias y 'echo Can\'t find any of the supported package managers: paru, pacman, nala, apt, zypper'
 	end
 
 	if is_defined topgrade
@@ -144,6 +153,8 @@ if status is-interactive
 		alias yy 'sudo apt update && sudo apt dist-upgrade'
 	else if is_defined zypper
 		alias yy 'sudo zypper update && sudo zypper dist-upgrade'
+	else
+		alias yy 'echo Can\'t find any of the supported system update tools: topgrade, paru, pacman, nala, apt, zypper'
 	end
 
 	## ls
@@ -226,6 +237,10 @@ if status is-interactive
 			function cmp-tree
 				nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
 			end
+
+			function cmp-tree-all
+				nvim -d (tree -a $argv[1] | psub) (tree -a $argv[2] | psub)
+			end
 		end
 
 		if is_defined xxd
@@ -253,13 +268,19 @@ if status is-interactive
 		end
 
 		# download a package from AUR
-		if ! is_defined aur && is_defined git && is_defined makepkg
-			function aur
-				if set -q argv[1]
-					git clone https://aur.archlinux.org/$argv[1].git
-					cd $argv[1]
-					makepkg -si
-				else; false; end
+		if ! is_defined aur
+			if is_defined git && is_defined makepkg
+				function aur
+					if set -q argv[1]
+						git clone https://aur.archlinux.org/$argv[1].git
+						cd $argv[1]
+						makepkg -si
+					else; false; end
+				end
+			else if ! is_defined git
+				alias aur 'echo git is not installed'
+			else if ! is_defined makepkg
+				alias aur 'makepkg is not installed'
 			end
 		end
 	end
