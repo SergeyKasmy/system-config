@@ -15,8 +15,9 @@ set -gx --path XDG_DATA_DIRS '/home/ciren/.local/share/flatpak/exports/share' $X
 
 
 #set -gx XDG_CURRENT_DESKTOP KDE
-set -gx QT_QPA_PLATFORMTHEME qt5ct
+#set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx GTK_USE_PORTAL 1
+set -Ux GNUPGHOME "~/.config/gpg"
 
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
