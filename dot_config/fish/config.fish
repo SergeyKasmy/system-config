@@ -74,8 +74,8 @@ if status is-interactive
 
 	# chezmoi should always be defined because the config wouldn't exist without it
 	alias ch 'chezmoi'
-	alias ch-git 'chezmoi git --'
-	alias ch-cd 'cd (chezmoi source-path)'
+	alias chgit 'chezmoi git --'
+	alias chcd 'cd (chezmoi source-path)'
 	is_defined systemctl	&& alias systemctlu 'systemctl --user'
 	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
