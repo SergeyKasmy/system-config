@@ -37,11 +37,18 @@ if status is-interactive
 	end
 
 	function alias_if_defined
-		set basename (echo -- $argv[2] | string split ' ')[1]
+		set alias $argv[1]
+		set target $argv[2]
+
+		# get the first part of the target cmd, before the first space if any
+		set basename (echo -- $target | string split ' ')[1]
+
+		# if this binary exists
 		if is_defined $basename
-			alias $argv[1] $argv[2]
+
+			alias $alias $target
 		else
-			alias $argv[1] "echo $basename isn\'t installed"
+			alias $alias "echo $basename isn\'t installed"
 		end
 	end
 	
