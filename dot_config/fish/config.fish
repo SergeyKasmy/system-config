@@ -88,6 +88,12 @@ if status is-interactive
 	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
 	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
 	is_defined gio			&& alias tp 'gio trash'
+
+	if is_defined pacman 
+		function bins
+			pacman -Ql $argv[1] | grep /usr/bin/
+		end
+	end
 	
 	if is_defined dua
 		alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
