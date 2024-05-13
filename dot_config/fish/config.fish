@@ -193,7 +193,9 @@ if status is-interactive
 	#
 	
 	# dissalow nested ranger instances
-	if is_defined joshuto
+	if is_defined yazi
+		alias ranger 'yazi'
+	else if is_defined joshuto
 		alias ranger 'joshuto'
 	else if is_defined ranger
 		function ranger
