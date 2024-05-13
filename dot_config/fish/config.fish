@@ -13,9 +13,8 @@ end
 
 set -gx --path XDG_DATA_DIRS '/home/ciren/.local/share/flatpak/exports/share' $XDG_DATA_DIRS
 
-
-#set -gx XDG_CURRENT_DESKTOP KDE
-#set -gx QT_QPA_PLATFORMTHEME qt5ct
+set -gx QT_QPA_PLATFORMTHEME qt5ct:qt6ct
+set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set -gx GTK_USE_PORTAL 1
 set -Ux GNUPGHOME "~/.config/gpg"
 
