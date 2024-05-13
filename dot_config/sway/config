@@ -7,6 +7,9 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 #gaps outer 0
 #smart_gaps on
 
+#blur enable
+shadows enable
+
 # titlebar font
 font pango:sans 8
 
@@ -447,6 +450,7 @@ for_window [workspace=$ws-gaming] floating enable
 # for_window [class="Steam" title="^Steam$"] floating disable
 # for_window [app_id="lutris"] floating disable
 for_window [class="obs" title="^Settings$"] floating disable, border none
+for_window [shell="xwayland"] title_format "[XWayland] %title"
 
 
 # workspace assignment
