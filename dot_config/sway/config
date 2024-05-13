@@ -476,8 +476,10 @@ assign [class="csgo_linux64"] $ws-gaming
 ##-----------------------------------------------------------------------------------------------------------
 ## Apps
 
+bindsym $win+m exec --no-startup-id swaync-client -t
+
 # xkill
-bindsym $alt+$win+F4 --release exec --no-startup-id xkill
+#bindsym $alt+$win+F4 --release exec --no-startup-id xkill
 
 # rofi
 bindsym $win+d exec --no-startup-id rofi -show combi
@@ -520,7 +522,7 @@ bar {
     swaybar_command waybar
 }
 
-exec mako
+exec swaync
 exec gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479
 
 exec org.telegram.desktop
