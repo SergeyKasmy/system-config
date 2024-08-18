@@ -8,7 +8,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 #smart_gaps on
 
 #blur enable
-shadows enable
+#shadows enable
 
 # titlebar font
 font pango:sans 8
@@ -501,11 +501,12 @@ input type:keyboard {
 	xkb_numlock	enabled
 }
 
-input type:mouse {
+input type:pointer {
 	accel_profile flat
-	pointer_accel 0.9
+	pointer_accel -0.2
 }
 
+#output DP-1 res 2560x1440@170Hz scale 1.25 adaptive_sync on
 output DP-1 res 2560x1440@170Hz scale 1.25
 output HDMI-A-1 pos 0 0 scale 1.1
 # TV

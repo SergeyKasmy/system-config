@@ -79,6 +79,7 @@ window#waybar.chromium {
 #tray,
 #mode,
 #idle_inhibitor,
+#upower,
 #mpd {
     padding: 0 10px;
     color: #ffffff;
@@ -103,14 +104,17 @@ window#waybar.chromium {
     background-color: #64727D;
 }
 
-#battery {
+#battery,
+#upower {
     background-color: #ffffff;
     color: #000000;
 }
 
-#battery.charging, #battery.plugged {
-    color: #ffffff;
+#battery.charging,
+#battery.plugged,
+#upower.charging {
     background-color: #26A65B;
+    color: #ffffff;
 }
 
 @keyframes blink {

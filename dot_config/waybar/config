@@ -8,7 +8,7 @@
 		"spacing": 7,
 	    "modules-left": ["sway/workspaces", "sway/mode"],
 	    "modules-center": ["sway/window"],
-	    "modules-right": ["pulseaudio", "cpu", "memory", "custom/free_space", "temperature", "backlight", "sway/language", "battery", "tray", "clock"],
+	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "temperature", "backlight", "sway/language", "battery", "tray", "clock"],
 		"sway/workspaces": {
 			"all-outputs": true,
 		},
@@ -74,6 +74,11 @@
 	        },
 	        "on-click": "pavucontrol-qt"
 	    },
+		"upower#mouse": {
+			"native-path": "hidpp_battery_0",
+			"format": "{percentage} 󰍽",
+			"show-icon": false
+		},
 		"custom/free_space": {
 			"exec": "free-space min --ignore '/boot,/.root,/.snapshots,/home/ciren/.snapshots,/mnt/hdd/.root,/mnt/hdd/.snapshots'",
 			"interval": 30,
