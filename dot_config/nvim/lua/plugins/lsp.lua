@@ -242,6 +242,7 @@ return {
 		config = true,
 	},
 
+	--[[
 	{
 		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
 		config = function()
@@ -253,4 +254,5 @@ return {
 				{ desc = "Toggle lsp_lines" })
 		end,
 	},
+	--]]
 }
