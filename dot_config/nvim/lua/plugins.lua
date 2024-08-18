@@ -63,13 +63,13 @@ return {
 			'nvim-tree/nvim-web-devicons',
 		},
 		keys = {
-			{ '<Leader>dd', '<cmd>Telescope git_files<enter>' },
-			{ '<Leader>dD', '<cmd>Telescope find_files<enter>' },
-			{ '<Leader>ds', '<cmd>Telescope lsp_document_symbols<enter>' },
-			{ '<Leader>de', '<cmd>Telescope diagnostics<enter>' },
-			{ '<Leader>df', '<cmd>Telescope live_grep<enter>' },
-			{ '<Leader>dt', '<cmd>Telescope treesitter<enter>' },
-			{ '<Leader>dp', '<cmd>Telescope projects<enter>' },
+			{ '<Leader>dd', '<cmd>Telescope git_files<enter>', desc = "Telescope: View non-git-ignored files" },
+			{ '<Leader>dD', '<cmd>Telescope find_files<enter>', desc = "Telescope: View all files" },
+			{ '<Leader>ds', '<cmd>Telescope lsp_document_symbols<enter>', desc = "Telescope: View LSP symbols" },
+			{ '<Leader>de', '<cmd>Telescope diagnostics<enter>', desc = "Telescope: View all diagnostics" },
+			{ '<Leader>df', '<cmd>Telescope live_grep<enter>', desc = "Telescope: Grep all files" },
+			{ '<Leader>dt', '<cmd>Telescope treesitter<enter>', desc = "Telescope: View all tree-sitter items" },
+			{ '<Leader>dp', '<cmd>Telescope projects<enter>', desc = "Telescope: View all projects" },
 		},
 		config = true,
 	},
@@ -111,7 +111,7 @@ return {
 		dependencies = 'nvim-tree/nvim-web-devicons',
 		cmd = 'NvimTreeToggle',
 		keys = {
-			{ '<Leader>e', '<cmd>NvimTreeToggle<enter>' }
+			{ '<Leader>e', '<cmd>NvimTreeToggle<enter>', desc = "NvimTree: Toggle" }
 		},
 		config = function()
 			require('nvim-tree').setup {
@@ -124,10 +124,10 @@ return {
 						return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true, nowait = true }
 					end
 
-					vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
-					vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
-					vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
-					vim.keymap.set('n', 'C', api.tree.change_root_to_node, opts('cd'))
+					map('n', 'l', api.node.open.edit, opts('Open'))
+					map('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+					map('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+					map('n', 'C', api.tree.change_root_to_node, opts('cd'))
 				end
 			}
 		end,
@@ -226,7 +226,7 @@ return {
 		'David-Kunz/treesitter-unit',
 		dependencies = 'nvim-treesitter/nvim-treesitter',
 		keys = {
-			{ '<Leader>h', '<cmd>lua require"treesitter-unit".toggle_highlighting()<enter>' }
+			{ '<Leader>h', '<cmd>lua require"treesitter-unit".toggle_highlighting()<enter>', desc = "Highlight current tree-sitter unit" }
 		},
 	},
 

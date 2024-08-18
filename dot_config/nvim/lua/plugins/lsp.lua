@@ -9,32 +9,33 @@ return {
 			'hrsh7th/cmp-nvim-lsp',
 		},
 		lazy = false,
-		keys = {
-			{ 'K', '<cmd>lua vim.lsp.buf.hover()<enter>' },
-			{ '<LeftRelease>', '<cmd>lua vim.lsp.buf.hover()<enter>' },
-			{ '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<enter>' },
-			{ 'g[', '<cmd>lua vim.diagnostic.goto_prev()<enter>' },
-			{ 'g]', '<cmd>lua vim.diagnostic.goto_next()<enter>' },
-			{ 'ga', '<cmd>lua vim.lsp.buf.code_action()<enter>' },
-			{ 'gr', '<cmd>lua vim.lsp.buf.rename()<enter>' },
-		},
 		config = function()
-			-- enable inlay hints
+			-- when attached to an LSP server: change binds to add LSP actions and enable inlay hints
 			vim.api.nvim_create_autocmd('LspAttach', {
 				callback = function(args)
+					map('n', '<C-k>', vim.lsp.buf.signature_help, { desc = "LSP: Signature help" })
+					map('n', 'K', vim.lsp.buf.hover, { desc = "LSP: Hover Info" })
+					map('n', '<LeftRelease>', vim.lsp.buf.hover, { desc = "LSP: Hover info" })
+					map('n', '<Leader>a', vim.lsp.buf.code_action, { desc = "LSP: Code action" })
+					map('n', '<Leader>r', vim.lsp.buf.rename, { desc = "LSP: Rename item under cursor" })
+					map('n', '<Leader>f', vim.lsp.buf.format, { desc = "LSP: Format buffer" })
+
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 
 					if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
 						print(args.buf)
-						vim.lsp.inlay_hint.enable(true, { buffnr = args.buf } )
-						vim.keymap.set('n', '<leader>i', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 }) end)
-					else
+						vim.lsp.inlay_hint.enable(true, { buffnr = args.buf })
+						map('n', '<Leader>i',
+							function()
+								vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }),
+									{ bufnr = 0 })
+							end, { desc = "LSP: Toggle inlay hints" })
 					end
 				end
 			})
 
 			local lsp = require('lspconfig')
-			LspCapabilities = require('cmp_nvim_lsp').default_capabilities()
+			local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 			-- servers that don't require any custom configuration
 			local common_servers = {
@@ -52,12 +53,12 @@ return {
 
 			for _, server in ipairs(common_servers) do
 				lsp[server].setup {
-					capabilities = LspCapabilities,
+					capabilities = lsp_capabilities,
 				}
 			end
 
 			lsp.lua_ls.setup {
-				capabilities = LspCapabilities,
+				capabilities = lsp_capabilities,
 				on_init = function(client)
 					local path = client.workspace_folders[1].name
 
@@ -70,16 +71,16 @@ return {
 									-- (most likely LuaJIT in the case of Neovim)
 									version = 'LuaJIT'
 								},
-							-- Make the server aware of Neovim runtime files
-							workspace = {
-								checkThirdParty = false,
-								--[[	just the vim runtime
+								-- Make the server aware of Neovim runtime files
+								workspace = {
+									checkThirdParty = false,
+									--[[	just the vim runtime
 								library = {
 									vim.env.VIMRUNTIME
 								}
 								]]
-								-- or everything, including plugins
-								library = vim.api.nvim_get_runtime_file("", true),
+									-- or everything, including plugins
+									library = vim.api.nvim_get_runtime_file("", true),
 								}
 							}
 						})
@@ -90,7 +91,7 @@ return {
 				end,
 			}
 
-			-- autoformat on save using lsp formatter
+			-- autoformat on save for some specific filetypes using lsp formatter
 			for _, ft in ipairs({ 'rs' }) do
 				vim.api.nvim_create_autocmd("BufWritePre", {
 					pattern = string.format('*.%s', ft),
@@ -98,7 +99,7 @@ return {
 				})
 			end
 
-			--[[ 
+			--[[
 			-- autoformat in web projects
 			for _, ft in ipairs({ 'js', 'ts', 'jsx', 'tsx', 'css', 'html' }) do
 				vim.cmd(string.format('autocmd BufWritePre *.%s !prettier -w src/', ft))
@@ -108,7 +109,7 @@ return {
 	},
 
 	{
-	 	"williamboman/mason.nvim",
+		"williamboman/mason.nvim",
 		config = true,
 	},
 
@@ -118,7 +119,7 @@ return {
 			'hrsh7th/cmp-buffer',
 			'hrsh7th/cmp-nvim-lsp',
 			'hrsh7th/cmp-nvim-lsp-signature-help',
-			'hrsh7th/cmp-nvim-lua',	-- nvim lua API
+			'hrsh7th/cmp-nvim-lua', -- nvim lua API
 			'hrsh7th/cmp-path',
 			'hrsh7th/cmp-vsnip',
 			'hrsh7th/vim-vsnip',
@@ -127,7 +128,7 @@ return {
 		config = function()
 			local cmp = require('cmp')
 			cmp.setup {
-				  -- Enable LSP snippets
+				-- Enable LSP snippets
 				snippet = {
 					expand = function(args)
 						vim.fn["vsnip#anonymous"](args.body)
@@ -160,12 +161,12 @@ return {
 					}),
 				},
 				sources = {
-						{ name = 'buffer' },
-						{ name = 'nvim_lsp' },
-						{ name = 'nvim_lsp_signature_help' },
-						{ name = 'nvim_lua' },
-						{ name = 'path' },
-						{ name = 'vsnip' },
+					{ name = 'buffer' },
+					{ name = 'nvim_lsp' },
+					{ name = 'nvim_lsp_signature_help' },
+					{ name = 'nvim_lua' },
+					{ name = 'path' },
+					{ name = 'vsnip' },
 				}
 			}
 		end
@@ -183,27 +184,28 @@ return {
 							checkOnSave = {
 								command = "clippy"
 							},
-	 						inlayHints = {
-	 							closureReturnTypeHints = true,
-	 						},
-	 						imports = {
-	 							prefix = "self",
-	 						},
+							inlayHints = {
+								closureReturnTypeHints = true,
+							},
+							imports = {
+								prefix = "self",
+							},
 						}
 					}
 				}
 			}
-		end,
-		init = function()
+
 			-- rebind J to use structured joining instead
-			vim.keymap.set({'n', 'v'}, 'J', "<cmd>RustLsp joinLines<enter>")
-		end
+			map({ 'n', 'v' }, 'J', '<cmd>RustLsp joinLines<enter>', { desc = "Rust: structurally join lines" })
+			map('n', '<leader>mu', '<cmd>RustLsp moveItem up<enter>', { desc = "Rust: move item up" })
+			map('n', '<leader>md', '<cmd>RustLsp moveItem up<enter>', { desc = "Rust: move item down" })
+		end,
 	},
 
 	{
-		 'mfussenegger/nvim-lint',
-		 ft = "sh",
-		 config = function()
+		'mfussenegger/nvim-lint',
+		ft = "sh",
+		config = function()
 			require('lint').linters_by_ft = {
 				sh = { 'shellcheck' }
 			}
@@ -213,18 +215,8 @@ return {
 					require("lint").try_lint()
 				end,
 			})
-		 end
+		end
 	},
-
-	-- {	-- lsp context
-	-- 	'SmiteshP/nvim-navic',
-	-- 	dependencies = 'neovim/nvim-lspconfig',
-	-- 	lazy = true,
-	-- 	init = function()
-	-- 		vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
-	-- 	end,
-	-- 	config = true,
-	-- },
 
 	--[[
 	-- nvim api completions
@@ -246,9 +238,13 @@ return {
 
 	{
 		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-		config = true,
-		init = function()
+		config = function()
 			vim.diagnostic.config({ virtual_text = false })
-		end
+			require('lsp_lines').setup()
+			map('n', '<Leader>l', function()
+					require('lsp_lines').toggle()
+				end,
+				{ desc = "Toggle lsp_lines" })
+		end,
 	},
 }
