@@ -25,7 +25,9 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 
 					if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
-						vim.lsp.inlay_hint.enable(args.buf, true)
+						print(args.buf)
+						vim.lsp.inlay_hint.enable(true, { buffnr = args.buf } )
+						vim.keymap.set('n', '<leader>i', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 }) end)
 					else
 					end
 				end
@@ -36,17 +38,17 @@ return {
 
 			-- servers that don't require any custom configuration
 			local common_servers = {
-											'clangd',
-											'cmake',
-											'cssls',
-											'eslint',
-											'gopls',
-											'hls',
-											'html',
-											'jsonls',
-											'pyright',
-											'tsserver',
-										}
+				'clangd',
+				'cmake',
+				'cssls',
+				'eslint',
+				'gopls',
+				'hls',
+				'html',
+				'jsonls',
+				'pyright',
+				'tsserver',
+			}
 
 			for _, server in ipairs(common_servers) do
 				lsp[server].setup {
