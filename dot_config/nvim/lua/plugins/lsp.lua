@@ -171,40 +171,33 @@ return {
 		end
 	},
 
-	-- {
-	-- 	'simrat39/rust-tools.nvim',
-	-- 	ft = "rust",
-	-- 	config = function()
-	-- 		require('rust-tools').setup {
-	-- 			tools = {
-	-- 				inlay_hints = {
-	-- 					only_current_line = true,
-	-- 				},
-	-- 			},
-	-- 			server = {
-	-- 				capabilities = LspCapabilities,
-	-- 				settings = {
-	-- 					 ['rust-analyzer'] = {
-	-- 						-- checkOnSave = {
-	-- 						-- 	command = "clippy"
-	-- 						-- },
-	-- 						inlayHints = {
-	-- 							closureReturnTypeHints = true,
-	-- 						},
-	-- 						imports = {
-	-- 							prefix = "self",
-	-- 						},
-	-- 					}
-	-- 				},
-	-- 			}
-	-- 		}
-	-- 	end,
-	-- },
-
 	{
 		'mrcjkb/rustaceanvim',
-		version = '^3', -- Recommended
+		version = '^5',
 		ft = { 'rust' },
+		config = function()
+			vim.g.rustaceanvim = {
+				server = {
+					default_settings = {
+						['rust_analyzer'] = {
+							checkOnSave = {
+								command = "clippy"
+							},
+	 						inlayHints = {
+	 							closureReturnTypeHints = true,
+	 						},
+	 						imports = {
+	 							prefix = "self",
+	 						},
+						}
+					}
+				}
+			}
+		end,
+		init = function()
+			-- rebind J to use structured joining instead
+			vim.keymap.set({'n', 'v'}, 'J', "<cmd>RustLsp joinLines<enter>")
+		end
 	},
 
 	{
