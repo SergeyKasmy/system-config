@@ -91,11 +91,17 @@ return {
 				end,
 			}
 
+			vim.api.nvim_create_augroup('lsp-format', { clear = false })
+
 			-- autoformat on save for some specific filetypes using lsp formatter
 			for _, ft in ipairs({ 'rs' }) do
 				vim.api.nvim_create_autocmd("BufWritePre", {
 					pattern = string.format('*.%s', ft),
-					callback = vim.lsp.buf.format
+					callback = function() 
+						vim.lsp.buf.format()
+					end,
+					group = 'lsp-format',
+					desc = string.format('Format *.%s files', ft)
 				})
 			end
 
@@ -210,7 +216,7 @@ return {
 				sh = { 'shellcheck' }
 			}
 
-			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+			vim.api.nvim_create_autocmd("BufWritePost", {
 				callback = function()
 					require("lint").try_lint()
 				end,
