@@ -1,6 +1,9 @@
+map = vim.keymap.set
+opt = vim.opt
+
 -- lazy needs leader and some plugin needs termguicolors first
 vim.g.mapleader = " "
-vim.opt.termguicolors = true
+opt.termguicolors = true
 
 -- for bufferline
 -- vim.opt.mousemoveevent = true
@@ -17,20 +20,20 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.opt.rtp:prepend(lazypath)
+opt.rtp:prepend(lazypath)
 
 --- plugins
 require('lazy').setup('plugins')
 
-
-local map = vim.keymap.set
+--- key binds
 map('i', 'jk', '<ESC>')
 map('t', '<C-j><C-k>', '<C-\\><C-n>')
 map('n', '<Leader>s', ':set spell!<enter>')
+map('n', 'g[', vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+map('n', 'g]', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 
 --- options
-local opt = vim.opt
-opt.shortmess = vim.opt.shortmess + 'c' 	-- avoid showing short messages -- TODO: what short messages are you even talking about???
+opt.shortmess = opt.shortmess + 'c' 	-- avoid showing short messages -- TODO: what short messages are you even talking about???
 opt.completeopt = {'menu', 'menuone', 'noselect'} -- TODO: mb add noinsert
 opt.signcolumn = 'yes'
 opt.number = true
