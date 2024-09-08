@@ -48,7 +48,7 @@ return {
 				'html',
 				'jsonls',
 				'pyright',
-				'tsserver',
+				'ts_ls',
 			}
 
 			for _, server in ipairs(common_servers) do
