@@ -1,0 +1,24 @@
+[editor]
+line-number = "relative"
+cursorline = true
+insert-final-newline = false
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+
+[editor.lsp]
+display-messages = true
+
+[editor.indent-guides]
+render = true
+skip_levels = 1
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[keys.normal]
+Z = { Z = ":wq", Q = ":q!" }
+
+[keys.insert]
+j = { k = "normal_mode" }
