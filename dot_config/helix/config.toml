@@ -2,6 +2,7 @@
 line-number = "relative"
 cursorline = true
 insert-final-newline = false
+bufferline = "multiple"
 
 [editor.cursor-shape]
 insert = "bar"
@@ -17,8 +18,14 @@ skip_levels = 1
 [editor.inline-diagnostics]
 cursor-line = "warning"
 
-[keys.normal]
-Z = { Z = ":wq", Q = ":q!" }
+[keys.normal.Z]
+Z = ":wq"
+Q = ":q!"
+
+[keys.normal.space]
+q = ":buffer-close"
+t = ":buffer-next"
+T = ":buffer-previous"
 
 [keys.insert]
 j = { k = "normal_mode" }
