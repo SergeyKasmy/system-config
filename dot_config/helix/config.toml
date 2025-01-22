@@ -10,6 +10,7 @@ normal = "block"
 
 [editor.lsp]
 display-messages = true
+display-progress-messages = true
 
 [editor.indent-guides]
 render = true
@@ -17,6 +18,16 @@ skip_levels = 1
 
 [editor.inline-diagnostics]
 cursor-line = "warning"
+
+[keys.normal]
+w = 'move_next_sub_word_start'
+b = 'move_prev_sub_word_start'
+e = 'move_next_sub_word_end'
+
+[keys.select]
+w = 'extend_next_sub_word_start'
+b = 'extend_prev_sub_word_start'
+e = 'extend_next_sub_word_end'
 
 [keys.normal.Z]
 Z = ":wq"
