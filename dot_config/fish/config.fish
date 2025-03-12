@@ -1,3 +1,8 @@
+# disable lsp lints
+# "use functions instead of aliases": I prefer aliases
+# "local function unused": a false positive
+set -gx fish_lsp_diagnostic_disable_error_codes 2002 4004
+
 if not contains "$HOME/.local/bin" $PATH
     set -gx PATH \
         "$HOME/.cargo/bin" \
@@ -18,12 +23,14 @@ systemctl --user import-environment PATH
 #     end
 # end
 
-set -gx --path XDG_DATA_DIRS '/home/ciren/.local/share/flatpak/exports/share' $XDG_DATA_DIRS
+if not contains "$HOME/.local/share/flatpak/exports/share" $XDG_DATA_DIRS
+    set -gx --path XDG_DATA_DIRS "$HOME/.local/share/flatpak/exports/share" $XDG_DATA_DIRS
+end
 
 set -gx QT_QPA_PLATFORMTHEME qt5ct:qt6ct
 set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set -gx GTK_USE_PORTAL 1
-set -Ux GNUPGHOME "~/.config/gpg"
+set -gx GNUPGHOME "~/.config/gpg"
 
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
@@ -37,7 +44,7 @@ end
 
 if status is-login
     set tty (tty)
-    if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
+    if [ -z "$DISPLAY" ]; and [ $tty = /dev/tty1 ]
         gui
     end
 end
@@ -48,7 +55,7 @@ if status is-interactive
 
     # util
     function is_defined
-        type $argv[1] &>/dev/null
+        type -q $argv[1]
     end
 
     function alias_if_defined
@@ -144,7 +151,7 @@ if status is-interactive
     if is_defined rsync
         function mvrs
             rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
-            if type fd >/dev/null 2>&1
+            if is_defined fd
                 fd . $argv[1] -Hte -x rmdir -p
             else
                 find $argv[1] -empty -x rmdir -p ";"
@@ -300,6 +307,8 @@ if status is-interactive
             function whoneeds
                 set -l pkg $argv[1]
                 echo "Packages that depend on [$pkg]"
+                # not actually a variable
+                # @fish-lsp-disable-next-line 2001
                 comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
             end
         end
@@ -334,6 +343,8 @@ if status is-interactive
     #end
 
     if [ -e $HOME/.config/fish/autoexec.fish ]
+        # disable "file doesn't exist error" (I mean, I just checked if it exists...)
+        # @fish-lsp-disable-next-line 1004
         source $HOME/.config/fish/autoexec.fish
     end
 end

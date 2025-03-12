@@ -36,3 +36,13 @@ command = "asm-lsp"
 [[grammar]]
 name = "asm"
 source = { git = "https://github.com/rush-rs/tree-sitter-asm", rev = "5bb5b03e3c1ce5853b5282b9fba060f7c7bbf11e" }
+
+# fish
+[[language]]
+name = "fish"
+language-servers = ["fish-lsp"]
+
+[language-server.fish-lsp]
+command = "fish-lsp"
+args = ["start"]
+environment = { "fish_lsp_show_client_popups" = "false" }
