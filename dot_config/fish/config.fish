@@ -285,6 +285,13 @@ if status is-interactive
 		alias v vi
 	end
 
+    	# edit files in PATH (vim path)
+    	if is_defined v
+    	    function vp
+    	        v (which $argv[1])
+    	    end
+    	end
+
 	# functions
 	#
 	
