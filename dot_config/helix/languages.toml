@@ -1,0 +1,38 @@
+# python
+
+[[language]]
+name = "python"
+language-servers = [{ name = "basedpyright", except-features = ["diagnostics"] }, "ruff"]
+formatter = { command = "ruff", args = ["format", "-"] }
+auto-format = true
+
+[language-server.pyright]
+command = "basedpyright-langserver"
+args = ["--stdio"]
+
+# C
+
+[[language]]
+name = "c"
+indent = { tab-width = 4, unit = "\t" }
+
+# rust
+
+# [language-server.rust-analyzer.config]
+# cargo = { features = "all" }
+
+# assembly
+[[language]]
+name = "asm"
+language-servers = ["asm"]
+scope = "source.asm"
+file-types = ["S", "s", "asm"]
+roots = []
+comment-token = "//"
+
+[language-server.asm]
+command = "asm-lsp"
+
+[[grammar]]
+name = "asm"
+source = { git = "https://github.com/rush-rs/tree-sitter-asm", rev = "5bb5b03e3c1ce5853b5282b9fba060f7c7bbf11e" }
