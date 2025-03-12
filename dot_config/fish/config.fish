@@ -1,6 +1,13 @@
 if not contains "$HOME/.local/bin" $PATH
-	set -gx PATH "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/flatpak/exports/bin" "/var/lib/flatpak/exports/bin" "$PATH"
+    set -gx PATH \
+        "$HOME/.cargo/bin" \
+        "$HOME/.deno/bin" \
+        "$HOME/.local/bin" \
+        "$HOME/.local/share/flatpak/exports/bin" \
+        /var/lib/flatpak/exports/bin \
+        "$PATH"
 end
+systemctl --user import-environment PATH
 
 # set -l XDG_DATA_HOME $XDG_DATA_HOME ~/.local/share
 # set -gx --path XDG_DATA_DIRS $XDG_DATA_HOME/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
