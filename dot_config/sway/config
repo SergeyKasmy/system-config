@@ -480,6 +480,7 @@ bindsym $win+m exec --no-startup-id swaync-client -t
 
 # xkill
 #bindsym $alt+$win+F4 --release exec --no-startup-id xkill
+bindsym --release $win+Space exec --no-startup-id toggle-suspend
 
 # rofi
 bindsym $win+d exec --no-startup-id rofi -show combi
