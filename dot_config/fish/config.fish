@@ -73,7 +73,7 @@ if status is-interactive
 	# set global vars
 	#
 	set -gx GPG_TTY (tty)
-	set -gx EDITOR nvim
+    	set -gx EDITOR hx
 	set -gx AUR_PAGER nvim
 
 	if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
