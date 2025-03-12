@@ -1,6 +1,7 @@
 #!/bin/sh
 
 OUTPUT="DP-1"
+OUTPUT_RIGHT="HDMI-A-1"
 SCALING="1.25"
 
 if [ -n "$1" ]; then
@@ -22,8 +23,10 @@ fi
 
 if [ "$SET" = "NORMAL" ]; then
 	swaymsg output $OUTPUT scale 1
+	swaymsg output $OUTPUT_RIGHT pos 2560 0
 elif [ "$SET" = "SCALE" ]; then
 	swaymsg output $OUTPUT scale $SCALING
+	swaymsg output $OUTPUT_RIGHT pos 2048 0
 else
 	echo "Something went wrong. \$SET is $SET and not NORMAL or SCALE"
 	exit 1
