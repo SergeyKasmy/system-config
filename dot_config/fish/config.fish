@@ -27,6 +27,14 @@ set -Ux GNUPGHOME "~/.config/gpg"
 
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
+# set up android tools
+
+if not contains "$HOME/.local/opt/android/cmdline-tools/latest/bin/" $PATH
+    set -gx PATH "$HOME/.local/opt/android/cmdline-tools/latest/bin/" "$PATH"
+    set -gx ANDROID_HOME "$HOME/.local/opt/android"
+    set -gx ANDROID_NDK_HOME "$HOME/.local/opt/android/ndk-bundle"
+end
+
 if status is-login
 	set tty (tty)
 	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
