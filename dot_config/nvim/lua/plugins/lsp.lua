@@ -48,7 +48,9 @@ return {
 				'html',
 				'jsonls',
 				'pyright',
-				'ts_ls',
+				'denols',
+				'csharp_ls'
+				-- 'ts_ls',
 			}
 
 			for _, server in ipairs(common_servers) do
@@ -89,6 +91,10 @@ return {
 					end
 					return true
 				end,
+			}
+
+			lsp.java_language_server.setup {
+				cmd = { 'java-language-server' }
 			}
 
 			vim.api.nvim_create_augroup('lsp-format', { clear = false })
