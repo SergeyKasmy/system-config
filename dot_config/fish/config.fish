@@ -84,6 +84,7 @@ if status is-interactive
     # config edit aliases
     #
     alias cfg-fish 'chezmoi edit -av ~/.config/fish/'
+    alias cfg-helix 'chezmoi edit -av ~/.config/helix/'
     alias cfg-nvim 'chezmoi edit -av ~/.config/nvim/'
     alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
     alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
