@@ -112,8 +112,8 @@ if status is-interactive
 	
 	if is_defined dua
 		alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
-		test -d /mnt/hdd	&& alias dua-hdd	'dua -i /mnt/hdd/.root -i /mnt/hdd/.snapshots i /mnt/hdd'
-		test -d /mnt/raid	&& alias dua-raid	'dua  i /mnt/raid'
+		alias dua-home 'dua -i /home/.snapshots i /home/ciren'
+		test -d /mnt/raid && alias dua-raid 'dua  i /mnt/raid'
 	end
 
 	if is_defined tar
