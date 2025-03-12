@@ -67,10 +67,7 @@ if status is-interactive
 
         # if this binary exists
         if is_defined $basename
-
             alias $alias $target
-        else
-            alias $alias "echo $basename isn\'t installed"
         end
     end
 
@@ -100,66 +97,61 @@ if status is-interactive
     # command shortcuts
     #
 
-    # chezmoi should always be defined because the config wouldn't exist without it
-    alias ch chezmoi
-    alias chgit 'chezmoi git --'
     alias chcd 'cd (chezmoi source-path)'
+    alias ch chezmoi
     alias che 'chezmoi edit -av'
-    is_defined systemctl && alias systemctlu 'systemctl --user'
-    is_defined df && alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
-    is_defined curl && alias whatsmyip 'curl ipinfo.io/ip'
-    is_defined gio && alias tp 'gio trash'
+    alias chgit 'chezmoi git --'
+    alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
+    alias systemctlu 'systemctl --user'
+    alias tp 'gio trash'
+    alias whatsmyip 'curl ipinfo.io/ip'
 
-    if is_defined pacman
-        function bins
-            pacman -Ql $argv[1] | grep /usr/bin/
+    function bins
+        pacman -Ql $argv[1] | grep /usr/bin/
+    end
+
+    alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
+    alias dua-home 'dua -i /home/.snapshots i /home/ciren'
+    function dua-raid
+        if test -d /mnt/raid
+            alias dua-raid 'dua i /mnt/raid'
+        else
+            alias dua-raid 'echo "/mnt/raid not found"'
         end
     end
 
-    if is_defined dua
-        alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
-        alias dua-home 'dua -i /home/.snapshots i /home/ciren'
-        test -d /mnt/raid && alias dua-raid 'dua  i /mnt/raid'
+    function tarz
+        set cpus (cat /proc/cpuinfo | grep processor | wc -l)
+        tar -I "zstd -T$cpus" $argv
     end
 
-    if is_defined tar
-        function tarz
-            set cpus (cat /proc/cpuinfo | grep processor | wc -l)
-            tar -I "zstd -T$cpus" $argv
-        end
+    function mountusr
+        udisksctl mount -b $argv[1]
     end
 
-    if is_defined udisksctl
-        function mountusr
-            udisksctl mount -b $argv[1]
-        end
-
-        function umountusr
-            udisksctl unmount -b $argv[1]
-        end
-
-        function mountusr-loop
-            mountusr (udisksctl loop-setup -f $argv[1] | sed -E 's:.*(/dev/loop[0-9]+).*:\1:')
-        end
-
-        function umountusr-loop
-            umountusr /dev/$argv[1]
-            udisksctl loop-delete -b "/dev/"$argv[1]
-        end
+    function umountusr
+        udisksctl unmount -b $argv[1]
     end
 
-    if is_defined rsync
-        function mvrs
-            rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
-            if is_defined fd
-                fd . $argv[1] -Hte -x rmdir -p
-            else
-                find $argv[1] -empty -x rmdir -p ";"
-            end
+    function mountusr-loop
+        mountusr (udisksctl loop-setup -f $argv[1] | sed -E 's:.*(/dev/loop[0-9]+).*:\1:')
+    end
+
+    function umountusr-loop
+        umountusr /dev/$argv[1]
+        udisksctl loop-delete -b "/dev/"$argv[1]
+    end
+
+    function mvrs
+        rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
+        if is_defined fd
+            fd . $argv[1] -Hte -x rmdir -p
+        else
+            find $argv[1] -empty -x rmdir -p ";"
         end
     end
 
-    alias_if_defined bench hyperfine
+    alias bench hyperfine
     # is_defined zellij && alias z 'zellij attach --create'
 
     if is_defined paru
@@ -203,7 +195,6 @@ if status is-interactive
     alias la 'ls -A'
     alias ll 'ls -l'
     alias lla 'ls -Al'
-    alias ls_ /bin/ls
 
     if is_defined jump
         jump shell fish | source
@@ -245,7 +236,6 @@ if status is-interactive
     # virsh - connect to qemu:///system by default
     if is_defined virsh
         alias virsh 'virsh --connect qemu:///system'
-        alias virsh_ /bin/virsh
 
         if [ -e /etc/libvirt/qemu/win.xml ]
             alias winvm 'virsh start win; virtview win || start virt-manager'
@@ -256,10 +246,12 @@ if status is-interactive
         end
     end
 
-    if is_defined virt-viewer
-        function virtview
+    function virtview
+        if is_defined virt-viewer
             start virt-viewer -c qemu:///system --attach -- $argv[1]
             exit
+        else
+            echo "virt-viewer not installed"
         end
     end
 
@@ -287,7 +279,7 @@ if status is-interactive
         end
     else if is_defined vim
         alias v vim
-    else if is_defined vi
+    else
         alias v vi
     end
 
@@ -314,8 +306,12 @@ if status is-interactive
         end
 
         # download a package from AUR
-        if ! is_defined aur
-            if is_defined git && is_defined makepkg
+        if not is_defined aur
+            if not is_defined git
+                alias aur 'echo git is not installed'
+            else if not is_defined makepkg
+                alias aur 'makepkg is not installed'
+            else
                 function aur
                     if set -q argv[1]
                         git clone https://aur.archlinux.org/$argv[1].git
@@ -325,10 +321,6 @@ if status is-interactive
                         false
                     end
                 end
-            else if ! is_defined git
-                alias aur 'echo git is not installed'
-            else if ! is_defined makepkg
-                alias aur 'makepkg is not installed'
             end
         end
     end
