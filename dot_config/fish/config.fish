@@ -36,304 +36,303 @@ if not contains "$HOME/.local/opt/android/cmdline-tools/latest/bin/" $PATH
 end
 
 if status is-login
-	set tty (tty)
-	if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
-		gui
-	end
+    set tty (tty)
+    if [ -z $DISPLAY ]; and [ $tty = /dev/tty1 ]
+        gui
+    end
 end
 
 if status is-interactive
-	# disable the greeting
-	set fish_greeting
+    # disable the greeting
+    set fish_greeting
 
-	# util
-	function is_defined
-		type $argv[1] &>/dev/null
-	end
+    # util
+    function is_defined
+        type $argv[1] &>/dev/null
+    end
 
-	function alias_if_defined
-		set alias $argv[1]
-		set target $argv[2]
+    function alias_if_defined
+        set alias $argv[1]
+        set target $argv[2]
 
-		# get the first part of the target cmd, before the first space if any
-		set basename (echo -- $target | string split ' ')[1]
+        # get the first part of the target cmd, before the first space if any
+        set basename (echo -- $target | string split ' ')[1]
 
-		# if this binary exists
-		if is_defined $basename
+        # if this binary exists
+        if is_defined $basename
 
-			alias $alias $target
-		else
-			alias $alias "echo $basename isn\'t installed"
-		end
-	end
-	
+            alias $alias $target
+        else
+            alias $alias "echo $basename isn\'t installed"
+        end
+    end
 
-	## Variables
-	
-	# set global vars
-	#
-	set -gx GPG_TTY (tty)
-    	set -gx EDITOR hx
-	set -gx AUR_PAGER nvim
+    ## Variables
 
-	if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
-		set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
-	end
+    # set global vars
+    #
+    set -gx GPG_TTY (tty)
+    set -gx EDITOR hx
+    set -gx AUR_PAGER nvim
 
-	## Aliases and functions
-	
-	# config edit aliases
-	#
-	alias cfg-fish		'chezmoi edit -av ~/.config/fish/'
-	alias cfg-nvim		'chezmoi edit -av ~/.config/nvim/'
-	alias cfg-sway		'chezmoi edit -av ~/.config/sway/config'
-	alias cfg-tmux		'chezmoi edit -av ~/.config/tmux/tmux.conf'
-	alias cfg-waybar	'chezmoi edit -av ~/.config/waybar/'
-	
-	# command shortcuts
-	#
+    if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
+        set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+    end
 
+    ## Aliases and functions
 
-	# chezmoi should always be defined because the config wouldn't exist without it
-	alias ch 'chezmoi'
-	alias chgit 'chezmoi git --'
-	alias chcd 'cd (chezmoi source-path)'
-	alias che 'chezmoi edit -av'
-	is_defined systemctl	&& alias systemctlu 'systemctl --user'
-	is_defined df			&& alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
-	is_defined curl			&& alias whatsmyip 'curl ipinfo.io/ip'
-	is_defined gio			&& alias tp 'gio trash'
+    # config edit aliases
+    #
+    alias cfg-fish 'chezmoi edit -av ~/.config/fish/'
+    alias cfg-nvim 'chezmoi edit -av ~/.config/nvim/'
+    alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
+    alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
+    alias cfg-waybar 'chezmoi edit -av ~/.config/waybar/'
 
-	if is_defined pacman 
-		function bins
-			pacman -Ql $argv[1] | grep /usr/bin/
-		end
-	end
-	
-	if is_defined dua
-		alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
-		alias dua-home 'dua -i /home/.snapshots i /home/ciren'
-		test -d /mnt/raid && alias dua-raid 'dua  i /mnt/raid'
-	end
+    # command shortcuts
+    #
 
-	if is_defined tar
-		function tarz
-			set cpus (cat /proc/cpuinfo | grep processor | wc -l)
-			tar -I "zstd -T$cpus" $argv
-		end
-	end
+    # chezmoi should always be defined because the config wouldn't exist without it
+    alias ch chezmoi
+    alias chgit 'chezmoi git --'
+    alias chcd 'cd (chezmoi source-path)'
+    alias che 'chezmoi edit -av'
+    is_defined systemctl && alias systemctlu 'systemctl --user'
+    is_defined df && alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
+    is_defined curl && alias whatsmyip 'curl ipinfo.io/ip'
+    is_defined gio && alias tp 'gio trash'
 
-	if is_defined udisksctl
-		function mountusr
-			udisksctl mount -b $argv[1]
-		end
+    if is_defined pacman
+        function bins
+            pacman -Ql $argv[1] | grep /usr/bin/
+        end
+    end
 
-		function umountusr
-			udisksctl unmount -b $argv[1]
-		end
+    if is_defined dua
+        alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
+        alias dua-home 'dua -i /home/.snapshots i /home/ciren'
+        test -d /mnt/raid && alias dua-raid 'dua  i /mnt/raid'
+    end
 
-		function mountusr-loop
-			mountusr (udisksctl loop-setup -f $argv[1] | sed -E 's:.*(/dev/loop[0-9]+).*:\1:')
-		end
+    if is_defined tar
+        function tarz
+            set cpus (cat /proc/cpuinfo | grep processor | wc -l)
+            tar -I "zstd -T$cpus" $argv
+        end
+    end
 
-		function umountusr-loop
-			umountusr /dev/$argv[1]
-			udisksctl loop-delete -b "/dev/"$argv[1]
-		end
-	end
+    if is_defined udisksctl
+        function mountusr
+            udisksctl mount -b $argv[1]
+        end
 
-	if is_defined rsync
-		function mvrs
-			rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
-			if type fd >/dev/null 2>&1
-				fd . $argv[1] -Hte -x rmdir -p
-			else
-				find $argv[1] -empty -x rmdir -p /;
-			end
-		end
-	end
+        function umountusr
+            udisksctl unmount -b $argv[1]
+        end
 
-	alias_if_defined bench 'hyperfine'
-	is_defined zellij && alias z 'zellij attach --create'
+        function mountusr-loop
+            mountusr (udisksctl loop-setup -f $argv[1] | sed -E 's:.*(/dev/loop[0-9]+).*:\1:')
+        end
 
-	if is_defined paru
-		alias y 'paru'
-	else if is_defined pacman
-		alias y 'sudo pacman'
-	else if is_defined nala
-		alias y 'sudo nala'
-	else if is_defined apt
-		alias y 'sudo apt'
-	else if is_defined zypper
-		alias y 'sudo zypper'
-	else
-		alias y 'echo Can\'t find any of the supported package managers: paru, pacman, nala, apt, zypper'
-	end
+        function umountusr-loop
+            umountusr /dev/$argv[1]
+            udisksctl loop-delete -b "/dev/"$argv[1]
+        end
+    end
 
-	if is_defined topgrade
-		alias yy 'topgrade'
-	else if is_defined paru
-		alias yy 'paru -Syu'
-	else if is_defined pacman
-		alias yy 'sudo pacman -Syu'
-	else if is_defined nala
-		alias yy 'sudo nala upgrade'
-	else if is_defined apt
-		alias yy 'sudo apt update && sudo apt dist-upgrade'
-	else if is_defined zypper
-		alias yy 'sudo zypper update && sudo zypper dist-upgrade'
-	else
-		alias yy 'echo Can\'t find any of the supported system update tools: topgrade, paru, pacman, nala, apt, zypper'
-	end
+    if is_defined rsync
+        function mvrs
+            rsync -ah --info=progress,misc,stats --remove-source-files "$argv[1]" "$argv[2]"
+            if type fd >/dev/null 2>&1
+                fd . $argv[1] -Hte -x rmdir -p
+            else
+                find $argv[1] -empty -x rmdir -p ";"
+            end
+        end
+    end
 
-	## ls
-	# 
-	##   -A, --almost-all           do not list implied . and ..
-	##   -l                         use a long listing format
-	##   -F, --classify             append indicator (one of */=>@|) to entries
-	##   -h, --human-readable       with -l and/or -s, print human readable sizes
-	##   -C                         list entries by columns
-	alias_if_defined ls 'lsd'
-	alias la 'ls -A'
-	alias ll 'ls -l'
-	alias lla 'ls -Al'
-	alias ls_ '/bin/ls'
+    alias_if_defined bench hyperfine
+    # is_defined zellij && alias z 'zellij attach --create'
 
-	if is_defined jump
-		jump shell fish | source
-	end
-	
+    if is_defined paru
+        alias y paru
+    else if is_defined pacman
+        alias y 'sudo pacman'
+    else if is_defined nala
+        alias y 'sudo nala'
+    else if is_defined apt
+        alias y 'sudo apt'
+    else if is_defined zypper
+        alias y 'sudo zypper'
+    else
+        alias y 'echo Can\'t find any of the supported package managers: paru, pacman, nala, apt, zypper'
+    end
 
-	# overrides
-	#
-	
-	# dissalow nested ranger instances
-	if is_defined yazi
-		alias ranger 'yazi'
-	else if is_defined joshuto
-		alias ranger 'joshuto'
-	else if is_defined ranger
-		function ranger
-			if [ -z "$RANGER_LEVEL" ]
-				command ranger "$argv"	
-			else
-				exit
-			end
-		end
-	end
-	
-	# use .config/tmux.conf as the tmux config
-	alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
+    if is_defined topgrade
+        alias yy topgrade
+    else if is_defined paru
+        alias yy 'paru -Syu'
+    else if is_defined pacman
+        alias yy 'sudo pacman -Syu'
+    else if is_defined nala
+        alias yy 'sudo nala upgrade'
+    else if is_defined apt
+        alias yy 'sudo apt update && sudo apt dist-upgrade'
+    else if is_defined zypper
+        alias yy 'sudo zypper update && sudo zypper dist-upgrade'
+    else
+        alias yy 'echo Can\'t find any of the supported system update tools: topgrade, paru, pacman, nala, apt, zypper'
+    end
 
-	# use bat instead of cat
-	alias_if_defined cat 'bat -pp'
+    ## ls
+    # 
+    ##   -A, --almost-all           do not list implied . and ..
+    ##   -l                         use a long listing format
+    ##   -F, --classify             append indicator (one of */=>@|) to entries
+    ##   -h, --human-readable       with -l and/or -s, print human readable sizes
+    ##   -C                         list entries by columns
+    alias_if_defined ls lsd
+    alias la 'ls -A'
+    alias ll 'ls -l'
+    alias lla 'ls -Al'
+    alias ls_ /bin/ls
 
-	# custom lsblk colums
-	alias_if_defined lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
+    if is_defined jump
+        jump shell fish | source
+    end
 
-	# always create parent dirs
-	alias_if_defined mkdir 'mkdir -p'
-	
-	# colored ip
-	alias_if_defined ip 'ip -c'
+    # overrides
+    #
 
-	# virsh - connect to qemu:///system by default
-	if is_defined virsh
-		alias virsh 'virsh --connect qemu:///system'
-		alias virsh_ /bin/virsh
+    # dissalow nested ranger instances
+    if is_defined yazi
+        alias ranger yazi
+    else if is_defined joshuto
+        alias ranger joshuto
+    else if is_defined ranger
+        function ranger
+            if [ -z "$RANGER_LEVEL" ]
+                command ranger "$argv"
+            else
+                exit
+            end
+        end
+    end
 
-		if [ -e /etc/libvirt/qemu/win.xml ]
-			alias winvm 'virsh start win; virtview win || start virt-manager'
-		end
+    # use .config/tmux.conf as the tmux config
+    alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 
-		if [ -e /etc/libvirt/qemu/win-passthrough.xml ]
-			alias winp 'virsh start win-passthrough'
-		end
-	end
+    # use bat instead of cat
+    alias_if_defined cat 'bat -pp'
 
-	if is_defined virt-viewer
-		function virtview
-			start virt-viewer -c qemu:///system --attach -- $argv[1]; exit
-		end
-	end
+    # custom lsblk colums
+    alias_if_defined lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
 
-	if is_defined nvim
-		alias v 'nvim'
+    # always create parent dirs
+    alias_if_defined mkdir 'mkdir -p'
 
-		function voil
-			nvim oil://$argv[1]
-		end
+    # colored ip
+    alias_if_defined ip 'ip -c'
 
-		if is_defined tree
-			function cmp-tree
-				nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
-			end
+    # virsh - connect to qemu:///system by default
+    if is_defined virsh
+        alias virsh 'virsh --connect qemu:///system'
+        alias virsh_ /bin/virsh
 
-			function cmp-tree-all
-				nvim -d (tree -a $argv[1] | psub) (tree -a $argv[2] | psub)
-			end
-		end
+        if [ -e /etc/libvirt/qemu/win.xml ]
+            alias winvm 'virsh start win; virtview win || start virt-manager'
+        end
 
-		if is_defined xxd
-			function cmp-hex
-				nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
-			end
-		end
-	else if is_defined vim
-		alias v vim
-	else if is_defined vi
-		alias v vi
-	end
+        if [ -e /etc/libvirt/qemu/win-passthrough.xml ]
+            alias winp 'virsh start win-passthrough'
+        end
+    end
 
-    	# edit files in PATH (vim path)
-    	if is_defined v
-    	    function vp
-    	        v (which $argv[1])
-    	    end
-    	end
+    if is_defined virt-viewer
+        function virtview
+            start virt-viewer -c qemu:///system --attach -- $argv[1]
+            exit
+        end
+    end
 
-	# functions
-	#
-	
-	if is_defined pacman
-		if is_defined pactree
-			# what packages depend on $pkg
-			function whoneeds
-				set -l pkg $argv[1]
-				echo "Packages that depend on [$pkg]"
-				comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
-			end
-		end
+    if is_defined nvim
+        alias v nvim
 
-		# download a package from AUR
-		if ! is_defined aur
-			if is_defined git && is_defined makepkg
-				function aur
-					if set -q argv[1]
-						git clone https://aur.archlinux.org/$argv[1].git
-						cd $argv[1]
-						makepkg -si
-					else; false; end
-				end
-			else if ! is_defined git
-				alias aur 'echo git is not installed'
-			else if ! is_defined makepkg
-				alias aur 'makepkg is not installed'
-			end
-		end
-	end
+        function voil
+            nvim oil://$argv[1]
+        end
 
-	if id -u island >/dev/null 2>&1
-		alias island 'sudo -iu island --preserve-env=DISPLAY'
-		alias stisland 'start sudo -iu island --preserve-env=DISPLAY'
-	end
+        if is_defined tree
+            function cmp-tree
+                nvim -d (tree $argv[1] | psub) (tree $argv[2] | psub)
+            end
 
-	#if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
-	#	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
-	#end
+            function cmp-tree-all
+                nvim -d (tree -a $argv[1] | psub) (tree -a $argv[2] | psub)
+            end
+        end
 
-	if [ -e $HOME/.config/fish/autoexec.fish ]
-		source $HOME/.config/fish/autoexec.fish
-	end
+        if is_defined xxd
+            function cmp-hex
+                nvim -d (xxd $argv[1] | psub) (xxd $argv[2] | psub)
+            end
+        end
+    else if is_defined vim
+        alias v vim
+    else if is_defined vi
+        alias v vi
+    end
+
+    # edit files in PATH (vim path)
+    if is_defined v
+        function vp
+            v (which $argv[1])
+        end
+    end
+
+    # functions
+    #
+
+    if is_defined pacman
+        if is_defined pactree
+            # what packages depend on $pkg
+            function whoneeds
+                set -l pkg $argv[1]
+                echo "Packages that depend on [$pkg]"
+                comm -12 (pactree -ru $pkg | sort | psub) (pacman -Qqe | sort | psub) | grep -v '^$pkg$' | sed 's/^/  /'
+            end
+        end
+
+        # download a package from AUR
+        if ! is_defined aur
+            if is_defined git && is_defined makepkg
+                function aur
+                    if set -q argv[1]
+                        git clone https://aur.archlinux.org/$argv[1].git
+                        cd $argv[1]
+                        makepkg -si
+                    else
+                        false
+                    end
+                end
+            else if ! is_defined git
+                alias aur 'echo git is not installed'
+            else if ! is_defined makepkg
+                alias aur 'makepkg is not installed'
+            end
+        end
+    end
+
+    if id -u island >/dev/null 2>&1
+        alias island 'sudo -iu island --preserve-env=DISPLAY'
+        alias stisland 'start sudo -iu island --preserve-env=DISPLAY'
+    end
+
+    #if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
+    #	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
+    #end
+
+    if [ -e $HOME/.config/fish/autoexec.fish ]
+        source $HOME/.config/fish/autoexec.fish
+    end
 end
-
