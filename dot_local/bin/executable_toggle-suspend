@@ -1,0 +1,26 @@
+#!/bin/sh
+
+get_focused_pid() {
+  swaymsg -t get_tree -r | jq '.. | (.nodes? // empty, .floating_nodes? // empty)[] | select(.focused) | .pid'
+}
+
+psignal() {
+    pids=$(pstree "$2" -npl | grep -oP '(?<=\()[0-9]+(?=\))')
+    kill -s $1 $pids
+}
+
+psuspend () {
+    psignal STOP "$1"
+}
+
+pcont () {
+    psignal CONT "$1"
+}
+
+pid="$(get_focused_pid)"
+state=$(ps -o state= "$pid")
+if [ "$state" = "T" ]; then
+    pcont "$pid"
+else
+    psuspend "$pid"
+fi
