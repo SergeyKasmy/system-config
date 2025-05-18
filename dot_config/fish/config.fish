@@ -101,6 +101,7 @@ if status is-interactive
     alias ch chezmoi
     alias che 'chezmoi edit -av'
     alias chgit 'chezmoi git --'
+
     alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
     alias systemctlu 'systemctl --user'
     alias tp 'gio trash'
@@ -114,9 +115,9 @@ if status is-interactive
     alias dua-home 'dua -i /home/.snapshots i /home/ciren'
     function dua-raid
         if test -d /mnt/raid
-            alias dua-raid 'dua i /mnt/raid'
+            dua i /mnt/raid
         else
-            alias dua-raid 'echo "/mnt/raid not found"'
+            echo "/mnt/raid not found"
         end
     end
 
@@ -152,7 +153,7 @@ if status is-interactive
     end
 
     alias bench hyperfine
-    # is_defined zellij && alias z 'zellij attach --create'
+    alias zj zellij
 
     if is_defined paru
         alias y paru
