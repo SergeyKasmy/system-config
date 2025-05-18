@@ -39,6 +39,7 @@ Q = ":q!"
 q = ":buffer-close"
 t = ":buffer-next"
 T = ":buffer-previous"
+i = ":toggle lsp.display-inlay-hints"
 
 [keys.insert]
 j = { k = "normal_mode" }
