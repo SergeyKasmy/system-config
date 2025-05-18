@@ -1,9 +1,9 @@
-layout {
-	pane
+pane_template name="default_container" {
+	children
 
 	// tab bar & status bar at the bottom
 	pane split_direction="vertical" size=1 {
-		pane size="45%" {
+		pane size="35%" {
 			plugin location="zellij:compact-bar"
 		}
 		pane {
