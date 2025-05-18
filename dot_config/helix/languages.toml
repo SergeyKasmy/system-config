@@ -18,8 +18,9 @@ indent = { tab-width = 4, unit = "\t" }
 
 # rust
 
-# [language-server.rust-analyzer.config]
-# cargo = { features = "all" }
+[language-server.rust-analyzer.config]
+cargo = { features = "all" }
+# check.command = "clippy"
 
 # assembly
 [[language]]
