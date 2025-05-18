@@ -1,0 +1,29 @@
+layout {
+	{{ include "dot_config/zellij/layouts/default_container.kdl" }}
+
+	cwd "/home/ciren/dev/projects/pc"
+
+	new_tab_template {
+		default_container {
+			children
+		}
+	}
+
+	pane_template name="rust-project" split_direction="vertical" {
+		pane command="hx"
+		pane size="35%" command="bacon"
+	}
+		
+
+	tab name="fetcher" cwd="/home/ciren/dev/projects/pc/fetcher" {
+		default_container {
+			rust-project
+		}
+	}
+
+	tab name="fetcher-ciren" cwd="/home/ciren/dev/projects/pc/fetcher-ciren" {
+		default_container {
+			rust-project
+		}
+	}
+}
