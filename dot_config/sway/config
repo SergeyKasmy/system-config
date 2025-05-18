@@ -142,7 +142,7 @@ bindsym $win+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $win+space focus mode_toggle
 
-bindsym $alt+space exec --no-startup-id nc_flash_window
+# bindsym $alt+space exec --no-startup-id nc_flash_window
 
 # focus the parent container
 bindsym $win+q focus parent
@@ -480,7 +480,7 @@ bindsym $win+m exec --no-startup-id swaync-client -t
 
 # xkill
 #bindsym $alt+$win+F4 --release exec --no-startup-id xkill
-bindsym --release $win+Space exec --no-startup-id toggle-suspend
+bindsym --release $alt+$win+F4 exec --no-startup-id toggle-suspend
 
 # rofi
 bindsym $win+d exec --no-startup-id rofi -show combi
