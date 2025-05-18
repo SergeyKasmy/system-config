@@ -226,6 +226,7 @@ if status is-interactive
 
     # custom lsblk colums
     alias_if_defined lsblk 'lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID'
+    alias_if_defined lsblk-watch 'watch "lsblk -o NAME,FSTYPE,SIZE,RM,RO,MOUNTPOINT,LABEL,PARTLABEL,UUID"'
 
     # always create parent dirs
     alias_if_defined mkdir 'mkdir -p'
