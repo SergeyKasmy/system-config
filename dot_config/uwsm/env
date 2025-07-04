@@ -1,0 +1,8 @@
+# try to use wayland backends where available
+export QT_QPA_PLATFORM="wayland;xcb"
+
+# cursor theme and size
+export XCURSOR_THEME=Breeze 
+export XCURSOR_SIZE=21 
+export HYPRCURSOR_SIZE=21 
+

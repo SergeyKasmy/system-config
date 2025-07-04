@@ -9,7 +9,7 @@ case "$1" in
 		;;
 	logout)
 		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-			hyprctl dispatch exit
+			uwsm stop
 		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
 			swaymsg exit
 		fi
