@@ -6,10 +6,13 @@
 	    "position": "top",
 	    "height": 30,
 		"spacing": 7,
-	    "modules-left": ["sway/workspaces", "sway/mode"],
-	    "modules-center": ["sway/window"],
+	    "modules-left": ["sway/workspaces", "sway/mode", "hyprland/workspaces", "hyprland/submap"],
+	    "modules-center": ["sway/window", "hyprland/window"],
 	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "temperature", "backlight", "sway/language", "battery", "tray", "clock"],
 		"sway/workspaces": {
+			"all-outputs": true,
+		},
+		"hyprland/workspaces": {
 			"all-outputs": true,
 		},
 	    "clock": {

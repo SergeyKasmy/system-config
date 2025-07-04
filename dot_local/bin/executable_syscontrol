@@ -8,7 +8,11 @@ case "$1" in
 		reboot
 		;;
 	logout)
-		swaymsg exit
+		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+			hyprctl dispatch exit
+		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+			swaymsg exit
+		fi
 		;;
 	suspend)
 		systemctl suspend
