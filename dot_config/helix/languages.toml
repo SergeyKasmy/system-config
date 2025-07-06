@@ -10,10 +10,14 @@ auto-format = true
 command = "basedpyright-langserver"
 args = ["--stdio"]
 
-# C
+# C & C++
 
 [[language]]
 name = "c"
+indent = { tab-width = 4, unit = "\t" }
+
+[[language]]
+name = "cpp"
 indent = { tab-width = 4, unit = "\t" }
 
 # rust
