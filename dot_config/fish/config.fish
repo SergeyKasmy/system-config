@@ -42,6 +42,13 @@ if not contains "$HOME/.local/opt/android/cmdline-tools/latest/bin/" $PATH
     set -gx ANDROID_NDK_HOME "$HOME/.local/opt/android/ndk-bundle"
 end
 
+if status is-login
+    set tty (tty)
+    if [ -z "$DISPLAY" ]; and [ $tty = /dev/tty1 ]
+        uwsm start hyprland.desktop
+    end
+end
+
 if status is-interactive
     # disable the greeting
     set fish_greeting
