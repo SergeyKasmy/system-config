@@ -93,6 +93,7 @@ if status is-interactive
     alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
     alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
     alias cfg-waybar 'chezmoi edit -av ~/.config/waybar/'
+    alias cfg-hyprland 'chezmoi edit -av ~/.config/hypr/hyprland.conf'
 
     # command shortcuts
     #
