@@ -198,18 +198,21 @@ if status is-interactive
     #
 
     # dissalow nested ranger instances
+    # if is_defined yazi
+    #     alias ranger yazi
+    # else if is_defined joshuto
+    #     alias ranger joshuto
+    # else if is_defined ranger
+    #     function ranger
+    #         if [ -z "$RANGER_LEVEL" ]
+    #             command ranger "$argv"
+    #         else
+    #             exit
+    #         end
+    #     end
+    # end
     if is_defined yazi
-        alias ranger yazi
-    else if is_defined joshuto
-        alias ranger joshuto
-    else if is_defined ranger
-        function ranger
-            if [ -z "$RANGER_LEVEL" ]
-                command ranger "$argv"
-            else
-                exit
-            end
-        end
+        alias ranger 'echo Just use yazi, silly'
     end
 
     # use .config/tmux.conf as the tmux config
