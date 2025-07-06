@@ -334,4 +334,6 @@ if status is-interactive
         # @fish-lsp-disable-next-line 1004
         source $HOME/.config/fish/autoexec.fish
     end
+
+    zoxide init --cmd cd fish | source
 end
