@@ -1,4 +1,5 @@
-theme = "dracula"
+# theme = "dracula"
+theme = "amberwood"
 
 [editor]
 line-number = "relative"
