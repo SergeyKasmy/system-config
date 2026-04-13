@@ -224,6 +224,10 @@ if status is-interactive
         alias ranger 'echo Just use yazi, silly'
     end
 
+    if is_defined jaq
+        alias jq 'echo Try using jaq instead'
+    end
+
     # use .config/tmux.conf as the tmux config
     alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 
