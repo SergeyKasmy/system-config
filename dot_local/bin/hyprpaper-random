@@ -1,0 +1,5 @@
+#!/bin/sh
+
+WALLPAPER_DIR="$HOME/pictures/wallpapers/dark"
+WALLPAPER=$(fd . "$WALLPAPER_DIR" --type file | shuf -n 1)
+hyprctl hyprpaper wallpaper ,"$WALLPAPER"
