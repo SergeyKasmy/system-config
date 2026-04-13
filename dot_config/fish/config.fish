@@ -24,7 +24,7 @@ systemctl --user import-environment PATH
 # end
 
 if not contains "$HOME/.local/share/flatpak/exports/share" $XDG_DATA_DIRS
-    set -gx --path XDG_DATA_DIRS "$HOME/.local/share/flatpak/exports/share" $XDG_DATA_DIRS
+    set -gx --path XDG_DATA_DIRS "$HOME/.local/share/flatpak/exports/share" "$HOME/.nix-profile/share" $XDG_DATA_DIRS
 end
 
 set -gx QT_QPA_PLATFORMTHEME qt5ct:qt6ct
