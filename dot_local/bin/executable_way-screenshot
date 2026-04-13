@@ -1,0 +1,44 @@
+#!/bin/sh
+SCREENSHOT_NAME="$HOME/pictures/screenshots/$(date +%Y%m%d_%H%M%S).png"
+
+case "$@" in
+	""|"--current-screen")
+
+		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+			MONITORS=$(hyprctl monitors -j)
+		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+			MONITORS=$(swaymsg -t get_outputs)
+		else
+			echo "Compositor $XDG_CURRENT_DESKTOP is not supported" >&2
+			exit 1
+		fi
+
+		OUTPUT=$(echo "$MONITORS" | jq -r 'first(.[] | select(.focused)).name')
+
+		grim -o "$OUTPUT" "$SCREENSHOT_NAME"
+		;;
+	"--region")
+		grim -g "$(slurp)" "$SCREENSHOT_NAME"
+		;;
+	"--full")
+		grim "$SCREENSHOT_NAME"
+		;;
+	"--current-window")
+		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+			CURRENT_WINDOW=$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
+		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+			CURRENT_WINDOW="$(swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')"
+		else
+			echo "Compositor $XDG_CURRENT_DESKTOP is not supported" >&2
+			exit 1
+		fi
+		grim -g "$CURRENT_WINDOW" "$SCREENSHOT_NAME"
+		;;
+	*)
+		echo "Unknown command: $*" >&2
+		echo "Available commands: --current-screen/--region/--full/--current-window" >&2
+		exit 1
+		;;
+esac
+
+wl-copy < "$SCREENSHOT_NAME"
