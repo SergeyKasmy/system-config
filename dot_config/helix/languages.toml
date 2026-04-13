@@ -65,3 +65,11 @@ language-servers = ["deno"]
 command = "deno"
 args = ["lsp"]
 config.deno.enable = true
+
+# C#
+[[language]]
+name = "c-sharp"
+language-servers = ["csharp-language-server"]
+
+[language-server.csharp-language-server]
+command = "csharp-language-server"
