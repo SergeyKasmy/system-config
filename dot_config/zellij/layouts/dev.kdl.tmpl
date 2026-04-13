@@ -1,0 +1,21 @@
+layout {
+	{{ include "dot_config/zellij/layouts/default_container.kdl" }}
+
+	new_tab_template {
+		default_container {
+			children
+		}
+	}
+
+	tab name="dev" {
+		default_container split_direction="vertical" {
+			// main editor
+			pane command="hx" focus=true
+			// sidebar with the compiler and an empty terminal
+			pane size="30%" stacked=true {
+				pane expanded=true
+				pane
+			}
+		}
+	}
+}
