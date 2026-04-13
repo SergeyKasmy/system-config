@@ -6,6 +6,7 @@ line-number = "relative"
 cursorline = true
 insert-final-newline = false
 bufferline = "multiple"
+editor-config=true
 
 [editor.cursor-shape]
 insert = "bar"
