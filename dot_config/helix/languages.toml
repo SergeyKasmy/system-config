@@ -52,3 +52,16 @@ language-servers = ["fish-lsp"]
 command = "fish-lsp"
 args = ["start"]
 environment = { "fish_lsp_show_client_popups" = "false" }
+
+# typescript with deno
+[[language]]
+name = "typescript"
+shebangs = ["deno"]
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = true
+language-servers = ["deno"]
+
+[language-server.deno]
+command = "deno"
+args = ["lsp"]
+config.deno.enable = true
