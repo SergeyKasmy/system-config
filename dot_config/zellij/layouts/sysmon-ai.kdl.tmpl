@@ -1,0 +1,26 @@
+layout {
+	{{ include "dot_config/zellij/layouts/default_container.kdl" }}
+
+	tab name="sysmon" {
+		default_container split_direction="vertical" {
+			pane command="btop" focus=true
+			pane size="33%" {
+				pane {
+					name "amdgpu_top"
+					command "amdgpu_top"
+					args "--dark"
+				}
+				pane size="10%" {
+					name "ollama ps"
+					command "watch"
+					args "ollama ps"
+				}
+				pane size="20%" {
+					name "docker comfyui"
+					command "fish"
+					args "-c" "while true; docker container logs -f comfyui 2> /dev/null; sleep 5s; end"
+				}
+			}
+		}
+	}
+}
