@@ -1,0 +1,90 @@
+[
+	{
+		"output": ["DP-1", "DP-3", "HDMI-A-2"], /* DP-3 - main monitor via the iGPU; HDMI-A-2 - the TV */
+		/* "ipc": true, */
+	    "layer": "top",
+	    "position": "top",
+	    "height": 30,
+		"spacing": 7,
+	    "modules-left": ["sway/workspaces", "sway/mode", "hyprland/workspaces", "hyprland/submap"],
+	    "modules-center": ["sway/window", "hyprland/window"],
+	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "temperature", "backlight", "sway/language", "hyprland/language", "battery", "tray", "clock"],
+		"sway/workspaces": {
+			"all-outputs": true,
+		},
+		"hyprland/workspaces": {
+			"all-outputs": true,
+		},
+	    "clock": {
+	        "format": "{:%A, %b %d, %H:%M}",
+	        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+			"on-click": "gsimplecal",
+	    },
+	    "cpu": {
+	        "format": "{usage}% ",
+	    },
+	    "memory": {
+	        "format": "{}% "
+	    },
+	    "temperature": {
+	        "format": "{temperatureC}°C {icon}",
+	        "format-icons": ["", "", ""],
+	        "critical-threshold": 80,
+	    },
+	    "backlight": {
+	        // "device": "acpi_video1",
+	        "format": "{percent}% {icon}",
+	        "format-icons": ["", ""]
+	    },
+	    "battery": {
+	        "states": {
+	            // "good": 95,
+	            "warning": 30,
+	            "critical": 15
+	        },
+	        "format": "{capacity}% {icon}",
+	        "format-charging": "{capacity}% ",
+	        "format-plugged": "{capacity}% ",
+	        "format-alt": "{time} {icon}",
+	        // "format-good": "", // An empty format will hide the module
+	        // "format-full": "",
+	        "format-icons": ["", "", "", "", ""]
+	    },
+		"tray": {
+			"spacing": 7,
+		},
+	    //"network": {
+	    //    "format-wifi": "{essid} ({signalStrength}%) ",
+	    //    "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+	    //    "format-linked": "{ifname} (No IP) ",
+	    //    "format-disconnected": "Disconnected ⚠",
+	    //    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+	    //},
+	    "pulseaudio": {
+	        "format": "{volume}% {icon}{format_source}",
+	        "format-bluetooth": "{volume}% {icon} {format_source}",
+	        "format-bluetooth-muted": " {icon} {format_source}",
+	        "format-muted": " {format_source}",
+	        //"format-source": "{volume}% ",
+	        "format-source-muted": " ",
+	        "format-icons": {
+	            "headphone": "",
+	            "hands-free": "",
+	            "headset": "",
+	            "phone": "",
+	            "portable": "",
+	            "default": ["", "", ""]
+	        },
+	        "on-click": "hyprctl keyword exec [float] pavucontrol-qt"
+	    },
+		"upower#mouse": {
+			"native-path": "hidpp_battery_0",
+			"format": "{percentage} 󰍽",
+			"show-icon": false
+		},
+		"custom/free_space": {
+			"exec": "free-space min --ignore '/boot,/.root,/.snapshots,/home/ciren/.snapshots,/mnt/hdd/.root,/mnt/hdd/.snapshots'",
+			"interval": 30,
+		}
+	}
+]

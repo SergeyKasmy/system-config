@@ -1,7 +1,6 @@
 [
 	{
-		"output": "DP-1",
-		/* "ipc": true, */
+		"output": "HDMI-A-1",
 	    "layer": "top",
 	    "position": "top",
 	    "height": 30,
@@ -75,7 +74,7 @@
 	            "portable": "",
 	            "default": ["", "", ""]
 	        },
-	        "on-click": "pavucontrol-qt"
+	        "on-click": "hyprctl keyword exec [float] pavucontrol-qt"
 	    },
 		"upower#mouse": {
 			"native-path": "hidpp_battery_0",
