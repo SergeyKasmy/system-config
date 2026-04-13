@@ -199,8 +199,8 @@ if status is-interactive
     alias ll 'ls -l'
     alias lla 'ls -Al'
 
-    if is_defined jump
-        jump shell fish | source
+    if is_defined zoxide
+        zoxide init --cmd cd fish | source
     end
 
     # overrides
@@ -347,5 +347,4 @@ if status is-interactive
         source $HOME/.config/fish/autoexec.fish
     end
 
-    zoxide init --cmd cd fish | source
 end
