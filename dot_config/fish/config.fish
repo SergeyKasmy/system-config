@@ -75,10 +75,12 @@ if status is-interactive
 
     # set global vars
     #
-    set -gx GPG_TTY (tty)
     set -gx EDITOR hx
     set -gx AUR_PAGER nvim
 
+    # gpg agent
+    # 
+    set -gx GPG_TTY (tty)
     if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
         set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
     end
@@ -106,6 +108,7 @@ if status is-interactive
 
     alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
     alias systemctlu 'systemctl --user'
+    alias journalctlu 'journalctl --user'
     alias tp 'gio trash'
     alias whatsmyip 'curl ipinfo.io/ip'
 
@@ -113,7 +116,7 @@ if status is-interactive
         pacman -Ql $argv[1] | grep /usr/bin/
     end
 
-    alias dua-root 'dua -i /home/.snapshots i (fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
+    alias dua-root 'sudo dua -i /home/.snapshots i (sudo fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
     alias dua-home 'dua -i /home/.snapshots i /home/ciren'
     function dua-raid
         if test -d /mnt/raid
