@@ -2,7 +2,8 @@
 
 [[language]]
 name = "python"
-language-servers = [{ name = "basedpyright", except-features = ["diagnostics"] }, "ruff"]
+# language-servers = [{ name = "basedpyright", except-features = ["diagnostics"] }, "ruff"]
+language-servers = ["ty", "ruff"]
 formatter = { command = "ruff", args = ["format", "-"] }
 auto-format = true
 
