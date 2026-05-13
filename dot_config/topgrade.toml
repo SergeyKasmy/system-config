@@ -89,6 +89,7 @@ disable = ["containers", "clam_av_db", "vim", "vcpkg", "jetbrains_idea"]
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
+"dockcheck" = "dockcheck -s"
 
 
 [python]
