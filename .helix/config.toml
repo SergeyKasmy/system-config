@@ -1,0 +1,4 @@
+[editor]
+workspace-lsp-roots = [
+  "dot_config/exact_hypr"
+]

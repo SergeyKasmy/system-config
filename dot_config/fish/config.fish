@@ -91,7 +91,7 @@ if status is-interactive
     #
     alias cfg-fish 'chezmoi edit -av ~/.config/fish/'
     alias cfg-helix 'chezmoi edit -av ~/.config/helix/'
-    alias cfg-hyprland 'chezmoi edit -av ~/.config/hypr/hyprland.conf'
+    alias cfg-hyprland 'chezmoi edit -av ~/.config/hypr/'
     alias cfg-nvim 'chezmoi edit -av ~/.config/nvim/'
     alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
     alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
