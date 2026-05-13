@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 case "$1" in
 	shutdown)
@@ -8,22 +8,21 @@ case "$1" in
 		reboot
 		;;
 	logout)
-		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-			uwsm stop
-		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
-			swaymsg exit
-		fi
+		uwsm stop
 		;;
 	suspend)
+		hyprlock & disown
 		systemctl suspend
 		;;
 	lock)
-		swaylock -i pictures/wallpapers/current.jpg
+		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+			hyprlock
+		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+			swaylock -i pictures/wallpapers/current.jpg
+		fi
 		;;
 	*)
 		echo "syscontrol: missing or invalid argument"
 		echo "Available commands: shutdown, reboot, logout, suspend, lock"
 		exit 1
 esac
-
-exit 0
