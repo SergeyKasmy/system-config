@@ -70,7 +70,14 @@ bind(win, "F", hl.dsp.window.fullscreen())
 bind(win, "W", hl.dsp.group.toggle())
 bind(win, "V", hl.dsp.layout("togglesplit"))
 
-bind(win, "Space", hl.dsp.focus({ window = "floating" }))
+bind(win, "Space", function()
+  local window = hl.get_active_window()
+  if window ~= nil and window.floating then
+    hl.dispatch(hl.dsp.focus({ window = "tiled" }))
+  else
+    hl.dispatch(hl.dsp.focus({ window = "floating" }))
+  end
+end)
 bind(win_shift, "Space", hl.dsp.window.float({ action = "toggle" }))
 
 bind(win, "C", hl.dsp.window.close())
