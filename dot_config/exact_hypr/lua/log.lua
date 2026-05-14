@@ -37,6 +37,7 @@ end
 
 local log_file = init_logger()
 
+-- TODO: take varargs, use inspect on each of them before concatinating and printing
 ---@param message string
 function Log(message)
   if not is_logging_enabled then return end

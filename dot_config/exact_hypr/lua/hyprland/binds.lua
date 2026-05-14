@@ -1,5 +1,5 @@
 local programs = require("lua.hyprland.programs")
-require("lua.utils")
+local utils = require("lua.utils")
 require("lua.log")
 
 hl.config({
@@ -122,11 +122,34 @@ bind(win, "D", exec_app(programs.menu))
 bind(win, "N", exec_app(programs.notification_center))
 
 -- Screenshots
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< conflict 1 of 1
++++++++++++++++++++++++++++++++++++ lvlzsvry 14b0135c "hyprland: add resize submap" (absorb destination)
 bind(nil, "Print", exec_app("way-screenshot --current-screen"))
 bind("SHIFT", "Print", exec_app("way-screenshot --region"))
 bind("CTRL", "Print", exec_app("way-screenshot --full"))
 bind({ "SHIFT", "CTRL" }, "Print", exec_app("way-screenshot --current-window"))
 
+local submap_resize = "Resize"
+bind(win, "R", hl.dsp.submap(submap_resize))
+hl.define_submap(submap_resize, function()
+  local step = 0.07 -- 7%
+
+  local function resize(dx, dy)
+    local size = hl.get_active_window().size
+    hl.dispatch(hl.dsp.window.resize({ x = size.x * dx, y = size.y * dy, relative = true }))
+  end
+
+  local opts = { repeating = true }
+
+  ---@format disable
+  bind(nil, { "Left", "H" },  function() resize(-step,  0)    end, opts)
+  bind(nil, { "Right", "L" }, function() resize( step,  0)    end, opts)
+  bind(nil, { "Up", "K" },    function() resize( 0,    -step) end, opts)
+  bind(nil, { "Down", "J" },  function() resize( 0,     step) end, opts)
+  ---@format enable
+
+  bind(nil, { "Return", "Escape" }, hl.dsp.submap("reset"))
+end)
 
 -- ┌────────────────────────────────────────────────────┐
 -- │                    SUBMAP: Apps                    │
