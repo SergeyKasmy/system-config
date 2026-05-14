@@ -208,10 +208,17 @@ end)
 -- │              SUBMAP: passthrough           │
 -- └────────────────────────────────────────────┘
 local submap_passthrough = "Passthrough"
-bind(win, "Escape", hl.dsp.submap(submap_passthrough))
 hl.define_submap(submap_passthrough, function()
-  bind(win, "Escape", hl.dsp.submap("reset"))
+  hl.bind("catchall", hl.dsp.no_op())
 end)
+
+bind(win, "Escape", function()
+  if hl.get_current_submap() == submap_passthrough then
+    hl.dispatch(hl.dsp.submap("reset"))
+  else
+    hl.dispatch(hl.dsp.submap(submap_passthrough))
+  end
+end, { submap_universal = true })
 
 -- Pass CTRL+F2 through to Discord
 -- bindn (non-consuming) → { non_consuming = true }
