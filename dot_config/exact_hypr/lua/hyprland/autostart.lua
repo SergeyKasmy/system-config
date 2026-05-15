@@ -1,4 +1,5 @@
 local programs = require("lua.hyprland.programs")
+local monitors = require("lua.hyprland.monitors")
 
 -- Only add programs here if they don't have systemd user services.
 local autostart = {
@@ -11,5 +12,12 @@ local autostart = {
 return function()
   for _, app in ipairs(autostart) do
     hl.exec_cmd(string.format("%s %s", programs.launcher, app))
+  end
+
+  -- move the second workspace to the second monitor on startup
+  local second = hl.get_monitor(monitors.second_monitor.names[1])
+    or hl.get_monitor(monitors.second_monitor.names[2])
+  if second ~= nil then
+    hl.dispatch(hl.dsp.workspace.move({ workspace = 2, monitor = second.name }))
   end
 end
