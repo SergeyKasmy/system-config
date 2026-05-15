@@ -30,6 +30,11 @@ hl.config({
       passes  = 2,
       popups  = true,
     },
+
+    glow = {
+      enabled = true,
+      range   = 3,
+    }
   },
 
   dwindle = {
