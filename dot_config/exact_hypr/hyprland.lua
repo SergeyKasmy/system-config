@@ -5,6 +5,7 @@ require("lua.hyprland.permissions")
 require("lua.hyprland.look_and_feel")
 require("lua.hyprland.input")
 require("lua.hyprland.window_rules")
+require("lua.hyprland.events")
 
 hl.on("hyprland.start", require("lua.hyprland.autostart"))
 
