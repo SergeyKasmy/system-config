@@ -2,22 +2,37 @@
 ---@diagnostic disable-next-line: duplicate-doc-field
 ---@field scale? string|number
 
+local M = {}
+
+M.main_monitor = {
+  names = { "DP-1", "DP-3" },
+  scale = 1.25,
+}
+
+M.second_monitor = {
+  names = { "HDMI-A-1", "HDMI-A-3" },
+  position = {
+    main_monitor_scaled = "2048x32",
+    main_monitor_native = "2560x32",
+  }
+}
+
 -- main monitor (dGPU and iGPU)
-for _, output in ipairs({ "DP-1", "DP-3" }) do
+for _, output in ipairs(M.main_monitor.names) do
   hl.monitor({
     output = output,
     mode = "2560x1440@170",
     position = "0x0",
-    scale = 1.25,
+    scale = M.main_monitor.scale,
   })
 end
 
 -- second monitor (dGPU and iGPU)
-for _, output in ipairs({ "HDMI-A-1", "HDMI-A-3" }) do
+for _, output in ipairs(M.second_monitor.names) do
   hl.monitor({
     output = output,
     mode = "preferred",
-    position = "2048x32",
+    position = M.second_monitor.position.main_monitor_scaled,
   })
 end
 
@@ -45,3 +60,5 @@ hl.monitor({
   position = "auto",
   scale = "auto"
 })
+
+return M
