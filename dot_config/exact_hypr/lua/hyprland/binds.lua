@@ -144,6 +144,7 @@ bind(win, "Return", exec_app(programs.terminal))
 bind(win_shift, "Return", exec_app(programs.terminal, { float = true }))
 bind(win, "D", exec_app(programs.menu))
 bind(win, "N", exec_app(programs.notification_center))
+bind(win_shift, "N", exec_app(programs.notification_center_dismiss))
 
 -- Screenshots
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< conflict 1 of 1
