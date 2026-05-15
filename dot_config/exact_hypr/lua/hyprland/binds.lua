@@ -5,7 +5,11 @@ require("lua.log")
 
 hl.config({
   binds = {
-    movefocus_cycles_groupfirst = true
+    movefocus_cycles_groupfirst = true,
+  },
+
+  group = {
+    group_on_movetoworkspace = true,
   }
 })
 
