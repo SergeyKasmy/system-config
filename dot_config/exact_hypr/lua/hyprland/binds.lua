@@ -243,7 +243,9 @@ bind(win, "Escape", function()
   end
 end, { submap_universal = true })
 
--- Pass CTRL+F2 through to Discord
--- bindn (non-consuming) → { non_consuming = true }
--- TODO: verify hl.dsp.window.pass is the correct Lua dispatcher name for `pass`
--- hl.bind("CTRL + F2", hl.dsp.window.pass({ window = "class:discord" }), { non_consuming = true })
+-- ┌──────────────────────────────────────────────┐
+-- │              Key combo passthrough           │
+-- └──────────────────────────────────────────────┘
+
+-- Pass CTRL+F2 through to Discord (toggle mute)
+hl.bind("CTRL + F2", hl.dsp.pass({ window = "class:discord" }), { non_consuming = true })
