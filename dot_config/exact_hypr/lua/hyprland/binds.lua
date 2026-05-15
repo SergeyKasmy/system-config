@@ -236,6 +236,29 @@ hl.define_submap(submap_link_opener, "reset", function()
   hl.bind("catchall", hl.dsp.submap("reset"))
 end)
 
+hl.on("keybinds.submap", function(submap)
+  if submap ~= submap_link_opener then return end
+
+  local notif = hl.notification.create({
+    icon    = 3,
+    timeout = 0,
+    text    = table.concat({
+      "  Link Opener",
+      "A  Anime (AniList)   B  Search (Bing)",
+      "G  Email (Gmail)     M  Maps",
+      "P  Photos            S  Steam",
+      "Y  YouTube",
+    }, "\n"),
+  })
+
+  -- local sub
+  -- sub = hl.on("keybinds.submap", function(new_submap)
+  --   if new_submap == submap_link_opener then return end
+  --   notif:dismiss()
+  --   sub:remove()
+  -- end)
+end)
+
 
 -- ┌────────────────────────────────────────────────────────────┐
 -- │                   SUBMAP: System Control                   │
