@@ -1,16 +1,16 @@
 hl.config({
   general = {
-    gaps_in       = 0,
-    gaps_out      = 0,
+    gaps_in     = 0,
+    gaps_out    = 0,
 
-    border_size   = 1,
+    border_size = 1,
 
-    col           = {
+    col         = {
       active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
       inactive_border = "rgba(595959aa)",
     },
 
-    layout        = "dwindle",
+    layout      = "dwindle",
   },
 
   decoration = {
@@ -96,6 +96,35 @@ hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "a
 hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
+
+hl.layer_rule({
+  match = {
+    namespace = "waybar"
+  },
+
+  blur = true,
+  xray = false
+})
+
+hl.layer_rule({
+  match = {
+    namespace = "rofi"
+  },
+
+  blur = true,
+  -- xray = false
+})
+
+hl.layer_rule({
+  name = "swaync",
+  match = {
+    namespace = "swaync.*"
+  },
+
+  blur = true,
+  -- xray = false,
+  ignore_alpha = 0.5,
+})
 
 hl.window_rule({
   name = "floating-windows-rounded-corners",
