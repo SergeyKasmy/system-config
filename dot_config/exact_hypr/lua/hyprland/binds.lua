@@ -212,7 +212,15 @@ hl.define_submap(submap_link_opener, "reset", function()
   ---@param key string
   ---@param url string
   local function link(key, url)
-    bind(nil, key, exec_app("xdg-open " .. url))
+    bind(nil, key, function()
+      hl.dispatch(exec_app("xdg-open " .. url))
+
+      local event_listener
+      event_listener = hl.on("window.urgent", function(window)
+        hl.dispatch(hl.dsp.focus({ window = window }))
+        event_listener:remove()
+      end)
+    end)
   end
 
   link("A", "https://anilist.co/home")
