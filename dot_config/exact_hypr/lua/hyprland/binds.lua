@@ -1,5 +1,6 @@
 local programs = require("lua.hyprland.programs")
-local utils = require("lua.utils")
+local monitors = require("lua.hyprland.monitors")
+require("lua.utils")
 require("lua.log")
 
 hl.config({
@@ -111,6 +112,24 @@ bind(nil, "XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 bind(nil, "XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 bind(nil, "XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 bind(nil, "XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+-- Toggle main monitor scale
+bind(win, "M", function()
+  local main = hl.get_monitor(monitors.main_monitor.names[1]) or hl.get_monitor(monitors.main_monitor.names[2])
+  if main == nil then return end
+
+  local is_scaled    = main.scale > 1.1
+  local new_scale    = is_scaled and 1.0 or monitors.main_monitor.scale
+  local new_position = is_scaled and monitors.second_monitor.position.main_monitor_native
+      or monitors.second_monitor.position.main_monitor_scaled
+
+  hl.monitor({ output = main.name, scale = new_scale })
+
+  local second = hl.get_monitor(monitors.second_monitor.names[1]) or hl.get_monitor(monitors.second_monitor.names[2])
+  if second ~= nil then
+    hl.monitor({ output = second.name, position = new_position })
+  end
+end)
 
 --------------
 ---- Apps ----
