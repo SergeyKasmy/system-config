@@ -36,6 +36,12 @@ hl.window_rule({
   float = true,
 })
 
+hl.window_rule({
+  name      = "telegram-workspace",
+  match     = { class = "org.telegram.desktop" },
+  workspace = "2",
+})
+
 -- Don't tile ueberzug
 hl.window_rule({
   name     = "ueberzugpp",
