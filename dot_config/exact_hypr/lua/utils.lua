@@ -52,6 +52,12 @@ function M.table.extend(base, overrides)
   return result
 end
 
+---@param table table
+---@return boolean
+function M.table.is_empty(table)
+    return next(table) == nil
+end
+
 function M.inspect(val)
     if type(val) == "table" then
         local s = "{ "
