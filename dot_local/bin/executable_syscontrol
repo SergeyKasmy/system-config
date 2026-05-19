@@ -2,24 +2,19 @@
 
 case "$1" in
 	shutdown)
-		poweroff
+		exec poweroff
 		;;
 	reboot)
-		reboot
+		exec reboot
 		;;
 	logout)
-		uwsm stop
+		exec uwsm stop
 		;;
 	suspend)
-		hyprlock & disown
-		systemctl suspend
+		exec systemctl suspend
 		;;
 	lock)
-		if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-			hyprlock
-		elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
-			swaylock -i pictures/wallpapers/current.jpg
-		fi
+		exec loginctl lock-session
 		;;
 	*)
 		echo "syscontrol: missing or invalid argument"
