@@ -1,7 +1,12 @@
+local bind = require("lua.hyprland.binds.bind")
+local submap = require("lua.hyprland.binds.submap")
+
 local programs = require("lua.hyprland.programs")
 local links = require("lua.hyprland.binds.links")
 local monitors = require("lua.hyprland.monitors")
-require("lua.utils")
+
+---@diagnostic disable-next-line: unused-local
+local utils = require("lua.utils")
 require("lua.log")
 
 hl.config({
@@ -14,34 +19,7 @@ hl.config({
   }
 })
 
----@param mods string|string[]|nil # Mod keys - both have to be pressed
----@param keys string|string[] # Actual keys - either of them has to be pressed
----@param dispatcher function|HL.Dispatcher
----@param opts? HL.BindOptions
-local function bind(mods, keys, dispatcher, opts)
-  local mods_string
-  if type(mods) == "table" then mods_string = table.concat(mods, " + ") else mods_string = mods end
 
-  local keys_table
-  if type(keys) == "string" then keys_table = { keys } else keys_table = keys end
-
-
-  for _, key in ipairs(keys_table) do
-    local parts = {}
-    if mods_string ~= nil then table.insert(parts, mods_string) end
-    table.insert(parts, key)
-
-    local full_key_string = table.concat(parts, " + ")
-
-    Log("Binding " .. full_key_string)
-
-    hl.bind(full_key_string, dispatcher, opts)
-  end
-end
-
----------------------
----- KEYBINDINGS ----
----------------------
 
 ------------------------
 ---- System control ----
@@ -147,16 +125,16 @@ bind(win, "N", exec_app(programs.notification_center))
 bind(win_shift, "N", exec_app(programs.notification_center_dismiss))
 
 -- Screenshots
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< conflict 1 of 1
-+++++++++++++++++++++++++++++++++++ lvlzsvry 14b0135c "hyprland: add resize submap" (absorb destination)
 bind(nil, "Print", exec_app("way-screenshot --current-screen"))
 bind("SHIFT", "Print", exec_app("way-screenshot --region"))
 bind("CTRL", "Print", exec_app("way-screenshot --full"))
 bind({ "SHIFT", "CTRL" }, "Print", exec_app("way-screenshot --current-window"))
 
-local submap_resize = "Resize"
-bind(win, "R", hl.dsp.submap(submap_resize))
-hl.define_submap(submap_resize, function()
+-- ┌──────────────────────────────────────────────────────┐
+-- │                    SUBMAP: Resize                    │
+-- └──────────────────────────────────────────────────────┘
+
+submap("Resize", { win, "R" }, { reset_to = "reset", catchall_reset = true }, function()
   local step = 0.07 -- 7%
 
   local function resize(dx, dy)
@@ -172,17 +150,13 @@ hl.define_submap(submap_resize, function()
   bind(nil, { "Up", "K" },    function() resize( 0,    -step) end, opts)
   bind(nil, { "Down", "J" },  function() resize( 0,     step) end, opts)
   ---@format enable
-
-  bind(nil, { "Return", "Escape" }, hl.dsp.submap("reset"))
 end)
 
 -- ┌────────────────────────────────────────────────────┐
 -- │                    SUBMAP: Apps                    │
 -- └────────────────────────────────────────────────────┘
 
-local submap_app_launcher = "App Launcher"
-bind(win, "A", hl.dsp.submap(submap_app_launcher))
-hl.define_submap(submap_app_launcher, "reset", function()
+submap("App Launcher", { win, "A" }, { reset_to = "reset", catchall_reset = true }, function()
   ---@param key string
   ---@param program string
   ---@param floating? boolean
@@ -200,20 +174,17 @@ hl.define_submap(submap_app_launcher, "reset", function()
   app("T", programs.telegram)
   app("D", programs.discord)
   app("S", programs.service_manager, true)
-
-  hl.bind("catchall", hl.dsp.submap("reset"))
 end)
-
 
 -- ┌───────────────────────────────────────────────┐
 -- │                  SUBMAP: Links                │
 -- └───────────────────────────────────────────────┘
-local submap_link_opener = "Link Opener"
-bind(win_shift, "A", hl.dsp.submap(submap_link_opener))
-hl.define_submap(submap_link_opener, "reset", function()
+
+submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset = true }, function(keybind_help)
   ---@param key string
   ---@param url string
-  local function link(key, url)
+  ---@param description string
+  local function link(key, url, description)
     bind(nil, key, function()
       hl.dispatch(exec_app("xdg-open " .. url))
 
@@ -223,49 +194,25 @@ hl.define_submap(submap_link_opener, "reset", function()
         event_listener:remove()
       end)
     end)
+
+    keybind_help[key] = description
   end
 
-  link("A", links.anime)
-  link("B", links.search)
-  link("G", links.email)
-  link("P", links.photos)
-  link("M", links.maps)
-  link("S", links.steam)
-  link("Y", links.youtube)
-
-  hl.bind("catchall", hl.dsp.submap("reset"))
-end)
-
-hl.on("keybinds.submap", function(submap)
-  if submap ~= submap_link_opener then return end
-
-  local notif = hl.notification.create({
-    icon    = 3,
-    timeout = 0,
-    text    = table.concat({
-      "  Link Opener",
-      "A  Anime (AniList)   B  Search (Bing)",
-      "G  Email (Gmail)     M  Maps",
-      "P  Photos            S  Steam",
-      "Y  YouTube",
-    }, "\n"),
-  })
-
-  -- local sub
-  -- sub = hl.on("keybinds.submap", function(new_submap)
-  --   if new_submap == submap_link_opener then return end
-  --   notif:dismiss()
-  --   sub:remove()
-  -- end)
+  link("A", links.anime, "Anilist")
+  link("B", links.search, "Search")
+  link("G", links.email, "Gmail")
+  link("P", links.photos, "Photos")
+  link("M", links.maps, "Maps")
+  link("S", links.steam, "Steam")
+  link("Y", links.youtube, "Youtube")
 end)
 
 
 -- ┌────────────────────────────────────────────────────────────┐
 -- │                   SUBMAP: System Control                   │
 -- └────────────────────────────────────────────────────────────┘
-local submap_syscontrol = "System Control"
-bind(win, "X", hl.dsp.submap(submap_syscontrol))
-hl.define_submap(submap_syscontrol, "reset", function()
+
+submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = true }, function()
   ---@param key string
   ---@param cmd string
   local function sys(key, cmd)
@@ -277,8 +224,6 @@ hl.define_submap(submap_syscontrol, "reset", function()
   sys("I", "logout")
   sys("D", "suspend")
   sys("L", "lock")
-
-  hl.bind("catchall", hl.dsp.submap("reset"))
 end)
 
 
