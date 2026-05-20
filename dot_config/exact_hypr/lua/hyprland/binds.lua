@@ -7,7 +7,8 @@ local monitors = require("lua.hyprland.monitors")
 
 ---@diagnostic disable-next-line: unused-local
 local utils = require("lua.utils")
-require("lua.log")
+---@diagnostic disable-next-line: unused-local
+local log = require("lua.log")
 
 hl.config({
   binds = {
@@ -18,8 +19,6 @@ hl.config({
     group_on_movetoworkspace = true,
   }
 })
-
-
 
 ------------------------
 ---- System control ----

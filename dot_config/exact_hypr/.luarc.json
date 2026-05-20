@@ -5,8 +5,9 @@
     ]
   },
   "diagnostics": {
-    "globals": ["hl",
-            "exec",
-            "exec_app"]
+    "globals": ["hl"]
+  },
+  "runtime": {
+    "version": "Lua 5.5",
   }
 }

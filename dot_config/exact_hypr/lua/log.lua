@@ -1,48 +1,93 @@
-local is_logging_enabled = true
+local init = require("lua.log.init")
+local utils = require("lua.utils")
 
-local function get_target_dir()
-  local xdg_cache_home = os.getenv("XDG_CACHE_HOME")
+---@alias MinLogLevel "NO" | "ERROR" | "INFO" | "DEBUG" | "TRACE"
+---@alias LogLevel "ERROR" | "INFO" | "DEBUG" | "TRACE"
 
-  local cache_dir
-  if xdg_cache_home ~= nil then
-    cache_dir = xdg_cache_home
-  else
-    local home = os.getenv("HOME")
-    if home == nil then
-      error("Neither XDG_CACHE_HOME nor HOME environment variables are set.")
-    end
+local M = {
+  config = {
+    ---@type MinLogLevel
+    min_log_level = "INFO"
+  }
+}
 
-    cache_dir = home .. "/.cache"
+local log_file = init()
+local spans = {}
+
+---@param log_level LogLevel
+---@return boolean
+local function skip_log(log_level)
+  local min = M.config.min_log_level
+
+  ---@format disable
+  local is_filtered_out = {
+    log_level == "ERROR" and (min == "NO"),
+    log_level == "INFO"  and (min == "NO" or min == "ERROR"),
+    log_level == "DEBUG" and (min == "NO" or min == "ERROR" or min == "INFO"),
+    log_level == "TRACE" and (min == "NO" or min == "ERROR" or min == "INFO" or min == "DEBUG"),
+  }
+  ---@format enable
+
+  for _, condition in ipairs(is_filtered_out) do
+    if condition then return true end
   end
 
-  return cache_dir .. "/hyprland"
+  return false
 end
 
-local function init_logger()
-  local target_dir = get_target_dir()
+---@param log_level LogLevel
+---@param ... any
+function M.log(log_level, ...)
+  if skip_log(log_level) then return end
 
-  os.execute(string.format('mkdir -p "%s"', target_dir))
-
-  local log_path = target_dir .. "/lua.log"
-  local file, err = io.open(log_path, "a+")
-
-  if not file then
-    error("Couldn't open log file: " .. err)
-  end
-
-  file:setvbuf("line")
-
-  return file
-end
-
-local log_file = init_logger()
-
--- TODO: take varargs, use inspect on each of them before concatinating and printing
----@param message string
-function Log(message)
-  if not is_logging_enabled then return end
-  
   local timestamp = os.date("%Y-%m-%d %H:%M:%S")
 
-  log_file:write(string.format("[%s] %s\n", timestamp, message))
+  local message = table.concat(utils.table.map({ ... }, function(v) return utils.to_string(v) end), " ")
+
+  local log_message
+  if #spans == 0 then
+    log_message = string.format("[%s %s] %s\n", timestamp, log_level, message)
+  else
+    log_message = string.format("[%s %s %s] %s\n", timestamp, log_level, table.concat(spans, "::"), message)
+  end
+
+  log_file:write(log_message)
 end
+
+function M.error(...)
+  M.log("ERROR", ...)
+end
+
+function M.info(...)
+  M.log("INFO", ...)
+end
+
+function M.debug(...)
+  M.log("DEBUG", ...)
+end
+
+function M.trace(...)
+  M.log("TRACE", ...)
+end
+
+---@generic T
+---@param span string
+---@param fn fun(): T?
+---@return T?
+function M.spanned(span, fn)
+  table.insert(spans, span)
+  local result = fn()
+  table.remove(spans)
+
+  return result
+end
+
+---@param span string
+---@param path string
+function M.spanned_require(span, path)
+  table.insert(spans, span)
+  require(path)
+  table.remove(spans)
+end
+
+return M
