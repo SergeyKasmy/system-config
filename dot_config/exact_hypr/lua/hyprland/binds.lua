@@ -1,3 +1,5 @@
+local api = require("lua.hyprland.api")
+local dsp = api.dsp
 local bind = require("lua.hyprland.binds.bind")
 local submap = require("lua.hyprland.binds.submap")
 
@@ -28,25 +30,24 @@ local win = "SUPER"
 local win_alt = "SUPER + ALT"
 local win_shift = "SUPER + SHIFT"
 
-bind(win_shift, "R", exec("hyprctl reload"))
+bind(win_shift, "R", dsp.exec("hyprctl reload"))
 
--- Focus movement
-bind(win, { "Left", "H" }, hl.dsp.focus({ direction = "l" }))
-bind(win, { "Right", "L" }, hl.dsp.focus({ direction = "r" }))
-bind(win, { "Up", "J" }, hl.dsp.focus({ direction = "d" }))
-bind(win, { "Down", "K" }, hl.dsp.focus({ direction = "u" }))
+bind(win, { "Left", "H" }, dsp.focus.left())
+bind(win, { "Right", "L" }, dsp.focus.right())
+bind(win, { "Up", "J" }, dsp.focus.up())
+bind(win, { "Down", "K" }, dsp.focus.down())
 
 -- Move window
-bind(win_shift, { "Left", "H" }, hl.dsp.window.move({ direction = "l" }))
-bind(win_shift, { "Right", "L" }, hl.dsp.window.move({ direction = "r" }))
-bind(win_shift, { "Up", "J" }, hl.dsp.window.move({ direction = "d" }))
-bind(win_shift, { "Down", "K" }, hl.dsp.window.move({ direction = "u" }))
+bind(win_shift, { "Left", "H" }, dsp.window.move_left())
+bind(win_shift, { "Right", "L" }, dsp.window.move_right())
+bind(win_shift, { "Up", "J" }, dsp.window.move_up())
+bind(win_shift, { "Down", "K" }, dsp.window.move_down())
 
 -- Move current workspace to a monitor
-bind(win_alt, { "Left", "H" }, hl.dsp.workspace.move({ monitor = "l" }))
-bind(win_alt, { "Right", "L" }, hl.dsp.workspace.move({ monitor = "r" }))
-bind(win_alt, { "Up", "J" }, hl.dsp.workspace.move({ monitor = "d" }))
-bind(win_alt, { "Down", "K" }, hl.dsp.workspace.move({ monitor = "u" }))
+bind(win_alt, { "Left", "H" }, dsp.workspace.move_left())
+bind(win_alt, { "Right", "L" }, dsp.workspace.move_right())
+bind(win_alt, { "Up", "J" }, dsp.workspace.move_up())
+bind(win_alt, { "Down", "K" }, dsp.workspace.move_down())
 
 -- Window management
 bind(win, "F", hl.dsp.window.fullscreen())
@@ -64,7 +65,7 @@ end)
 bind(win_shift, "Space", hl.dsp.window.float({ action = "toggle" }))
 
 bind(win, "C", hl.dsp.window.close())
-bind(win_shift, "C", exec("toggle-suspend hyprland"))
+bind(win_shift, "C", dsp.exec("toggle-suspend hyprland"))
 
 -- Workspace switching
 for i = 1, 10 do
@@ -82,12 +83,12 @@ bind("ALT", "mouse:272", hl.dsp.window.drag(), { mouse = true })
 bind("ALT", "mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 local volume_opts = { locked = true, repeating = true }
-bind(nil, "XF86AudioRaiseVolume", exec("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), volume_opts)
-bind(nil, "XF86AudioLowerVolume", exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), volume_opts)
-bind(nil, "XF86AudioMute", exec("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), volume_opts)
-bind(nil, "XF86AudioMicMute", exec("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), volume_opts)
-bind(nil, "XF86MonBrightnessUp", exec("brightnessctl -e4 -n2 set 5%+"), volume_opts)
-bind(nil, "XF86MonBrightnessDown", exec("brightnessctl -e4 -n2 set 5%-"), volume_opts)
+bind(nil, "XF86AudioRaiseVolume", dsp.exec("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), volume_opts)
+bind(nil, "XF86AudioLowerVolume", dsp.exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), volume_opts)
+bind(nil, "XF86AudioMute", dsp.exec("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), volume_opts)
+bind(nil, "XF86AudioMicMute", dsp.exec("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), volume_opts)
+bind(nil, "XF86MonBrightnessUp", dsp.exec("brightnessctl -e4 -n2 set 5%+"), volume_opts)
+bind(nil, "XF86MonBrightnessDown", dsp.exec("brightnessctl -e4 -n2 set 5%-"), volume_opts)
 
 -- Media keys
 bind(nil, "XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
@@ -117,17 +118,17 @@ end)
 ---- Apps ----
 --------------
 
-bind(win, "Return", exec_app(programs.terminal))
-bind(win_shift, "Return", exec_app(programs.terminal, { float = true }))
-bind(win, "D", exec_app(programs.menu))
-bind(win, "N", exec_app(programs.notification_center))
-bind(win_shift, "N", exec_app(programs.notification_center_dismiss))
+bind(win, "Return", dsp.exec_app(programs.terminal))
+bind(win_shift, "Return", dsp.exec_app(programs.terminal, { float = true }))
+bind(win, "D", dsp.exec_app(programs.menu))
+bind(win, "N", dsp.exec_app(programs.notification_center))
+bind(win_shift, "N", dsp.exec_app(programs.notification_center_dismiss))
 
 -- Screenshots
-bind(nil, "Print", exec_app("way-screenshot --current-screen"))
-bind("SHIFT", "Print", exec_app("way-screenshot --region"))
-bind("CTRL", "Print", exec_app("way-screenshot --full"))
-bind({ "SHIFT", "CTRL" }, "Print", exec_app("way-screenshot --current-window"))
+bind(nil, "Print", dsp.exec_app("way-screenshot --current-screen"))
+bind("SHIFT", "Print", dsp.exec_app("way-screenshot --region"))
+bind("CTRL", "Print", dsp.exec_app("way-screenshot --full"))
+bind({ "SHIFT", "CTRL" }, "Print", dsp.exec_app("way-screenshot --current-window"))
 
 -- ┌──────────────────────────────────────────────────────┐
 -- │                    SUBMAP: Resize                    │
@@ -156,12 +157,10 @@ end)
 -- └────────────────────────────────────────────────────┘
 
 submap("App Launcher", { win, "A" }, { reset_to = "reset", catchall_reset = true }, function()
-  ---@param key string
-  ---@param program string
   ---@param floating? boolean
   local function app(key, program, floating)
     local float = floating ~= nil and floating or false
-    bind(nil, key, exec_app(program, { float = float }))
+    bind(nil, key, dsp.exec_app(program, { float = float }))
   end
 
   app("C", programs.browser)
@@ -180,12 +179,9 @@ end)
 -- └───────────────────────────────────────────────┘
 
 submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset = true }, function(keybind_help)
-  ---@param key string
-  ---@param url string
-  ---@param description string
   local function link(key, url, description)
     bind(nil, key, function()
-      hl.dispatch(exec_app("xdg-open " .. url))
+      hl.dispatch(dsp.exec_app("xdg-open " .. url))
 
       local event_listener
       event_listener = hl.on("window.urgent", function(window)
@@ -212,10 +208,8 @@ end)
 -- └────────────────────────────────────────────────────────────┘
 
 submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = true }, function()
-  ---@param key string
-  ---@param cmd string
   local function sys(key, cmd)
-    bind(nil, key, exec("syscontrol " .. cmd), { locked = true, release = true })
+    bind(nil, key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
   end
 
   sys("S", "shutdown")
@@ -242,9 +236,9 @@ bind(win, "Escape", function()
   end
 end, { submap_universal = true })
 
--- ┌──────────────────────────────────────────────┐
--- │              Key combo passthrough           │
--- └──────────────────────────────────────────────┘
+-------------------------------
+---- Key combo passthrough ----
+-------------------------------
 
 -- Pass CTRL+F2 through to Discord (toggle mute)
 hl.bind("CTRL + F2", hl.dsp.pass({ window = "class:discord" }), { non_consuming = true })
