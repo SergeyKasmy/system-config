@@ -98,6 +98,7 @@ hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "al
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 
 hl.layer_rule({
+  name = "waybar",
   match = {
     namespace = "waybar"
   },
@@ -107,6 +108,7 @@ hl.layer_rule({
 })
 
 hl.layer_rule({
+  name = "rofi",
   match = {
     namespace = "rofi"
   },
