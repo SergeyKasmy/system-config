@@ -1,3 +1,4 @@
+local api = require("lua.hyprland.api")
 local programs = require("lua.hyprland.programs")
 local monitors = require("lua.hyprland.monitors")
 
@@ -9,15 +10,18 @@ local autostart = {
   "gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479",
 }
 
-return function()
+
+hl.on("hyprland.start", function()
   for _, app in ipairs(autostart) do
-    hl.exec_cmd(string.format("%s %s", programs.launcher, app))
+    api.exec_app(app)
   end
 
   -- move the second workspace to the second monitor on startup
   local second = hl.get_monitor(monitors.second_monitor.names[1])
-    or hl.get_monitor(monitors.second_monitor.names[2])
+      or hl.get_monitor(monitors.second_monitor.names[2])
+
   if second ~= nil then
     hl.dispatch(hl.dsp.workspace.move({ workspace = 2, monitor = second.name }))
   end
 end
+)

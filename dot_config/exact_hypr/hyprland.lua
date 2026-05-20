@@ -9,10 +9,6 @@ log.spanned_require("look_and_feel", "lua.hyprland.look_and_feel")
 log.spanned_require("input", "lua.hyprland.input")
 log.spanned_require("window_rules", "lua.hyprland.window_rules")
 log.spanned_require("events", "lua.hyprland.events")
-
-log.spanned("autorun", function()
-  hl.on("hyprland.start", require("lua.hyprland.autostart"))
-end)
-
+log.spanned_require("autostart", "lua.hyprland.autostart")
 
 Config = require("lua.hyprland.config_proxy")()
