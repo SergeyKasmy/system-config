@@ -1,12 +1,13 @@
 local bind = require("lua.hyprland.binds.bind")
 local utils = require("lua.utils")
+local log = require("lua.log")
 
 ---@param name string
 ---@param key [ModKeys, Keys]
 ---@param opts { reset_to?: string, catchall_reset: boolean? }
 ---@param contents fun(keybind_help: table<string, string>)
-return function(name, key, opts, contents)
-  Log(string.format("Binding %s to start submap %s", utils.inspect(key), name))
+local function inner(name, key, opts, contents)
+  log.trace("Binding", key, "to start submap", name)
   bind(key[1], key[2], hl.dsp.submap(name))
 
   local action = function()
@@ -50,7 +51,7 @@ return function(name, key, opts, contents)
 
         local text = table.concat(help_text, "\n")
 
-        Log("Full help text:\n" .. text)
+        log.trace("Full help text:\n" .. text)
 
         local prev_font_family = Config.misc.font_family()
         Config.misc.font_family = "mono"
@@ -81,10 +82,18 @@ return function(name, key, opts, contents)
   end
 
   if opts.reset_to == nil then
-    Log("Defining submap " .. name .. ", non reseting")
+    log.trace("Defining submap " .. name .. ", non reseting")
     hl.define_submap(name, action)
   else
-    Log("Defining submap " .. name .. ", reseting")
+    log.trace("Defining submap " .. name .. ", reseting")
     hl.define_submap(name, opts.reset_to, action)
   end
+end
+
+---@param name string
+---@param key [ModKeys, Keys]
+---@param opts { reset_to?: string, catchall_reset: boolean? }
+---@param contents fun(keybind_help: table<string, string>)
+return function(name, key, opts, contents)
+  log.spanned(string.format("submap[%s]", name), function() inner(name, key, opts, contents) end)
 end

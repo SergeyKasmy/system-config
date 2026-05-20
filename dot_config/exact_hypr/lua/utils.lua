@@ -1,32 +1,4 @@
-local programs = require("lua.hyprland.programs")
-require("lua.log")
-
--- Global utils
-
----@class WindowRule
----@field float? boolean
-
-
----@param cmd string
----@param opts? WindowRule
----@return HL.Dispatcher
-function exec(cmd, opts)
-    Log("Registering cmd dispatcher for: " .. cmd)
-
-    return hl.dsp.exec_cmd(cmd, opts)
-end
-
--- Opens a big application. For tiny scripts use `exec`
----@param app string
----@param opts? WindowRule
----@return HL.Dispatcher
-function exec_app(app, opts)
-  Log("Registering app dispatcher for: " .. app)
-
-  return hl.dsp.exec_cmd(programs.launcher .. " " .. app, opts)
-end
-
--- Scoped utils
+-- Note: make sure NOT to depend on log to avoid a circular dependency
 
 local M = {
   table = {}
@@ -42,11 +14,11 @@ function M.table.extend(base, overrides)
 
   -- Copy base table
   for k, v in pairs(base) do
-      result[k] = v
+    result[k] = v
   end
   -- Apply overrides
   for k, v in pairs(overrides) do
-      result[k] = v
+    result[k] = v
   end
 
   return result
@@ -55,24 +27,46 @@ end
 ---@param table table
 ---@return boolean
 function M.table.is_empty(table)
-    return next(table) == nil
+  return next(table) == nil
+end
+
+---@generic T, U
+---@param iter T[]
+---@param fn fun(t: T): U
+---@return U[]
+function M.table.map(iter, fn)
+  local result = {}
+
+  for i, v in ipairs(iter) do
+    result[i] = fn(v)
+  end
+
+  return result
 end
 
 function M.inspect(val)
-    if type(val) == "table" then
-        local s = "{ "
-        for k, v in pairs(val) do
-            -- Format the key
-            local key = type(k) == "string" and string.format("[%q]", k) or string.format("[%s]", tostring(k))
-            -- Recursively format the value
-            s = s .. key .. " = " .. M.inspect(v) .. ", "
-        end
-        return s .. "}"
-    elseif type(val) == "string" then
-        return string.format("%q", val) -- Wraps strings in quotes
-    else
-        return tostring(val)
+  if type(val) == "table" then
+    local s = "{ "
+    for k, v in pairs(val) do
+      -- Format the key
+      local key = type(k) == "string" and string.format("[%q]", k) or string.format("[%s]", tostring(k))
+      -- Recursively format the value
+      s = s .. key .. " = " .. M.inspect(v) .. ", "
     end
+    return s .. "}"
+  elseif type(val) == "string" then
+    return string.format("%q", val)     -- Wraps strings in quotes
+  else
+    return tostring(val)
+  end
+end
+
+function M.to_string(val)
+  if type(val) == "string" then
+    return val
+  end
+
+  return M.inspect(val)
 end
 
 return M

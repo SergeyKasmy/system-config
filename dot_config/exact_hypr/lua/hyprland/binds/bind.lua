@@ -1,3 +1,5 @@
+local log = require("lua.log")
+
 ---@alias ModKeys string|string[]|nil
 ---@alias Keys string|string[]
 ---@alias Dispatcher function|HL.Dispatcher
@@ -21,7 +23,7 @@ return function(mods, keys, dispatcher, opts)
 
     local full_key_string = table.concat(parts, " + ")
 
-    Log("Binding " .. full_key_string)
+    log.trace("Binding", full_key_string)
 
     hl.bind(full_key_string, dispatcher, opts)
   end
