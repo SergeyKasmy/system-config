@@ -207,9 +207,10 @@ end)
 -- │                   SUBMAP: System Control                   │
 -- └────────────────────────────────────────────────────────────┘
 
-submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = true }, function()
+submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = true }, function(add_help)
   local function sys(key, cmd)
     bind(nil, key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
+    add_help(key, cmd)
   end
 
   sys("S", "shutdown")
