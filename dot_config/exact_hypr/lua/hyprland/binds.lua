@@ -180,9 +180,9 @@ end)
 -- └───────────────────────────────────────────────┘
 
 submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset = true }, function(keybind_help)
-  local function link(key, url, description)
+  local function link(key, website)
     bind(nil, key, function()
-      hl.dispatch(dsp.exec_app("xdg-open " .. url))
+      api.exec_app("xdg-open " .. website.url)
 
       local event_listener
       event_listener = hl.on("window.urgent", function(window)
@@ -191,16 +191,18 @@ submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset =
       end)
     end)
 
-    keybind_help[key] = description
+    keybind_help[key] = website.description
+    log.trace("Added", key, "to keybind_help")
+    log.trace("keybind_help =", keybind_help)
   end
 
-  link("A", links.anime, "Anilist")
-  link("B", links.search, "Search")
-  link("G", links.email, "Gmail")
-  link("P", links.photos, "Photos")
-  link("M", links.maps, "Maps")
-  link("S", links.steam, "Steam")
-  link("Y", links.youtube, "Youtube")
+  link("B", links.search)
+  link("G", links.email)
+  link("Y", links.youtube)
+  link("P", links.photos)
+  link("M", links.maps)
+  link("A", links.anime)
+  link("S", links.steam)
 end)
 
 

@@ -1,9 +1,17 @@
+---@return { url: string, description: string }
+local function website(url, description)
+  return {
+    url = url,
+    description = description,
+  }
+end
+
 return {
-  anime = "https://anilist.co/home",
-  search = "https://bing.com/",
-  email = "https://mail.google.com/",
-  photos = "https://photos.google.com/",
-  maps = "https://maps.google.com/",
-  steam = "https://steamcommunity.com/my/profile",
-  youtube = "https://youtube.com",
+  anime = website("https://anilist.co/home", "Anilist"),
+  search = website("https://bing.com/", "Bing"),
+  email = website("https://mail.google.com/", "Gmail"),
+  photos = website("https://photos.google.com/", "Google Photos"),
+  maps = website("https://maps.google.com/", "Google Maps"),
+  steam = website("https://steamcommunity.com/my/profile", "Steam"),
+  youtube = website("https://youtube.com", "Youtube"),
 }
