@@ -2,19 +2,22 @@ local bind = require("lua.hyprland.binds.bind")
 local utils = require("lua.utils")
 local log = require("lua.log")
 
+
 ---@param name string
 ---@param key [ModKeys, Keys]
 ---@param opts { reset_to?: string, catchall_reset: boolean? }
----@param contents fun(keybind_help: table<string, string>)
+---@param contents fun(add_keybind_help: fun(key: string, description: string))
 local function inner(name, key, opts, contents)
   log.trace("Binding", key, "to start submap", name)
   bind(key[1], key[2], hl.dsp.submap(name))
 
   local action = function()
-    ---@type table<string, string>
+    ---@type { key: string, description: string }[]
     local keybind_help = {}
 
-    contents(keybind_help)
+    contents(function(keybind, description)
+      table.insert(keybind_help, { key = keybind, description = description })
+    end)
 
     if not utils.table.is_empty(keybind_help) then
       hl.on("keybinds.submap", function(submap_name)
@@ -24,9 +27,9 @@ local function inner(name, key, opts, contents)
 
         local entries = {}
         local longest_left_entry = 0
-        for k, desc in pairs(keybind_help) do
-          table.insert(entries, { key = k, desc = desc })
-          local len = #k + 2 + #desc
+        for _, help in ipairs(keybind_help) do
+          table.insert(entries, { key = help.key, desc = help.description })
+          local len = #help.key + 2 + #help.description
           if len > longest_left_entry then longest_left_entry = len end
         end
 
@@ -93,7 +96,7 @@ end
 ---@param name string
 ---@param key [ModKeys, Keys]
 ---@param opts { reset_to?: string, catchall_reset: boolean? }
----@param contents fun(keybind_help: table<string, string>)
+---@param contents fun(add_keybind_help: fun(key: string, description: string))
 return function(name, key, opts, contents)
   log.spanned(string.format("submap[%s]", name), function() inner(name, key, opts, contents) end)
 end

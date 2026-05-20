@@ -179,7 +179,7 @@ end)
 -- │                  SUBMAP: Links                │
 -- └───────────────────────────────────────────────┘
 
-submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset = true }, function(keybind_help)
+submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset = true }, function(add_help)
   local function link(key, website)
     bind(nil, key, function()
       api.exec_app("xdg-open " .. website.url)
@@ -191,9 +191,7 @@ submap("Link Opener", { win_shift, "A" }, { reset_to = "reset", catchall_reset =
       end)
     end)
 
-    keybind_help[key] = website.description
-    log.trace("Added", key, "to keybind_help")
-    log.trace("keybind_help =", keybind_help)
+    add_help(key, website.description)
   end
 
   link("B", links.search)
