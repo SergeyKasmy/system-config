@@ -1,31 +1,4 @@
--- TODO: move
-
 local log = require("lua.log")
-local programs = require("lua.hyprland.programs")
--- Global utils
-
----@class WindowRule
----@field float? boolean
-
-
----@param cmd string
----@param opts? WindowRule
----@return HL.Dispatcher
-function exec(cmd, opts)
-  log.info("Registering cmd dispatcher for: " .. cmd)
-
-  return hl.dsp.exec_cmd(cmd, opts)
-end
-
--- Opens a big application. For tiny scripts use `exec`
----@param app string
----@param opts? WindowRule
----@return HL.Dispatcher
-function exec_app(app, opts)
-  log.info("Registering app dispatcher for: " .. app)
-
-  return hl.dsp.exec_cmd(programs.launcher .. " " .. app, opts)
-end
 
 log.config.min_log_level = "INFO"
 
