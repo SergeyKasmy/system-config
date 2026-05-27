@@ -52,22 +52,22 @@ M.window = {}
 
 ---@return HL.Dispatcher
 function M.window.move_left()
-  return hl.dsp.window.move({ direction = "l" })
+  return hl.dsp.window.move({ direction = "l", group_aware = true })
 end
 
 ---@return HL.Dispatcher
 function M.window.move_right()
-  return hl.dsp.window.move({ direction = "r" })
+  return hl.dsp.window.move({ direction = "r", group_aware = true })
 end
 
 ---@return HL.Dispatcher
 function M.window.move_up()
-  return hl.dsp.window.move({ direction = "u" })
+  return hl.dsp.window.move({ direction = "u", group_aware = true })
 end
 
 ---@return HL.Dispatcher
 function M.window.move_down()
-  return hl.dsp.window.move({ direction = "d" })
+  return hl.dsp.window.move({ direction = "d", group_aware = true })
 end
 
 M.workspace = {}
