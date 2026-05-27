@@ -56,4 +56,30 @@ function M.configure()
   })
 end
 
+M.tv.enabled = false
+
+function M.tv.enable()
+  M.tv.enabled = true
+
+  monitor(M.tv.name):enable()
+  monitor(M.main_monitor.names):disable()
+  monitor(M.second_monitor.names):disable()
+end
+
+function M.tv.disable()
+  M.tv.enabled = false
+
+  monitor(M.tv.name):disable()
+  monitor(M.main_monitor.names):enable()
+  monitor(M.second_monitor.names):enable()
+end
+
+function M.tv.toggle()
+  if M.tv.enabled then
+    M.tv.disable()
+  else
+    M.tv.enable()
+  end
+end
+
 return M

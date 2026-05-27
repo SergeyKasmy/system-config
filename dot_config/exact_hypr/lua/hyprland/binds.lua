@@ -115,6 +115,9 @@ bind(win, "M", function()
   end
 end)
 
+--- Toggle TV mode
+bind(win, "T", Monitors.tv.toggle, { locked = true })
+
 --------------
 ---- Apps ----
 --------------
