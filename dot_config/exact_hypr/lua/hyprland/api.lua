@@ -3,6 +3,7 @@ local programs = require("lua.hyprland.programs")
 
 local M = {
   dsp = require("lua.hyprland.api.dsp"),
+  monitors = require("lua.hyprland.api.monitors"),
 }
 
 ---@param cmd string
