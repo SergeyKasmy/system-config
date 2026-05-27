@@ -3,6 +3,8 @@ local monitors = require("lua.hyprland.monitors")
 os.execute("pkill -f 'waybar.*fullscreen-config' || true")
 local waybar_fs_running = false
 
+---@param names string[]
+---@return boolean
 local function monitor_has_fullscreen(names)
   for _, name in ipairs(names) do
     local monitor = hl.get_monitor(name)

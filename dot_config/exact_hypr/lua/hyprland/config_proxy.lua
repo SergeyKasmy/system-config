@@ -1,3 +1,6 @@
+---@param path string[]
+---@param depth? integer
+---@return table
 local function make_config_proxy(path, depth)
   depth = depth or 0
   local proxy = {}
@@ -25,6 +28,7 @@ local function make_config_proxy(path, depth)
   return proxy
 end
 
+---@return table
 return function()
   return make_config_proxy({}, 0)
 end

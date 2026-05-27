@@ -1,3 +1,4 @@
+---@return string
 local function get_target_dir()
   local xdg_cache_home = os.getenv("XDG_CACHE_HOME")
 
@@ -16,6 +17,7 @@ local function get_target_dir()
   return cache_dir .. "/hyprland"
 end
 
+---@return file*
 return function()
   local target_dir = get_target_dir()
 
