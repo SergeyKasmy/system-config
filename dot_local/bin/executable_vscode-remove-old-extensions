@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Keep only the latest version of each VSCode extension
+EXT_DIR="$HOME/.vscode/extensions"
+DRY_RUN=false
+
+for arg in "$@"; do
+    case $arg in
+        --dry-run|-n)
+            DRY_RUN=true
+            ;;
+        *)
+            echo "Unknown argument: $arg" >&2
+            exit 1
+            ;;
+    esac
+done
+
+if $DRY_RUN; then
+    echo "Dry-run mode: no files will be deleted."
+fi
+
+if [[ -z "$EXT_DIR" ]]; then
+    echo "Error: EXT_DIR is empty, aborting." >&2
+    exit 1
+fi
+
+if [[ ! -d "$EXT_DIR" ]]; then
+    echo "Error: EXT_DIR '$EXT_DIR' is not a directory, aborting." >&2
+    exit 1
+fi
+
+# Group by extension ID, sort by version, delete all but latest
+for ext_id in $(ls "$EXT_DIR" | grep -oP '^.*(?=-\d+\.\d+\.\d+)' | sort -u); do
+    mapfile -t versions < <(ls "$EXT_DIR" | grep "^$ext_id-" | sort -t. -k1,1 -k2,2n -k3,3n -k4,4n)
+
+    for old in "${versions[@]::${#versions[@]}-1}"; do
+        if [[ -z "$old" ]]; then
+            echo "Warning: empty version entry for '$ext_id', skipping." >&2
+            continue
+        fi
+
+        target="$EXT_DIR/$old"
+
+        if [[ "$target" == "/" || "$target" == "$HOME" ]]; then
+            echo "Error: refusing to remove dangerous path '$target', skipping." >&2
+            continue
+        fi
+        if [[ "$target" != "$EXT_DIR/"* ]]; then
+            echo "Error: '$target' is outside EXT_DIR, skipping." >&2
+            continue
+        fi
+
+        if $DRY_RUN; then
+            echo "[dry-run] Would remove $target"
+        else
+            echo "Removing $target"
+            rm -rf "$target"
+        fi
+    done
+done
