@@ -1,5 +1,6 @@
 local api = require("lua.hyprland.api")
-local dsp = api.dsp
+local dsp = require("lua.hyprland.api.dsp")
+local monitor = require("lua.hyprland.api.monitor")
 local bind = require("lua.hyprland.binds.bind")
 local submap = require("lua.hyprland.binds.submap")
 
@@ -106,11 +107,11 @@ bind(win, "M", function()
   local new_position = is_scaled and monitors.second_monitor.position.main_monitor_native
       or monitors.second_monitor.position.main_monitor_scaled
 
-  hl.monitor({ output = main.name, scale = new_scale })
+  monitor(main.name):config({ scale = new_scale })
 
   local second = hl.get_monitor(monitors.second_monitor.names[1]) or hl.get_monitor(monitors.second_monitor.names[2])
   if second ~= nil then
-    hl.monitor({ output = second.name, position = new_position })
+    monitor(second.name):config({ position = new_position })
   end
 end)
 
