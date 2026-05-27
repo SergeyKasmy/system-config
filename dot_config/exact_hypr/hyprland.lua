@@ -1,7 +1,11 @@
 local log = require("lua.log")
 log.config.min_log_level = "INFO"
 
-log.spanned_require("monitors", "lua.hyprland.monitors")
+Monitors = log.spanned("monitors", function()
+  local mod = require("lua.hyprland.monitors")
+  mod.configure()
+  return mod
+end)
 log.spanned_require("rendering", "lua.hyprland.rendering")
 log.spanned_require("binds", "lua.hyprland.binds")
 log.spanned_require("permissions", "lua.hyprland.permissions")
