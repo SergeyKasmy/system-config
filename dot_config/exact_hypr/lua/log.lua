@@ -54,18 +54,22 @@ function M.log(log_level, ...)
   log_file:write(log_message)
 end
 
+---@param ... any
 function M.error(...)
   M.log("ERROR", ...)
 end
 
+---@param ... any
 function M.info(...)
   M.log("INFO", ...)
 end
 
+---@param ... any
 function M.debug(...)
   M.log("DEBUG", ...)
 end
 
+---@param ... any
 function M.trace(...)
   M.log("TRACE", ...)
 end

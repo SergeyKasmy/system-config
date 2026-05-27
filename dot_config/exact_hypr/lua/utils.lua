@@ -45,6 +45,8 @@ function M.table.map(iter, fn)
   return result
 end
 
+---@param val any
+---@return string
 function M.inspect(val)
   if type(val) == "table" then
     local s = "{ "
@@ -62,6 +64,8 @@ function M.inspect(val)
   end
 end
 
+---@param val any
+---@return string
 function M.to_string(val)
   if type(val) == "string" then
     return val
