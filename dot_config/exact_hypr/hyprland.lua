@@ -6,6 +6,7 @@ Monitors = log.spanned("monitors", function()
   mod.configure()
   return mod
 end)
+
 log.spanned_require("rendering", "lua.hyprland.rendering")
 log.spanned_require("binds", "lua.hyprland.binds")
 log.spanned_require("permissions", "lua.hyprland.permissions")
