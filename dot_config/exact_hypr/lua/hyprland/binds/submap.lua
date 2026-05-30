@@ -5,7 +5,7 @@ local log = require("lua.log")
 
 ---@param name string
 ---@param key [ModKeys, Keys]
----@param opts { reset_to?: string, catchall_reset: boolean? }
+---@param opts? { reset_to?: string, catchall_reset: boolean?, reset_only_on_escape: boolean? }
 ---@param contents fun(add_keybind_help: fun(key: string, description: string))
 local function inner(name, key, opts, contents)
   log.trace("Binding", key, "to start submap", name)
@@ -79,12 +79,17 @@ local function inner(name, key, opts, contents)
       end)
     end
 
-    if opts.reset_to and opts.catchall_reset then
-      hl.bind("catchall", hl.dsp.submap(opts.reset_to))
+
+    if opts ~= nil and opts.reset_to then
+      hl.bind("Escape", hl.dsp.submap(opts.reset_to))
+
+      if opts.catchall_reset then
+        hl.bind("catchall", hl.dsp.submap(opts.reset_to))
+      end
     end
   end
 
-  if opts.reset_to == nil then
+  if opts == nil or opts.reset_only_on_escape or opts.reset_to == nil then
     log.trace("Defining submap " .. name .. ", non reseting")
     hl.define_submap(name, action)
   else
@@ -95,7 +100,7 @@ end
 
 ---@param name string
 ---@param key [ModKeys, Keys]
----@param opts { reset_to?: string, catchall_reset: boolean? }
+---@param opts? { reset_to?: string, catchall_reset: boolean?, reset_only_on_escape: boolean? }
 ---@param contents fun(add_keybind_help: fun(key: string, description: string))
 return function(name, key, opts, contents)
   log.spanned(string.format("submap[%s]", name), function() inner(name, key, opts, contents) end)

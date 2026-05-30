@@ -138,7 +138,7 @@ bind({ "SHIFT", "CTRL" }, "Print", dsp.exec_app("way-screenshot --current-window
 -- │                    SUBMAP: Resize                    │
 -- └──────────────────────────────────────────────────────┘
 
-submap("Resize", { win, "R" }, { reset_to = "reset", catchall_reset = true }, function()
+submap("Resize", { win, "R" }, { reset_to = "reset", reset_only_on_escape = true }, function()
   -- 7%
   local step = 0.07
 
