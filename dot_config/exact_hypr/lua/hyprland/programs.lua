@@ -1,19 +1,27 @@
+---@return { bin: string, description: string }
+local function app(bin, description)
+  return {
+    bin = bin,
+    description = description,
+  }
+end
+
 return {
   launcher = "uwsm-app --",
 
-  terminal = "alacritty",
+  terminal = app("alacritty", "Terminal"),
   bar = "waybar",
 
-  bluetooth_config = "alacritty -e bluetui",
-  browser = "firefox",
-  calculator = "speedcrunch",
-  discord = "flatpak run com.discordapp.Discord",
-  file_manager = "dolphin",
-  menu = 'rofi -show combi -run-command "uwsm-app -- {cmd}"',
-  notification_center = "swaync-client --toggle-panel",
-  notification_center_dismiss = "swaync-client --close-latest",
-  service_manager = "alacritty -e ducker",
-  sysmon = "alacritty -e btop",
-  telegram = "flatpak run org.telegram.desktop",
-  volume_control = "pavucontrol-qt",
+  bluetooth_config = app("alacritty -e bluetui", "Bluetooth"),
+  browser = app("firefox", "Browser"),
+  calculator = app("speedcrunch", "Calculator"),
+  discord = app("com.discordapp.Discord", "Discord"),
+  file_manager = app("dolphin", "File Manager"),
+  menu = app('rofi -show combi -run-command "uwsm-app -- {cmd}"', "Launcher"),
+  notification_center = app("swaync-client --toggle-panel", "Notification Center"),
+  notification_center_dismiss = app("swaync-client --close-latest"),
+  service_manager = app("alacritty -e ducker", "Service Manager"),
+  sysmon = app("alacritty -e btop", "System Monitor"),
+  telegram = app("flatpak run org.telegram.desktop", "Telegram"),
+  volume_control = app("pavucontrol-qt", "Volume"),
 }

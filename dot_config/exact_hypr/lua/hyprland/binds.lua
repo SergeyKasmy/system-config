@@ -1,13 +1,14 @@
 local api = require("lua.hyprland.api")
-local dsp = require("lua.hyprland.api.dsp")
-local monitor = require("lua.hyprland.api.monitor")
 local bind = require("lua.hyprland.binds.bind")
+local dsp = require("lua.hyprland.api.dsp")
+local links = require("lua.hyprland.binds.links")
+local monitor = require("lua.hyprland.api.monitor")
+local monitors = require("lua.hyprland.monitors")
+local programs = require("lua.hyprland.programs")
 local submap = require("lua.hyprland.binds.submap")
 
-local programs = require("lua.hyprland.programs")
-local links = require("lua.hyprland.binds.links")
-local monitors = require("lua.hyprland.monitors")
-
+local Option = require("lua.lib.option")
+local opt = Option.some
 ---@diagnostic disable-next-line: unused-local
 local utils = require("lua.utils")
 ---@diagnostic disable-next-line: unused-local
@@ -122,11 +123,11 @@ bind(win, "T", Monitors.tv.toggle, { locked = true })
 ---- Apps ----
 --------------
 
-bind(win, "Return", dsp.exec_app(programs.terminal))
-bind(win_shift, "Return", dsp.exec_app(programs.terminal, { float = true }))
-bind(win, "D", dsp.exec_app(programs.menu))
-bind(win, "N", dsp.exec_app(programs.notification_center))
-bind(win_shift, "N", dsp.exec_app(programs.notification_center_dismiss))
+bind(win, "Return", dsp.exec_app(programs.terminal.bin))
+bind(win_shift, "Return", dsp.exec_app(programs.terminal.bin, { float = true }))
+bind(win, "D", dsp.exec_app(programs.menu.bin))
+bind(win, "N", dsp.exec_app(programs.notification_center.bin))
+bind(win_shift, "N", dsp.exec_app(programs.notification_center_dismiss.bin))
 
 -- Screenshots
 bind(nil, "Print", dsp.exec_app("way-screenshot --current-screen"))
@@ -161,11 +162,14 @@ end)
 -- │                    SUBMAP: Apps                    │
 -- └────────────────────────────────────────────────────┘
 
-submap("App Launcher", { win, "A" }, { reset_to = "reset", catchall_reset = true }, function()
+submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
+  ---@param program { bin: string, description: string }
   ---@param floating? boolean
-  local function app(key, program, floating)
-    local float = floating ~= nil and floating or false
-    bind(nil, key, dsp.exec_app(program, { float = float }))
+  ---@param alt? boolean
+  local function app(key, program, floating, alt)
+    local mod = Option.then_some(alt, "SHIFT")
+    bind(mod.inner, key, dsp.exec_app(program.bin, { float = opt(floating):unwrap_or(false) }))
+    add_help(mod:map_or("", function(m) return m .. " + " end) .. key, program.description)
   end
 
   app("C", programs.browser)
@@ -231,7 +235,7 @@ end)
 -- └────────────────────────────────────────────┘
 local submap_passthrough = "Passthrough"
 hl.define_submap(submap_passthrough, function()
-  hl.bind("catchall", hl.dsp.no_op())
+  bind(win, "Escape", hl.dsp.no_op())
 end)
 
 bind(win, "Escape", function()
