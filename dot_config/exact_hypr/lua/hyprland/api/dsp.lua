@@ -21,7 +21,11 @@ end
 ---@param opts? WindowRule
 ---@return HL.Dispatcher
 function M.exec_app(app, opts)
-  log.trace("Registering app dispatcher for:", app)
+  log.trace("Registering app dispatcher for:", {
+    launcher = programs.launcher,
+    app = app,
+    opts = opts,
+  })
 
   return hl.dsp.exec_cmd(programs.launcher .. " " .. app, opts)
 end

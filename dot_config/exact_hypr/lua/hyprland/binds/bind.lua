@@ -9,6 +9,13 @@ local log = require("lua.log")
 ---@param dispatcher Dispatcher
 ---@param opts? HL.BindOptions
 return function(mods, keys, dispatcher, opts)
+  log.trace("Called bind() with", {
+    mods = mods,
+    keys = keys,
+    dispatcher = dispatcher,
+    opts = opts,
+  })
+
   local mods_string
   if type(mods) == "table" then mods_string = table.concat(mods, " + ") else mods_string = mods end
 
