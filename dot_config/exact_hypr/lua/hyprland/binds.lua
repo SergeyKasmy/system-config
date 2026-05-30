@@ -173,6 +173,8 @@ submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
 
   app("C", programs.browser)
   app("E", programs.file_manager)
+  app("E", programs.file_manager_alt, nil, true)
+  app("L", programs.lutris)
   app("H", programs.sysmon, true)
   app("B", programs.bluetooth_config, true)
   app("X", programs.calculator, true)
