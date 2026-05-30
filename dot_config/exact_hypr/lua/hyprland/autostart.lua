@@ -4,7 +4,7 @@ local monitors = require("lua.hyprland.monitors")
 
 -- Only add programs here if they don't have systemd user services.
 local autostart = {
-  programs.telegram,
+  programs.telegram.bin,
   "hyprpaper",
   "hyprpaper-random",
   "gammastep -vvv -t 6500:3500 -l 48.6912399:10.1298479",
