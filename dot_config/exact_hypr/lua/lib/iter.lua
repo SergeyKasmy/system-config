@@ -16,6 +16,8 @@ local ChainIter = require("lua.lib.iter.chain")
 local MapIter = require("lua.lib.iter.map")
 local FilterIter = require("lua.lib.iter.filter")
 local EnumerateIter = require("lua.lib.iter.enumerate")
+local SkipIter = require("lua.lib.iter.skip")
+local DestructuredEnumerateIter = require("lua.lib.iter.destructured_enumerate")
 
 ---@generic T
 ---@param self Iter<T>
@@ -53,6 +55,21 @@ end
 ---@return EnumerateIter<T>
 function M.Iter:enumerate()
   return EnumerateIter.new(self)
+end
+
+---@generic T
+---@param self Iter<T>
+---@return DestructuredEnumerateIter<T>
+function M.Iter:enumerate2()
+  return DestructuredEnumerateIter.new(self)
+end
+
+---@generic T
+---@param self Iter<T>
+---@param count number
+---@return SkipIter<T>
+function M.Iter:skip(count)
+  return SkipIter.new(self, count)
 end
 
 ---@generic T
