@@ -36,20 +36,20 @@ bind(win_shift, "R", dsp.exec("hyprctl reload"))
 
 bind(win, { "Left", "H" }, dsp.focus.left())
 bind(win, { "Right", "L" }, dsp.focus.right())
-bind(win, { "Up", "J" }, dsp.focus.up())
-bind(win, { "Down", "K" }, dsp.focus.down())
+bind(win, { "Up", "K" }, dsp.focus.up())
+bind(win, { "Down", "J" }, dsp.focus.down())
 
 -- Move window
 bind(win_shift, { "Left", "H" }, dsp.window.move_left())
 bind(win_shift, { "Right", "L" }, dsp.window.move_right())
-bind(win_shift, { "Up", "J" }, dsp.window.move_up())
-bind(win_shift, { "Down", "K" }, dsp.window.move_down())
+bind(win_shift, { "Up", "K" }, dsp.window.move_up())
+bind(win_shift, { "Down", "J" }, dsp.window.move_down())
 
 -- Move current workspace to a monitor
 bind(win_alt, { "Left", "H" }, dsp.workspace.move_left())
 bind(win_alt, { "Right", "L" }, dsp.workspace.move_right())
-bind(win_alt, { "Up", "J" }, dsp.workspace.move_up())
-bind(win_alt, { "Down", "K" }, dsp.workspace.move_down())
+bind(win_alt, { "Up", "K" }, dsp.workspace.move_up())
+bind(win_alt, { "Down", "J" }, dsp.workspace.move_down())
 
 -- Window management
 bind(win, "F", hl.dsp.window.fullscreen())
@@ -170,7 +170,7 @@ submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
   local function app(key, program, floating, alt)
     local mod = Option.then_some(alt, "SHIFT")
     bind(mod.inner, key, dsp.exec_app(program.bin, { float = opt(floating):unwrap_or(false) }))
-    add_help(mod:map_or("", function(m) return m .. " + " end) .. key, program.description)
+    add_help(mod:map_or("", function() return "S-" end) .. key, program.description)
   end
 
   app("C", programs.browser)
