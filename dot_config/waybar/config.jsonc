@@ -15,6 +15,10 @@
 		"hyprland/workspaces": {
 			"all-outputs": true,
 		},
+		"hyprland/window": {
+			"icon": true,
+			"icon-size": 16,
+		},
 	    "clock": {
 	        "format": "{:%A, %b %d, %H:%M}",
 	        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
