@@ -18,6 +18,7 @@ return {
   discord = app("com.discordapp.Discord", "Discord"),
   file_manager = app("alacritty -e yazi", "File Manager"),
   file_manager_alt = app("dolphin", "File Manager (alt)"),
+  steam = app("com.valvesoftware.Steam", "Steam"),
   lutris = app("net.lutris.Lutris", "Lutris"),
   menu = app('rofi -show combi -run-command "uwsm-app -- {cmd}"', "Launcher"),
   notification_center = app("swaync-client --toggle-panel", "Notification Center"),
