@@ -59,6 +59,40 @@ end
 
 ---@generic T
 ---@param self Iter<T>
+---@param pred fun(V: T): boolean
+---@return T?
+function M.Iter:find(pred)
+  local elem = self:next()
+  while elem ~= nil do
+    if pred(elem) then
+      return elem
+    end
+
+    elem = self:next()
+  end
+
+  return nil
+end
+
+---@generic T
+---@param self Iter<T>
+---@param pred fun(v: T): boolean
+---@return integer?
+function M.Iter:position(pred)
+  local i = 0
+  local elem = self:next()
+
+  while elem ~= nil do
+    i = i + 1
+    if pred(elem) then return i end
+    elem = self:next()
+  end
+
+  return nil
+end
+
+---@generic T
+---@param self Iter<T>
 ---@return DestructuredEnumerateIter<T>
 function M.Iter:enumerate2()
   return DestructuredEnumerateIter.new(self)
