@@ -10,7 +10,10 @@ layout {
 	tab name="dev" {
 		default_container split_direction="vertical" {
 			// main editor
-			pane command="hx" focus=true
+			pane command="sh" focus=true {
+				args "-c" "${ZELLIJ_RUN_CMD:-hx}"
+			}
+
 			// sidebar with the compiler and an empty terminal
 			pane size="35%" stacked=true {
 				pane expanded=true
