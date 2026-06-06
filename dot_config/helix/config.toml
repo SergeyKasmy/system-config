@@ -23,6 +23,10 @@ skip_levels = 1
 [editor.inline-diagnostics]
 cursor-line = "warning"
 
+[editor.breadcrumb]
+enable = true
+path = "full"
+
 [keys.normal]
 w = 'move_next_sub_word_start'
 b = 'move_prev_sub_word_start'
