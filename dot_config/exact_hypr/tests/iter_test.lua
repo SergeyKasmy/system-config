@@ -1,4 +1,5 @@
 local iter = require("lua.lib.iter")
+local tbl = require("lua.lib.table")
 local new = iter.new
 
 local passed, failed = 0, 0
@@ -44,7 +45,7 @@ test("next on empty array returns nil immediately", function()
   eq(new({}):next(), nil)
 end)
 
--- Iter:it()
+-- Iter (for-in)
 
 test("it produces a for-in compatible function", function()
   table_eq(new({ 1, 2, 3 }):collect(), { 1, 2, 3 })
@@ -86,7 +87,7 @@ test("chain does not call second:next() before first is exhausted", function()
       return nil
     end
   }
-  local second = setmetatable(second_iter, iter.Iter)
+  local second = tbl.instance_of(iter.Iter, second_iter)
   local it = new({ 1 }):chain(second)
   eq(it:next(), 1)
   eq(second_called, false)
@@ -140,7 +141,8 @@ end)
 
 test("enumerate yields 1-based index and value", function()
   local indices, values = {}, {}
-  for i, v in new({ "a", "b", "c" }):enumerate():it() do
+  for pair in new({ "a", "b", "c" }):enumerate():it() do
+    local i, v = pair[1], pair[2]
     indices[#indices + 1] = i
     values[#values + 1] = v
   end
@@ -182,7 +184,8 @@ end)
 
 test("enumerate after filter", function()
   local indices, values = {}, {}
-  for i, v in new({ 1, 2, 3, 4 }):filter(function(x) return x % 2 == 0 end):enumerate():it() do
+  for pair in new({ 1, 2, 3, 4 }):filter(function(x) return x % 2 == 0 end):enumerate():it() do
+    local i, v = pair[1], pair[2]
     indices[#indices + 1] = i
     values[#values + 1] = v
   end
@@ -192,7 +195,8 @@ end)
 
 test("enumerate after map", function()
   local indices, values = {}, {}
-  for i, v in new({ "a", "b", "c" }):map(string.upper):enumerate():it() do
+  for pair in new({ "a", "b", "c" }):map(string.upper):enumerate():it() do
+    local i, v = pair[1], pair[2]
     indices[#indices + 1] = i
     values[#values + 1] = v
   end
