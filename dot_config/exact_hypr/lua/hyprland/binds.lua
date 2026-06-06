@@ -56,6 +56,8 @@ bind(win, "F", hl.dsp.window.fullscreen())
 bind(win, "W", hl.dsp.group.toggle())
 bind(win, "V", hl.dsp.layout("togglesplit"))
 
+bind("ALT", "Tab", dsp.focus.next())
+
 bind(win, "Space", function()
   local window = hl.get_active_window()
   if window ~= nil and window.floating then
