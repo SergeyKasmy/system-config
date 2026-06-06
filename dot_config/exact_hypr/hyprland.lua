@@ -17,3 +17,6 @@ log.spanned_require("events", "lua.hyprland.events")
 log.spanned_require("autostart", "lua.hyprland.autostart")
 
 Config = require("lua.hyprland.config_proxy")()
+function LogLevel(level)
+  log.config.min_log_level = level
+end
