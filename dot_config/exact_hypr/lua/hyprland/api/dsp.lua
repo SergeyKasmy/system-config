@@ -1,3 +1,4 @@
+local iter = require("lua.lib.iter")
 local log = require("lua.log")
 local programs = require("lua.hyprland.programs")
 
@@ -50,6 +51,42 @@ end
 ---@return HL.Dispatcher
 function M.focus.down()
   return hl.dsp.focus({ direction = "d" })
+end
+
+---@return function
+function M.focus.next()
+  return function()
+    local ws = hl.get_active_workspace()
+    if ws == nil then return end
+
+    local current_window = ws.last_window
+    if current_window == nil then return end
+
+    local windows = ws:get_windows()
+    local i = iter.new(windows):position(function(w) return w.stable_id == current_window.stable_id end)
+    if i == nil then return end
+
+    hl.dispatch(hl.dsp.focus({ window = windows[i + 1] or windows[1] }))
+    hl.dispatch(hl.dsp.window.bring_to_top())
+  end
+end
+
+---@return function
+function M.focus.prev()
+  return function()
+    local ws = hl.get_active_workspace()
+    if ws == nil then return end
+
+    local current_window = ws.last_window
+    if current_window == nil then return end
+
+    local windows = ws:get_windows()
+    local i = iter.new(windows):position(function(w) return w.stable_id == current_window.stable_id end)
+    if i == nil then return end
+
+    hl.dispatch(hl.dsp.focus({ window = windows[i - 1] or windows[#windows] }))
+    hl.dispatch(hl.dsp.window.bring_to_top())
+  end
 end
 
 M.window = {}
