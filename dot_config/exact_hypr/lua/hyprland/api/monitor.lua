@@ -1,4 +1,5 @@
 local log = require("lua.log")
+local tbl = require("lua.lib.table")
 
 ---@class MonitorConf : HL.MonitorSpec
 ---@field output? string
@@ -47,7 +48,7 @@ local function new(outputs)
 
   ---@type Monitor
   local monitor = { outputs = output_array }
-  return setmetatable(monitor, Monitor)
+  return tbl.instance_of(Monitor, monitor)
 end
 
 return new
