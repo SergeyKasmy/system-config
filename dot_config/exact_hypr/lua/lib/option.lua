@@ -1,3 +1,5 @@
+local tbl = require("lua.lib.table")
+
 ---@generic T
 ---@class Option<T>
 ---@field inner? T
@@ -13,7 +15,7 @@ function Option.new(val)
     inner = val,
   }
 
-  return setmetatable(self, Option)
+  return tbl.instance_of(Option, self)
 end
 
 ---@generic T
