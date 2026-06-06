@@ -89,14 +89,13 @@ if status is-interactive
 
     # config edit aliases
     #
-    alias cfg-fish 'chezmoi edit -av ~/.config/fish/'
-    alias cfg-helix 'chezmoi edit -av ~/.config/helix/'
-    alias cfg-hyprland 'chezmoi edit -av ~/.config/hypr/'
-    alias cfg-nvim 'chezmoi edit -av ~/.config/nvim/'
-    alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
-    alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
-    alias cfg-waybar 'chezmoi edit -av ~/.config/waybar/'
-    alias cfg-zellij 'chezmoi edit -av ~/.config/zellij/'
+    alias cfg-fish "cfg fish"
+    alias cfg-helix "cfg helix"
+    alias cfg-hyprland "cfg hypr"
+    alias cfg-nvim "cfg nvim"
+    alias cfg-tmux "cfg tmux"
+    alias cfg-waybar "cfg waybar"
+    alias cfg-zellij "cfg zellij"
 
     # command shortcuts
     #
