@@ -87,24 +87,11 @@ if status is-interactive
 
     ## Aliases and functions
 
-    # config edit aliases
-    #
-    alias cfg-fish 'chezmoi edit -av ~/.config/fish/'
-    alias cfg-helix 'chezmoi edit -av ~/.config/helix/'
-    alias cfg-hyprland 'chezmoi edit -av ~/.config/hypr/'
-    alias cfg-nvim 'chezmoi edit -av ~/.config/nvim/'
-    alias cfg-sway 'chezmoi edit -av ~/.config/sway/config'
-    alias cfg-tmux 'chezmoi edit -av ~/.config/tmux/tmux.conf'
-    alias cfg-waybar 'chezmoi edit -av ~/.config/waybar/'
-    alias cfg-zellij 'chezmoi edit -av ~/.config/zellij/'
-
     # command shortcuts
     #
 
-    alias chcd 'cd (chezmoi source-path)'
     alias ch chezmoi
-    alias che 'chezmoi edit -av'
-    alias chgit 'chezmoi git --'
+    alias chcd 'cd (chezmoi source-path)'
 
     alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
     alias systemctlu 'systemctl --user'
