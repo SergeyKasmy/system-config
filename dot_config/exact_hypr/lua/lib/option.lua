@@ -43,6 +43,20 @@ function Option.then_some(cond, val)
   end
 end
 
+---@generic T
+---@param self Option<T>
+---@return boolean
+function Option:is_some()
+  return self.inner ~= nil
+end
+
+---@generic T
+---@param self Option<T>
+---@return boolean
+function Option:is_none()
+  return self.inner == nil
+end
+
 -- Combines Rust's Option::map and Option::filter_map in one
 ---@generic T, U
 ---@param self Option<T>
