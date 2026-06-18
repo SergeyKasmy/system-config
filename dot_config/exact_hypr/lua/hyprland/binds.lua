@@ -217,10 +217,11 @@ end)
 -- │                   SUBMAP: System Control                   │
 -- └────────────────────────────────────────────────────────────┘
 
-submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = true }, function(add_help)
-  local function sys(key, cmd)
-    bind(nil, key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
-    add_help(key, cmd)
+submap("System Control", { win, "X" }, { reset_to = "reset" }, function(add_help)
+  local function sys(key, cmd, alt)
+    local mod = Option.then_some(alt, "SHIFT")
+    bind(mod.inner, key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
+    add_help(mod:map_or("", function() return "S-" end) .. key, cmd)
   end
 
   sys("S", "shutdown")
@@ -228,6 +229,16 @@ submap("System Control", { win, "X" }, { reset_to = "reset", catchall_reset = tr
   sys("I", "logout")
   sys("D", "suspend")
   sys("L", "lock")
+
+  -- add reboot-windows if reboot-windows binary exists
+  local cmd = io.popen("command -v reboot-windows 2>/dev/null")
+  if cmd ~= nil then
+    local result = cmd:read("*l")
+    cmd:close()
+    if result ~= nil and result ~= "" then
+      sys("R", "reboot-windows", true)
+    end
+  end
 end)
 
 

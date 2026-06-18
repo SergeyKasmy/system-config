@@ -7,6 +7,9 @@ case "$1" in
 	reboot)
 		exec reboot
 		;;
+	"reboot-windows")
+		exec sudo reboot-windows
+		;;
 	logout)
 		exec uwsm stop
 		;;
@@ -18,6 +21,6 @@ case "$1" in
 		;;
 	*)
 		echo "syscontrol: missing or invalid argument"
-		echo "Available commands: shutdown, reboot, logout, suspend, lock"
+		echo "Available commands: shutdown, reboot, reboot-windows, logout, suspend, lock"
 		exit 1
 esac
