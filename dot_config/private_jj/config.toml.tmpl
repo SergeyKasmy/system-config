@@ -1,0 +1,53 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+{{- if .personal }}
+name = "{{ .personal.name }}"
+email = "{{ .personal.email }}"
+{{- end }}
+
+# [ui]
+# diff-editor = ":builtin"
+[ui]
+pager = "delta --side-by-side"
+diff-formatter = ":git"
+diff-editor = ":builtin"
+
+[revsets]
+bookmark-advance-to = "@-"
+
+[signing]
+behavior = "own"
+backend = "gpg"
+
+{{- /* personal machine*/ -}}
+{{- if ne .chezmoi.hostname "star" }}
+key = "324F28DB1BD0D0EC"
+{{- end }}
+
+[fix.tools.rustfmt]
+command = ["rustfmt"]
+patterns = ["glob:**/*.rs"]
+
+[merge-tools.vimdiff]
+program = "nvim"
+
+[aliases]
+l = ["log", "--limit", "20"]
+lg = ["log", "--limit", "20", "-r", "::"]
+lga = ["log", "-r", "::"]
+squash-rm = ["util", "exec", "--", "sh", "-c", "jj squash && jj prev --edit"]
+
+# Remove all parents of the current merge commit except the one provided 
+move-to-parent = ["util", "exec", "--", "sh", "-c", """
+  other=$(jj log -r "parents(@) ~ $1" -T 'change_id' --no-graph)
+  jj rebase -r @ --after "$1"
+  jj new @ "$other"
+""", "--"]
+
+# Remove the provided parent of the current merge commit
+move-to-parent-not = ["util", "exec", "--", "sh", "-c", """
+  new_parents=$(jj log -r "parents(@) ~ $1" -T 'change_id ++ "|"' --no-graph | sed 's/.$//')
+  jj rebase -r @ --after "$new_parents"
+  jj new @ "$1"
+""", "--"]
