@@ -146,6 +146,7 @@ if status is-interactive
 
     alias bench hyperfine
     alias zj zellij
+    alias dev 'zellij -l dev'
 
     if is_defined paru
         alias y paru
