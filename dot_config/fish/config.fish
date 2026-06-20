@@ -30,7 +30,7 @@ end
 set -gx QT_QPA_PLATFORMTHEME qt5ct:qt6ct
 set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set -gx GTK_USE_PORTAL 1
-set -gx GNUPGHOME "~/.config/gpg"
+set -gx GNUPGHOME "$HOME/.config/gpg"
 
 #set -gx (gnome-keyring-daemon --start | string split "=")
 
