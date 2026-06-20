@@ -210,7 +210,7 @@ return {
 			-- rebind J to use structured joining instead
 			map({ 'n', 'v' }, 'J', '<cmd>RustLsp joinLines<enter>', { desc = "Rust: structurally join lines" })
 			map('n', '<leader>mu', '<cmd>RustLsp moveItem up<enter>', { desc = "Rust: move item up" })
-			map('n', '<leader>md', '<cmd>RustLsp moveItem up<enter>', { desc = "Rust: move item down" })
+			map('n', '<leader>md', '<cmd>RustLsp moveItem down<enter>', { desc = "Rust: move item down" })
 		end,
 	},
 
