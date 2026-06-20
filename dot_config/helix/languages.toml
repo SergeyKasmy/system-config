@@ -7,7 +7,7 @@ language-servers = ["ty", "ruff"]
 formatter = { command = "ruff", args = ["format", "-"] }
 auto-format = true
 
-[language-server.pyright]
+[language-server.basedpyright]
 command = "basedpyright-langserver"
 args = ["--stdio"]
 
