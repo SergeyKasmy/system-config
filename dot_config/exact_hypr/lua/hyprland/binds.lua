@@ -95,10 +95,10 @@ bind(nil, "XF86MonBrightnessUp", dsp.exec("brightnessctl -e4 -n2 set 5%+"), volu
 bind(nil, "XF86MonBrightnessDown", dsp.exec("brightnessctl -e4 -n2 set 5%-"), volume_opts)
 
 -- Media keys
-bind(nil, "XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-bind(nil, "XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-bind(nil, "XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-bind(nil, "XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+bind(nil, "XF86AudioNext", dsp.exec("playerctl next"), { locked = true })
+bind(nil, "XF86AudioPause", dsp.exec("playerctl play-pause"), { locked = true })
+bind(nil, "XF86AudioPlay", dsp.exec("playerctl play-pause"), { locked = true })
+bind(nil, "XF86AudioPrev", dsp.exec("playerctl previous"), { locked = true })
 
 -- Toggle main monitor scale
 bind(win, "M", function()
