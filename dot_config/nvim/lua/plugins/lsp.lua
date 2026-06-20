@@ -23,8 +23,7 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 
 					if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
-						print(args.buf)
-						vim.lsp.inlay_hint.enable(true, { buffnr = args.buf })
+						vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 						map('n', '<Leader>i',
 							function()
 								vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }),
@@ -65,6 +64,7 @@ return {
 					local path = client.workspace_folders[1].name
 
 					-- if editing nvim config files, add vim runtime library to the library path
+					-- TODO: path seems to never actually end in /lua. This never hits
 					if vim.endswith(path, '/nvim/lua/') then
 						client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
 							Lua = {
