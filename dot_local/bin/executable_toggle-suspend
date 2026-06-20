@@ -1,7 +1,7 @@
 #!/bin/sh
 
 get_focused_pid() {
-  swaymsg -t get_tree -r | jq '.. | (.nodes? // empty, .floating_nodes? // empty)[] | select(.focused) | .pid'
+  hyprctl activewindow -j | jq '.pid'
 }
 
 psignal() {
