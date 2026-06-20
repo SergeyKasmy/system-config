@@ -87,8 +87,7 @@ end
 ---@return U?
 function Option:map_or_nil(f)
   if self.inner == nil then return nil end
-  self.inner = f(self.inner)
-  return self
+  return f(self.inner)
 end
 
 ---@generic T
