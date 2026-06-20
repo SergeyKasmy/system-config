@@ -79,7 +79,7 @@
 	            "portable": "",
 	            "default": ["", "", ""]
 	        },
-	        "on-click": "hyprctl keyword exec [float] pavucontrol-qt"
+	        "on-click": "hyprctl eval 'ExecApp(\"pavucontrol-qt\", { float = true })'"
 	    },
 		"upower#mouse": {
 			"native-path": "hidpp_battery_0",
