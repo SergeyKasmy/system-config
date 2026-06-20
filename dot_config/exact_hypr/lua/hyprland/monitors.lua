@@ -1,4 +1,4 @@
-local monitor = require("lua.hyprland.api.monitors")
+local monitor = require("lua.hyprland.api.monitor")
 
 local M = {}
 
