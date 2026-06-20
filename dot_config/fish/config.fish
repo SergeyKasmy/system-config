@@ -91,7 +91,6 @@ if status is-interactive
     #
 
     alias ch chezmoi
-    alias chcd 'cd (chezmoi source-path)'
 
     alias dff "df -h 2>/dev/null | head -n1 && df -h 2>/dev/null | grep '^/dev/' | sort"
     alias systemctlu 'systemctl --user'
