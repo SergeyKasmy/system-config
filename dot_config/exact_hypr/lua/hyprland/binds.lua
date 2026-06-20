@@ -119,7 +119,7 @@ bind(win, "M", function()
 end)
 
 --- Toggle TV mode
-bind(win, "T", Monitors.tv.toggle, { locked = true })
+bind(win, "T", require("lua.hyprland.monitors").tv.toggle, { locked = true })
 
 --------------
 ---- Apps ----
