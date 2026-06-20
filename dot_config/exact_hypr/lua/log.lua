@@ -80,9 +80,9 @@ end
 ---@return T?
 function M.spanned(span, fn)
   table.insert(spans, span)
-  local result = fn()
+  local ok, result = pcall(fn)
   table.remove(spans)
-
+  if not ok then error(result, 2) end
   return result
 end
 
@@ -90,8 +90,9 @@ end
 ---@param path string
 function M.spanned_require(span, path)
   table.insert(spans, span)
-  require(path)
+  local ok, err = pcall(require, path)
   table.remove(spans)
+  if not ok then error(err, 2) end
 end
 
 return M
