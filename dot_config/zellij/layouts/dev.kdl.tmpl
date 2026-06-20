@@ -14,9 +14,9 @@ layout {
 				args "-c" "${ZELLIJ_RUN_CMD:-hx}"
 			}
 
-			// sidebar with the compiler and an empty terminal
+			// sidebar
 			pane size="35%" stacked=true {
-				pane expanded=true
+				pane command="claude" expanded=true
 				pane
 			}
 		}
