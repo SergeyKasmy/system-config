@@ -114,8 +114,7 @@ if status is-interactive
     end
 
     function tarz
-        set cpus (cat /proc/cpuinfo | grep processor | wc -l)
-        tar -I "zstd -T$cpus" $argv
+        tar -I "zstd -T(nproc)" $argv
     end
 
     function mountusr
