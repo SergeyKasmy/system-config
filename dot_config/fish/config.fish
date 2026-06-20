@@ -311,7 +311,7 @@ if status is-interactive
             if not is_defined git
                 alias aur 'echo git is not installed'
             else if not is_defined makepkg
-                alias aur 'makepkg is not installed'
+                alias aur 'echo makepkg is not installed'
             else
                 function aur
                     if set -q argv[1]
