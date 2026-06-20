@@ -1,6 +1,6 @@
 [
 	{
-		"output": "HDMI-A-1",
+		"output": ["HDMI-A-1", "HDMI-A-3"],
 	    "layer": "top",
 	    "position": "top",
 	    "height": 30,
