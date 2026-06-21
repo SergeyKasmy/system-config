@@ -1,5 +1,5 @@
 local log = require("lua.log")
-local tbl = require("lua.lib.table")
+local tbl = require("crnlib.table")
 
 ---@class MonitorConf : HL.MonitorSpec
 ---@field output? string
