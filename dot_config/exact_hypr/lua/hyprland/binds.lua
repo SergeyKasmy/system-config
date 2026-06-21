@@ -8,7 +8,6 @@ local programs = require("lua.hyprland.programs")
 local submap = require("lua.hyprland.binds.submap")
 
 local Option = require("lua.lib.option")
-local opt = Option.some
 ---@diagnostic disable-next-line: unused-local
 local utils = require("lua.utils")
 ---@diagnostic disable-next-line: unused-local
@@ -169,7 +168,7 @@ submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
   ---@param alt? boolean
   local function app(key, program, floating, alt)
     local mod = Option.then_some(alt, "SHIFT")
-    bind(mod.inner, key, dsp.exec_app(program.bin, { float = opt(floating):unwrap_or(false) }))
+    bind(mod:extract(), key, dsp.exec_app(program.bin, { float = Option.new(floating):unwrap_or(false) }))
     add_help(mod:map_or("", function() return "S-" end) .. key, program.description)
   end
 
@@ -223,7 +222,7 @@ end)
 submap("System Control", { win, "X" }, { reset_to = "reset" }, function(add_help)
   local function sys(key, cmd, alt)
     local mod = Option.then_some(alt, "SHIFT")
-    bind(mod.inner, key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
+    bind(mod:extract(), key, dsp.exec("syscontrol " .. cmd), { locked = true, release = true })
     add_help(mod:map_or("", function() return "S-" end) .. key, cmd)
   end
 
