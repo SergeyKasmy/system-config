@@ -1,25 +1,9 @@
 local iter = require("lua.lib.iter")
 local tbl = require("lua.lib.table")
+local t = require("tests.common")
 local new = iter.new
 
-local passed, failed = 0, 0
-
-local function test(name, fn)
-  local ok, err = pcall(fn)
-  if ok then
-    io.write("  PASS " .. name .. "\n")
-    passed = passed + 1
-  else
-    io.write("  FAIL " .. name .. ": " .. tostring(err) .. "\n")
-    failed = failed + 1
-  end
-end
-
-local function eq(a, b)
-  if a ~= b then
-    error(string.format("expected %s, got %s", tostring(b), tostring(a)), 2)
-  end
-end
+local test, eq = t.test, t.eq
 
 local function table_eq(a, b)
   eq(#a, #b)
@@ -85,7 +69,8 @@ test("chain does not call second:next() before first is exhausted", function()
     next = function(_)
       second_called = true
       return nil
-    end
+    end,
+    clone = function(_) return nil end,
   }
   local second = tbl.instance_of(iter.Iter, second_iter)
   local it = new({ 1 }):chain(second)
@@ -204,5 +189,4 @@ test("enumerate after map", function()
   table_eq(values, { "A", "B", "C" })
 end)
 
-io.write(string.format("\n%d passed, %d failed\n", passed, failed))
-if failed > 0 then os.exit(1) end
+t.finish()
