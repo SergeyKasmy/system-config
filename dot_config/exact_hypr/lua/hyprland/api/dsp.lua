@@ -1,4 +1,4 @@
-local iter = require("lua.lib.iter")
+local iter = require("crnlib.iter")
 local log = require("lua.log")
 local programs = require("lua.hyprland.programs")
 

@@ -7,7 +7,7 @@ local monitors = require("lua.hyprland.monitors")
 local programs = require("lua.hyprland.programs")
 local submap = require("lua.hyprland.binds.submap")
 
-local Option = require("lua.lib.option")
+local Option = require("crnlib.option")
 ---@diagnostic disable-next-line: unused-local
 local utils = require("lua.utils")
 ---@diagnostic disable-next-line: unused-local

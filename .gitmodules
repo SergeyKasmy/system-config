@@ -1,0 +1,3 @@
+[submodule "dot_config/exact_hypr/lua/vendor/crnlib"]
+	path = dot_config/exact_hypr/lua/vendor/crnlib
+	url = https://github.com/SergeyKasmy/lua-crnlib.git

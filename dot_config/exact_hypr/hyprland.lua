@@ -1,3 +1,6 @@
+local config_dir = debug.getinfo(1, "S").source:match("^@(.+/)") or "./"
+package.path = config_dir .. "lua/vendor/crnlib/?.lua;" .. config_dir .. "lua/vendor/crnlib/?/init.lua;" .. package.path
+
 local log = require("lua.log")
 log.config.min_log_level = "INFO"
 
