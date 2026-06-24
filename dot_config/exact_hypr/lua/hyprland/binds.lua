@@ -82,8 +82,8 @@ bind(win, "S", hl.dsp.workspace.toggle_special("magic"))
 bind(win_shift, "S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Move/resize windows with Alt + LMB/RMB and dragging
-bind("ALT", "mouse:272", hl.dsp.window.drag(), { mouse = true })
-bind("ALT", "mouse:273", hl.dsp.window.resize(), { mouse = true })
+local drag_bind = hl.bind("ALT + mouse:272", hl.dsp.window.drag(), { mouse = true })
+local resize_bind = hl.bind("ALT + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 local volume_opts = { locked = true, repeating = true }
 bind(nil, "XF86AudioRaiseVolume", dsp.exec("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), volume_opts)
@@ -255,8 +255,14 @@ end)
 bind(win, "Escape", function()
   if hl.get_current_submap() == submap_passthrough then
     hl.dispatch(hl.dsp.submap("reset"))
+    -- Re-enable Alt window dragging/resizing when leaving passthrough
+    drag_bind:set_enabled(true)
+    resize_bind:set_enabled(true)
   else
     hl.dispatch(hl.dsp.submap(submap_passthrough))
+    -- Disable Alt window dragging/resizing so it passes through to the app
+    drag_bind:set_enabled(false)
+    resize_bind:set_enabled(false)
   end
 end, { submap_universal = true })
 
