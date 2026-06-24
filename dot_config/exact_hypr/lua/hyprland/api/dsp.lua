@@ -111,6 +111,27 @@ function M.window.move_down()
   return hl.dsp.window.move({ direction = "d", group_aware = true })
 end
 
+---@return function
+function M.window.toggle_suspend()
+  return function()
+    local window = hl.get_active_window()
+    if window == nil then return end
+
+    local state_cmd = io.popen("ps -o state= " .. window.pid)
+    if state_cmd == nil then return end
+    local state = state_cmd:read("*l")
+    state_cmd:close()
+
+    local pids_cmd = io.popen("pstree " .. window.pid .. " -npl | grep -oP '(?<=\\()[0-9]+(?=\\))'")
+    if pids_cmd == nil then return end
+    local pids = pids_cmd:read("*a"):gsub("\n", " ")
+    pids_cmd:close()
+
+    local signal = state == "T" and "CONT" or "STOP"
+    os.execute("kill -s " .. signal .. " " .. pids)
+  end
+end
+
 M.workspace = {}
 
 ---@return HL.Dispatcher
