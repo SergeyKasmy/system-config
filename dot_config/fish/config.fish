@@ -3,51 +3,7 @@
 # "local function unused": a false positive
 set -gx fish_lsp_diagnostic_disable_error_codes 2002 4004
 
-if not contains "$HOME/.local/bin" $PATH
-    set -gx PATH \
-        "$HOME/.cargo/bin" \
-        "$HOME/.deno/bin" \
-        "$HOME/.local/bin" \
-        "$HOME/.local/share/flatpak/exports/bin" \
-        /var/lib/flatpak/exports/bin \
-        "$PATH"
-end
-systemctl --user import-environment PATH
-
-# set -l XDG_DATA_HOME $XDG_DATA_HOME ~/.local/share
-# set -gx --path XDG_DATA_DIRS $XDG_DATA_HOME/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-# 
-# for flatpakdir in ~/.local/share/flatpak/exports/bin /var/lib/flatpak/exports/bin
-#     if test -d $flatpakdir
-#         contains $flatpakdir $PATH; or set -a PATH $flatpakdir
-#     end
-# end
-
-if not contains "$HOME/.local/share/flatpak/exports/share" $XDG_DATA_DIRS
-    set -gx --path XDG_DATA_DIRS "$HOME/.local/share/flatpak/exports/share" "$HOME/.nix-profile/share" $XDG_DATA_DIRS
-end
-
-set -gx QT_QPA_PLATFORMTHEME qt5ct:qt6ct
-set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
-set -gx GTK_USE_PORTAL 1
-set -gx GNUPGHOME "$HOME/.config/gpg"
-
 #set -gx (gnome-keyring-daemon --start | string split "=")
-
-# set up android tools
-
-if not contains "$HOME/.local/opt/android/cmdline-tools/latest/bin/" $PATH
-    set -gx PATH "$HOME/.local/opt/android/cmdline-tools/latest/bin/" "$PATH"
-    set -gx ANDROID_HOME "$HOME/.local/opt/android"
-    set -gx ANDROID_NDK_HOME "$HOME/.local/opt/android/ndk-bundle"
-end
-
-#if status is-login
-#    set tty (tty)
-#    if [ -z "$DISPLAY" ]; and [ $tty = /dev/tty1 ]
-#        uwsm start hyprland.desktop
-#    end
-#end
 
 if status is-interactive
     # disable the greeting
@@ -195,20 +151,6 @@ if status is-interactive
     # overrides
     #
 
-    # dissalow nested ranger instances
-    # if is_defined yazi
-    #     alias ranger yazi
-    # else if is_defined joshuto
-    #     alias ranger joshuto
-    # else if is_defined ranger
-    #     function ranger
-    #         if [ -z "$RANGER_LEVEL" ]
-    #             command ranger "$argv"
-    #         else
-    #             exit
-    #         end
-    #     end
-    # end
     if is_defined yazi
         alias ranger 'echo Just use yazi, silly'
     end
@@ -329,10 +271,6 @@ if status is-interactive
         alias island 'sudo -iu island --preserve-env=DISPLAY'
         alias stisland 'start sudo -iu island --preserve-env=DISPLAY'
     end
-
-    #if command -s tmux >/dev/null 2>&1; and not string match "*screen*" $TERM >/dev/null 2>&1; and not set -q TMUX
-    #	exec tmux -f $HOME/.config/tmux/tmux.conf new-session
-    #end
 
     if [ -e $HOME/.config/fish/autoexec.fish ]
         # disable "file doesn't exist error" (I mean, I just checked if it exists...)

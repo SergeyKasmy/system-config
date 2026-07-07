@@ -1,8 +1,56 @@
+# shellcheck shell=dash  # sourced by uwsm's /bin/sh; relies on `local` (non-POSIX)
+
+# Fold the universal environment.d layer into uwsm's computed environment.
+# uwsm builds the session env by sourcing login profiles, which do NOT read
+# environment.d (that's systemd-native), so without this it would overwrite
+# PATH/XDG_DATA_DIRS with profile-only values and drop our additions.
+set -a
+for f in "$HOME"/.config/environment.d/*.conf; do
+    # shellcheck disable=SC1090  # dynamic glob; the files are KEY=VALUE data, not logic
+    [ -r "$f" ] && . "$f"
+done
+set +a
+
+# environment.d's PATH/XDG_DATA_DIRS end in $PATH/$XDG_DATA_DIRS, so sourcing
+# after the login profiles duplicates any dir they already added (flatpak,
+# nix). Collapse to the first occurrence of each entry.
+dedup_pathlist() {
+    local name="$1"
+
+    local value
+    eval "value=\$$name"
+
+    local oldifs="$IFS"
+    IFS=:
+
+    local out=''
+    local dir
+    for dir in $value; do
+        [ -n "$dir" ] || continue
+        case ":$out:" in
+            *":$dir:"*) ;;                    # already seen — skip
+            *) out="${out:+$out:}$dir" ;;     # new — append
+        esac
+    done
+
+    IFS=$oldifs
+    eval "$name=\$out"
+
+    # shellcheck disable=SC2163  # intentional: export the var *named by* $name (e.g. PATH)
+    export "$name"
+}
+
+dedup_pathlist PATH
+dedup_pathlist XDG_DATA_DIRS
+
 # try to use wayland backends where available
 export QT_QPA_PLATFORM="wayland;xcb"
+export GTK_USE_PORTAL=1
+
+# QT theme
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
 
 # cursor theme and size
-export XCURSOR_THEME=Breeze 
-export XCURSOR_SIZE=21 
-export HYPRCURSOR_SIZE=21 
-
+export XCURSOR_THEME=Breeze
+export XCURSOR_SIZE=21
+export HYPRCURSOR_SIZE=21
