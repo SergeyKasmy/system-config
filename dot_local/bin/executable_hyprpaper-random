@@ -1,0 +1,14 @@
+#!/bin/sh
+
+WALLPAPER_DIR="$HOME/pictures/wallpapers"
+WALLPAPER_THEME=dark
+WALLPAPER=$(fd . "$WALLPAPER_DIR/$WALLPAPER_THEME" --type file | shuf -n 1)
+[ -z "$WALLPAPER" ] && exit 0
+
+ln -sf "$WALLPAPER" "$WALLPAPER_DIR/current.jpg"
+
+# Live-reshuffle the wallpaper. This can fail if hyprpaper isn't up yet
+# (e.g. run as its ExecStartPost during startup) -> that's fine: the
+# wallpaper is loaded from current.jpg via hyprpaper's preload anyway, so
+# swallow the error and don't report the script itself as failed.
+hyprctl hyprpaper wallpaper ,"$WALLPAPER" || true
