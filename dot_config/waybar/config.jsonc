@@ -8,7 +8,7 @@
 		"spacing": 7,
 	    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
 	    "modules-center": ["hyprland/window"],
-	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "temperature", "backlight", "hyprland/language", "battery", "tray", "clock"],
+	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "hyprland/language", "battery", "tray", "clock"],
 		"sway/workspaces": {
 			"all-outputs": true,
 		},
