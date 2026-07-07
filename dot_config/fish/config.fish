@@ -35,8 +35,9 @@ if status is-interactive
     set -gx AUR_PAGER nvim
 
     # gpg agent
-    # 
+    #
     set -gx GPG_TTY (tty)
+    set -gx PINENTRY_USER_DATA tty
     if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]
         set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
     end

@@ -1,0 +1,5 @@
+#!/bin/sh
+case "$PINENTRY_USER_DATA" in
+    tty) exec /usr/sbin/pinentry-tty "$@" ;;
+    *)   exec /usr/sbin/pinentry-qt  "$@" ;;
+esac
