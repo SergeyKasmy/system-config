@@ -1,26 +1,22 @@
-local api = require("lua.hyprland.api")
 local monitors = require("lua.hyprland.monitors")
+local api = require("lua.hyprland.api")
 
 os.execute("pkill -f 'waybar.*fullscreen-config' || true")
 local waybar_fs_running = false
 
----@param names string[]
+---@param monitor Monitor
 ---@return boolean
-local function monitor_has_fullscreen(names)
-  for _, name in ipairs(names) do
-    local monitor = hl.get_monitor(name)
-    if monitor ~= nil then
-      local ws = monitor.active_workspace
-      return ws ~= nil and ws.has_fullscreen
-    end
-  end
+local function monitor_has_fullscreen(monitor)
+  local handle = monitor:handle()
+  if handle == nil then return false end
 
-  return false
+  local ws = handle.active_workspace
+  return ws ~= nil and ws.has_fullscreen
 end
 
 local function update_waybar_fullscreen()
-  local main_fs   = monitor_has_fullscreen(monitors.main_monitor.names)
-  local second_fs = monitor_has_fullscreen(monitors.second_monitor.names)
+  local main_fs   = monitor_has_fullscreen(monitors.instances.main)
+  local second_fs = monitor_has_fullscreen(monitors.instances.secondary)
 
   if main_fs and not second_fs and not waybar_fs_running then
     api.exec("waybar --config ~/.config/waybar/fullscreen-config.jsonc")

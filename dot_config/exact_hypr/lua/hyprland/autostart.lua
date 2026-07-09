@@ -14,8 +14,7 @@ hl.on("hyprland.start", function()
   end
 
   -- move the second workspace to the second monitor on startup
-  local second = hl.get_monitor(monitors.second_monitor.names[1])
-      or hl.get_monitor(monitors.second_monitor.names[2])
+  local second = monitors.instances.secondary:handle()
 
   if second ~= nil then
     hl.dispatch(hl.dsp.workspace.move({ workspace = 2, monitor = second.name }))
