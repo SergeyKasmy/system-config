@@ -1,54 +1,97 @@
 local log = require("lua.log")
 local tbl = require("crnlib.table")
 
----@class MonitorConf : HL.MonitorSpec
----@field output? string
+---@class MonitorSpec : HL.MonitorSpec
+---@field output nil 
 ---@field scale? string|number
 
----@class Monitor
----@field outputs string[]
-local Monitor = {}
-Monitor.__index = Monitor
+---@class BaseMonitorConfig
+---@field mode string|"preferred"
+---@field position string|"auto"
+---@field position_unscaled? string|"auto" Position to use when unscaled (scale = 1.0) via `Monitor:unscale`, since a monitor's position typically has to shift to stay aligned with its neighbors once its scale changes.
+---@field scale? number|"auto"
+---@field disabled? boolean
 
----@param conf MonitorConf
-function Monitor:config(conf)
-  for _, output in ipairs(self.outputs) do
-    conf.output = output
-    hl.monitor(conf)
+---@class MonitorConfig : BaseMonitorConfig
+---@field connectors string[]
+
+---@class Monitor : MonitorConfig
+local Monitor = tbl.type()
+
+---@param config MonitorConfig
+---@return Monitor
+function Monitor.new(config)
+  return tbl.instance_of(Monitor, config --[[ @as Monitor ]])
+end
+
+---@param config BaseMonitorConfig
+function Monitor.configure_fallback(config)
+  ---@cast config MonitorConfig
+  config.connectors = { "" }
+
+  Monitor.new(config):configure()
+end
+
+-- Set all parameters to the defaults
+function Monitor:configure()
+  self:set({
+    mode = self.mode,
+    position = self.position,
+    scale = self.scale,
+    disabled = self.disabled,
+  })
+end
+
+---@return HL.Monitor|nil
+function Monitor:handle()
+  for _, name in ipairs(self.connectors) do
+    local hndl = hl.get_monitor(name)
+    if hndl ~= nil then return hndl end
+  end
+
+  return nil
+end
+
+---@param conf MonitorSpec
+function Monitor:set(conf)
+  for _, conn in ipairs(self.connectors) do
+    ---@type HL.MonitorSpec
+    local this_conf = {
+      output = conn
+    }
+    for k, v in pairs(conf) do
+      this_conf[k] = v
+    end
+    hl.monitor(this_conf)
   end
 end
 
-function Monitor:disable()
-  log.info("Disabling monitor(s)", self.outputs)
 
-  self:config({
+function Monitor:disable()
+  log.info("Disabling monitor(s)", self.connectors)
+
+  self.disabled = true
+
+  self:set({
     disabled = true
   })
 end
 
 function Monitor:enable()
-  log.info("Enabling monitor(s)", self.outputs)
+  log.info("Enabling monitor(s)", self.connectors)
 
-  self:config({
+  self.disabled = false
+
+  self:set({
     disabled = false
   })
 end
 
----@param outputs? string|string[]
----@return Monitor
-local function new(outputs)
-  local output_array
-  if outputs == nil then
-    output_array = {}
-  elseif type(outputs) == "string" then
-    output_array = { outputs }
-  else
-    output_array = outputs
-  end
-
-  ---@type Monitor
-  local monitor = { outputs = output_array }
-  return tbl.instance_of(Monitor, monitor)
+function Monitor:unscale()
+  self:set({
+    position = self.position_unscaled,
+    scale = 1.0,
+  })
 end
 
-return new
+return Monitor

@@ -2,7 +2,6 @@ local api = require("lua.hyprland.api")
 local bind = require("lua.hyprland.binds.bind")
 local dsp = require("lua.hyprland.api.dsp")
 local links = require("lua.hyprland.binds.links")
-local monitor = require("lua.hyprland.api.monitor")
 local monitors = require("lua.hyprland.monitors")
 local programs = require("lua.hyprland.programs")
 local submap = require("lua.hyprland.binds.submap")
@@ -101,24 +100,13 @@ bind(nil, "XF86AudioPrev", dsp.exec("playerctl previous"), { locked = true })
 
 -- Toggle main monitor scale
 bind(win, "M", function()
-  local main = hl.get_monitor(monitors.main_monitor.names[1]) or hl.get_monitor(monitors.main_monitor.names[2])
-  if main == nil then return end
-
-  local is_scaled    = main.scale > 1.1
-  local new_scale    = is_scaled and 1.0 or monitors.main_monitor.scale
-  local new_position = is_scaled and monitors.second_monitor.position.main_monitor_native
-      or monitors.second_monitor.position.main_monitor_scaled
-
-  monitor(main.name):config({ scale = new_scale })
-
-  local second = hl.get_monitor(monitors.second_monitor.names[1]) or hl.get_monitor(monitors.second_monitor.names[2])
-  if second ~= nil then
-    monitor(second.name):config({ position = new_position })
-  end
+  monitors.toggle_scale()
 end)
 
 --- Toggle TV mode
-bind(win, "T", require("lua.hyprland.monitors").tv.toggle, { locked = true })
+bind(win, "T", function()
+  monitors.toggle_tv()
+end, { locked = true })
 
 --------------
 ---- Apps ----
