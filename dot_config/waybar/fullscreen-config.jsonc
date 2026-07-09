@@ -82,7 +82,7 @@
 			"show-icon": false
 		},
 		"custom/free_space": {
-			"exec": "free-space min --ignore '/boot,/.root,/.snapshots,/home/ciren/.snapshots,/mnt/hdd/.root,/mnt/hdd/.snapshots'",
+			"exec": "free-space min --ignore '/boot,/.root,/.snapshots,'$HOME'/.snapshots,/mnt/hdd/.root,/mnt/hdd/.snapshots'",
 			"interval": 30,
 		}
 	}

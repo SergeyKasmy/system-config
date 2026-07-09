@@ -60,7 +60,7 @@ if status is-interactive
     end
 
     alias dua-root 'sudo dua -i /home/.snapshots i (sudo fd . --exclude '/mnt' --exclude '/tmp' --max-depth=1 --type=directory /)'
-    alias dua-home 'dua -i /home/.snapshots i /home/ciren'
+    alias dua-home 'dua -i /home/.snapshots i $HOME'
     function dua-raid
         if test -d /mnt/raid
             dua i /mnt/raid

@@ -4,7 +4,7 @@
 	email = {{ .personal.email }}
 {{- end }}
 {{- /* personal machine*/}}
-{{- if ne .chezmoi.hostname "star" }}
+{{- if ne .personal.machine_type "work" }}
 	signingkey = 324F28DB1BD0D0EC
 
 [commit]
@@ -25,12 +25,12 @@
 [diff]
 	tool = winmerge
 [difftool "winmerge"]
-	cmd = "/mnt/c/Users/SCASMI/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
+	cmd = "/mnt/c/Users/{{ .personal.nickname }}/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
 
 [merge]
 	tool = winmerge
 [mergetool "winmerge"]
-	cmd = "/mnt/c/Users/SCASMI/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
+	cmd = "/mnt/c/Users/{{ .personal.nickname }}/AppData/Local/Programs/WinMerge/WinMergeU.exe" "$(wslpath -aw $BASE)" "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $MERGED)"
 {{- end }}
 
 [core]

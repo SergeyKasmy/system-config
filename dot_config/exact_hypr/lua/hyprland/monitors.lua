@@ -45,7 +45,7 @@ function M.configure()
     -- cm            = "hdr",
     -- max_luminance = 1500,
     -- min_luminance = 0.02,
-    -- icc = "/home/ciren/documents/samsung-s95d-hdr-windows-calibrated-6-28-2025-04747.icc",
+    -- icc = os.getenv("HOME") .. "/documents/samsung-s95d-hdr-windows-calibrated-6-28-2025-04747.icc",
   })
 
   -- catch-all fallback

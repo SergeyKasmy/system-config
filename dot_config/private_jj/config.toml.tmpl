@@ -21,7 +21,7 @@ behavior = "own"
 backend = "gpg"
 
 {{- /* personal machine*/ -}}
-{{- if ne .chezmoi.hostname "star" }}
+{{- if ne .personal.machine_type "work" }}
 key = "324F28DB1BD0D0EC"
 {{- end }}
 
