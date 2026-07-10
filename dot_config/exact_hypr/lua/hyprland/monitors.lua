@@ -1,4 +1,5 @@
 local Monitor = require("lua.hyprland.api.monitor")
+local api = require("lua.hyprland.api")
 
 local M = {
   ---@type table<string, Monitor>
@@ -56,6 +57,7 @@ function M.unscale()
   end
 
   M.is_unscaled = true
+  api.exec("systemctl --user restart hyprpaper")
 end
 
 function M.reset()
@@ -64,6 +66,7 @@ function M.reset()
   end
 
   M.is_unscaled = false
+  api.exec("systemctl --user restart hyprpaper")
 end
 
 function M.toggle_scale()
@@ -78,12 +81,16 @@ function M.enable_tv()
   M.instances.main:disable()
   M.instances.secondary:disable()
   M.instances.tv:enable()
+
+  api.exec("systemctl --user restart hyprpaper")
 end
 
 function M.disable_tv()
   M.instances.main:enable()
   M.instances.secondary:enable()
   M.instances.tv:disable()
+
+  api.exec("systemctl --user restart hyprpaper")
 end
 
 function M.toggle_tv()

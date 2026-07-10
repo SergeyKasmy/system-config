@@ -4,9 +4,10 @@ package.path = config_dir .. "lua/vendor/crnlib/?.lua;" .. config_dir .. "lua/ve
 local log = require("lua.log")
 log.config.min_log_level = "INFO"
 
-log.spanned("monitors", function()
+Monitors = log.spanned("monitors", function()
   local mod = require("lua.hyprland.monitors")
   mod.configure()
+  return mod
 end)
 
 log.spanned_require("rendering", "lua.hyprland.rendering")
