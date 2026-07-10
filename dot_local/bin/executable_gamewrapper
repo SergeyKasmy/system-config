@@ -1,0 +1,56 @@
+#!/bin/sh
+
+no_highres_scroll=0
+unscale=0
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--no-highres-scroll)
+		no_highres_scroll=1
+		shift
+		;;
+	--unscale)
+		unscale=1
+		shift
+		;;
+	--help)
+		echo "Usage: gamewrapper [--no-highres-scroll] [--unscale] -- command [args...]"
+		echo "  --no-highres-scroll  disable mouse hires scrolling for the duration of the command"
+		echo "  --unscale            reset monitor scale for the duration of the command"
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+if [ "$no_highres_scroll" -eq 1 ]; then
+	flatpak-spawn --host solaar config G903 hires-smooth-resolution False 2>/dev/null
+	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Config.input.scroll_factor=6.0"
+fi
+
+if [ "$unscale" -eq 1 ]; then
+	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Monitors.unscale()"
+fi
+
+exit_code=0
+if [ $# -gt 0 ]; then
+	"$@"
+	exit_code=$?
+fi
+
+if [ "$no_highres_scroll" -eq 1 ]; then
+	flatpak-spawn --host solaar config G903 hires-smooth-resolution True 2>/dev/null
+	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Config.input.scroll_factor=1.0"
+fi
+
+if [ "$unscale" -eq 1 ]; then
+	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Monitors.reset()"
+fi
+
+exit "$exit_code"
