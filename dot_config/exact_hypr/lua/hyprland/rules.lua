@@ -126,8 +126,7 @@ local rules = {
   horizon_forbidden_west = {
     rules = {
       match = {
-        class = "steam_app_default",
-        title = "^Horizon Forbidden West.*"
+        class = "steam_app_2420110",
       },
       fullscreen = true,
     }
