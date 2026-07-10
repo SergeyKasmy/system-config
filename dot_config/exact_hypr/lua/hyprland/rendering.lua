@@ -22,6 +22,7 @@ hl.config({
 -- Tearing / immediate rendering per-client
 
 -- don't tear by default. Enable tearing only for clients manually allowed to tear
+--[[
 hl.window_rule({ match = { class = ".*" }, immediate = false })
 
 local tearing_clients = {
@@ -39,3 +40,4 @@ for _, client in ipairs(tearing_clients) do
     immediate = true
   })
 end
+]]
