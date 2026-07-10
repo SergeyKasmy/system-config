@@ -109,6 +109,20 @@ local rules = {
     },
   },
 
+  firefox = {
+    class = "firefox",
+    on = {
+      ["window.open"] = (function()
+        local count = 0
+        return function(window)
+          count = count + 1
+          local ws = count % 2 == 1 and "3" or "1"
+          hl.dispatch(hl.dsp.window.move({ workspace = ws, window = window }))
+        end
+      end)(),
+    },
+  },
+
   horizon_forbidden_west = {
     rules = {
       match = {
