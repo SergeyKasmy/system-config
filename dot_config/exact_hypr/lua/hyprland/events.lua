@@ -1,1 +1,0 @@
-require("lua.hyprland.events.move_bar_when_fullscreen")
