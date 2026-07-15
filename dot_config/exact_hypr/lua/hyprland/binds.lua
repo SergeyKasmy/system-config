@@ -5,6 +5,7 @@ local links = require("lua.hyprland.binds.links")
 local monitors = require("lua.hyprland.monitors")
 local programs = require("lua.hyprland.programs")
 local submap = require("lua.hyprland.binds.submap")
+local workspace_history = require("lua.hyprland.workspace_history")
 
 local Option = require("crnlib.option")
 ---@diagnostic disable-next-line: unused-local
@@ -75,6 +76,8 @@ for i = 1, 10 do
   bind(win, key, hl.dsp.focus({ workspace = i }))
   bind(win_shift, key, hl.dsp.window.move({ workspace = i }))
 end
+
+bind(win, "Tab", workspace_history.toggle_previous)
 
 -- Special workspace (scratchpad)
 bind(win, "S", hl.dsp.workspace.toggle_special("magic"))

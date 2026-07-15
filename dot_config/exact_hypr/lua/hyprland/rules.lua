@@ -38,6 +38,7 @@
 
 local register = require("lua.hyprland.rules.register")
 local update_waybar_fullscreen = require("lua.hyprland.rules.waybar_fullscreen")
+local workspace_history = require("lua.hyprland.workspace_history")
 
 ---@type table<string, RuleEntry>
 local rules = {
@@ -70,6 +71,15 @@ local rules = {
     rules = {
       match = { workspace = "10" },
       float = true,
+    },
+  },
+
+  workspace_history = {
+    on = {
+      ["workspace.active"] = workspace_history.on_workspace_active,
+      ["monitor.focused"] = function(monitor)
+        workspace_history.on_workspace_active(monitor.active_workspace)
+      end,
     },
   },
 
