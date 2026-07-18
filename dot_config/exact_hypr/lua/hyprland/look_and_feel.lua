@@ -14,7 +14,7 @@ hl.config({
   },
 
   decoration = {
-    dim_inactive = true,
+    dim_inactive = false,
     dim_strength = 0.1,
 
     shadow = {
