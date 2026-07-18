@@ -1,7 +1,52 @@
 #!/bin/sh
 
+host() {
+	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" "$@"
+}
+
+error() {
+	echo "$@" >&2
+	zenity --error --title "gamewrapper error" --text "$*"
+}
+
+show_help() {
+	echo "Usage: gamewrapper [OPTIONS] -- command [ARGS...]"
+	echo "  --help                       show help"
+	echo "  --no-highres-scroll          disable mouse hires scrolling for the duration of the command"
+	echo "  --unscale                    reset monitor scale for the duration of the command"
+	echo "  --wayland                    switch Wine & SDL to native wayland"
+	echo "  --hdr                        enable HDR"
+	echo "  --low-latency-layer          enable low_latency_layer as AMD Anti-Lag 2"
+	echo "  --low-latency-layer-reflex   enable low_latency_layer as Nvidia Reflex (requires --nvapi)"
+	echo "  --no-mangohud                force disable MangoHUD"
+	echo "  --fsr4-upgrade               upgrade FSR 3.1 to FSR 4"
+	echo "  --fsr4-upgrade-indicator     upgrade FSR 3.1 to FSR 4 & show an indicator"
+	echo "  --optiscaler                 use OptiScaler"
+	echo "  --nvapi                      force enable NVAPI & report an Nvidia GPU from Wine (may hurt performance!)"
+	echo "  --dxgi-hide-amd-gpu          report an Nvidia GPU from DXGI (may hurt performance!)"
+	echo "  --framecap [fps]             cap FPS via MangoHUD (default: slightly lower than active monitor's refresh rate)"
+	echo "  --save-log                   save the game's stdout/stderr to ~/gamewrapper.log"
+}
+
+## options
+
 no_highres_scroll=0
 unscale=0
+wayland=0
+hdr=0
+low_latency_layer=0
+low_latency_layer_reflex=0
+disable_mangohud=0
+fsr4_upgrade=0
+fsr4_indicator=0
+optiscaler=0
+nvapi=0
+dxgi_hide_amd_gpu=0
+save_log=0
+# -1 = unset, 0 = automatic, other = set to other
+framecap=-1
+
+## arg parsing
 
 while [ $# -gt 0 ]; do
 	case "$1" in
@@ -13,10 +58,64 @@ while [ $# -gt 0 ]; do
 		unscale=1
 		shift
 		;;
-	--help)
-		echo "Usage: gamewrapper [--no-highres-scroll] [--unscale] -- command [args...]"
-		echo "  --no-highres-scroll  disable mouse hires scrolling for the duration of the command"
-		echo "  --unscale            reset monitor scale for the duration of the command"
+	--wayland)
+		wayland=1
+		shift
+		;;
+	--hdr)
+		hdr=1
+		shift
+		;;
+	--low-latency-layer)
+		low_latency_layer=1
+		shift
+		;;
+	--low-latency-layer-reflex)
+		low_latency_layer=1
+		low_latency_layer_reflex=1
+		shift
+		;;
+	--no-mangohud)
+		disable_mangohud=1
+		shift
+		;;
+	--fsr4-upgrade)
+		fsr4_upgrade=1
+		shift
+		;;
+	--fsr4-upgrade-indicator)
+		fsr4_upgrade=1
+		fsr4_indicator=1
+		shift
+		;;
+	--optiscaler)
+		optiscaler=1
+		shift
+		;;
+	--nvapi)
+		nvapi=1
+		shift
+		;;
+	--dxgi-hide-amd-gpu)
+		dxgi_hide_amd_gpu=1
+		shift
+		;;
+	--save-log)
+		save_log=1
+		shift
+		;;
+	--framecap)
+		shift
+		# Check if next arg is numeric (-eq errors on non-numbers)
+		if [ $# -gt 0 ] && [ "$1" -eq "$1" ] 2>/dev/null; then
+			framecap="$1"
+			shift
+		else
+			framecap=0
+		fi
+		;;
+	-h | --help)
+		show_help
 		exit 0
 		;;
 	--)
@@ -24,33 +123,99 @@ while [ $# -gt 0 ]; do
 		break
 		;;
 	*)
-		break
+		error "Unknown option: $1"
+		exit 1
 		;;
 	esac
 done
 
+if [ "$hdr" -eq 1 ] && [ "$wayland" -ne 1 ]; then
+	error "--hdr requires --wayland"
+	exit 1
+fi
+
+## set settings
+
 if [ "$no_highres_scroll" -eq 1 ]; then
-	flatpak-spawn --host solaar config G903 hires-smooth-resolution False 2>/dev/null
-	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Config.input.scroll_factor=6.0"
+	host solaar config G903 hires-smooth-resolution False 2>/dev/null
+	host hyprctl eval "Config.input.scroll_factor=6.0"
 fi
 
 if [ "$unscale" -eq 1 ]; then
-	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Monitors.unscale()"
+	host hyprctl eval "Monitors.unscale()"
 fi
 
+if [ "$wayland" -eq 1 ]; then
+	export PROTON_ENABLE_WAYLAND=1
+	export SDL_VIDEO_DRIVER=wayland
+fi
+
+if [ "$hdr" -eq 1 ]; then
+	export PROTON_ENABLE_HDR=1
+fi
+
+if [ "$low_latency_layer" -eq 1 ]; then
+	export LOW_LATENCY_LAYER=1
+fi
+
+if [ "$low_latency_layer_reflex" -eq 1 ]; then
+	export LOW_LATENCY_LAYER_REFLEX=1
+fi
+
+if [ "$disable_mangohud" -eq 1 ]; then
+	export DISABLE_MANGOHUD=1
+fi
+
+if [ "$fsr4_upgrade" -eq 1 ]; then
+	export PROTON_FSR4_UPGRADE=1
+fi
+
+if [ "$fsr4_indicator" -eq 1 ]; then
+	export PROTON_FSR4_INDICATOR=1
+fi
+
+if [ "$optiscaler" -eq 1 ]; then
+	export PROTON_USE_OPTISCALER=1
+fi
+
+if [ "$nvapi" -eq 1 ]; then
+	export PROTON_FORCE_NVAPI=1
+fi
+
+if [ "$dxgi_hide_amd_gpu" -eq 1 ]; then
+	export DXVK_CONFIG="dxgi.hideAmdGpu=True"
+fi
+
+if [ "$framecap" -eq 0 ]; then
+	framecap=$(host hyprctl monitors -j | jq -r '.[] | select(.focused) | .refreshRate as $r | ($r - ($r * $r / 4800)) | floor')
+	export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+elif [ "$framecap" -ne -1 ]; then
+	export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+fi
+
+## spawn the game
 exit_code=0
 if [ $# -gt 0 ]; then
-	"$@"
-	exit_code=$?
+	if [ "$save_log" -eq 1 ]; then
+		exit_code_file=$(mktemp)
+		{ gamemoderun "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gamewrapper.log
+		exit_code=$(cat "$exit_code_file")
+		rm -f "$exit_code_file"
+	else
+		gamemoderun "$@"
+		exit_code=$?
+	fi
 fi
 
+## undo permanent settings
+
 if [ "$no_highres_scroll" -eq 1 ]; then
-	flatpak-spawn --host solaar config G903 hires-smooth-resolution True 2>/dev/null
-	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Config.input.scroll_factor=1.0"
+	host solaar config G903 hires-smooth-resolution True 2>/dev/null
+	host hyprctl eval "Config.input.scroll_factor=1.0"
 fi
 
 if [ "$unscale" -eq 1 ]; then
-	flatpak-spawn --host --env=HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_INSTANCE_SIGNATURE" hyprctl eval "Monitors.reset()"
+	host hyprctl eval "Monitors.reset()"
 fi
 
 exit "$exit_code"
