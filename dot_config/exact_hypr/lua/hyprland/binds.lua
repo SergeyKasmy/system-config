@@ -155,26 +155,25 @@ end)
 
 submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
   ---@param program { bin: string, description: string }
-  ---@param floating? boolean
-  ---@param alt? boolean
-  local function app(key, program, floating, alt)
-    local mod = Option.then_some(alt, "SHIFT")
-    bind(mod:extract(), key, dsp.exec_app(program.bin, { float = Option.new(floating):unwrap_or(false) }))
+  ---@param opts? { floating?: boolean, alt?: boolean }
+  local function app(key, program, opts)
+    local mod = Option.then_some(opts and opts.alt, "SHIFT")
+    bind(mod:extract(), key, dsp.exec_app(program.bin, { float = Option.new(opts and opts.floating):unwrap_or(false) }))
     add_help(mod:map_or("", function() return "S-" end) .. key, program.description)
   end
 
   app("C", programs.browser)
   app("E", programs.file_manager)
-  app("E", programs.file_manager_alt, nil, true)
+  app("E", programs.file_manager_alt, { alt = true })
   app("S", programs.steam)
   app("L", programs.lutris)
-  app("H", programs.sysmon, true)
-  app("B", programs.bluetooth_config, true)
-  app("X", programs.calculator, true)
-  app("V", programs.volume_control, true)
+  app("H", programs.sysmon, { floating = true })
+  app("B", programs.bluetooth_config, { floating = true })
+  app("X", programs.calculator, { floating = true })
+  app("V", programs.volume_control, { floating = true })
   app("T", programs.telegram)
   app("D", programs.discord)
-  app("M", programs.service_manager, true)
+  app("M", programs.service_manager, { floating = true })
 end)
 
 -- ┌───────────────────────────────────────────────┐
