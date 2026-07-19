@@ -11,6 +11,12 @@ hl.config({
     direct_scanout = true
     -- cm_auto_hdr = 2,
   },
+
+  quirks = {
+    -- Direct scanout can break without this for pure Wayland clients
+    -- if they decided to choose a format that the KMS doesn't support
+    skip_non_kms_dmabuf_formats = true,
+  }
 })
 
 -- HDR (experimental — uncomment to enable)
