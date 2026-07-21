@@ -34,12 +34,14 @@ end
 
 -- Set all parameters to the defaults
 function Monitor:configure()
-  self:set({
-    mode = self.mode,
-    position = self.position,
-    scale = self.scale,
-    disabled = self.disabled,
-  })
+  local conf = {}
+  for k, v in pairs(self) do
+    if k ~= "connectors" and k ~= "position_unscaled" then
+      conf[k] = v
+    end
+  end
+
+  self:set(conf)
 end
 
 ---@return HL.Monitor|nil
