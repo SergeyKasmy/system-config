@@ -26,16 +26,20 @@ M.instances.secondary = Monitor.new({
 
 M.instances.tv = Monitor.new({
   connectors = { "HDMI-A-2" },
-  disabled = true,
-  mode = "3840x2160@144",
+  -- disabled = true,
+  mode = "3840x2160@120",
   position = "auto",
   scale = 3,
 
+  vrr = 1,
+
   -- HDR (less bright than Windows for some reason?)
-  -- bitdepth      = 10,
-  -- cm            = "hdr",
-  -- max_luminance = 1500,
-  -- min_luminance = 0.02,
+  bitdepth      = 10,
+  cm            = "hdr",
+  max_luminance = 1300,
+  min_luminance = 0.02,
+  -- max_avg_luminance = 300,
+  sdr_max_luminance = 60,
   -- icc = os.getenv("HOME") .. "/documents/samsung-s95d-hdr-windows-calibrated-6-28-2025-04747.icc",
 })
 
