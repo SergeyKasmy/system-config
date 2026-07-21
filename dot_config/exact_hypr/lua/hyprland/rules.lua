@@ -119,6 +119,7 @@ local rules = {
     },
   },
 
+  --[[
   firefox = {
     class = "firefox",
     on = {
@@ -132,6 +133,7 @@ local rules = {
       end)(),
     },
   },
+  -- ]]
 
   horizon_forbidden_west = {
     rules = {
