@@ -188,9 +188,11 @@ fi
 
 if [ "$framecap" -eq 0 ]; then
 	framecap=$(host hyprctl monitors -j | jq -r '.[] | select(.focused) | .refreshRate as $r | ($r - ($r * $r / 4800)) | floor')
-	export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+	# export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+	export MANGOHUD_FPS_LIMIT="$framecap"
 elif [ "$framecap" -ne -1 ]; then
-	export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+	# export MANGOHUD_CONFIG="read_cfg,fps_limit=$framecap"
+	export MANGOHUD_FPS_LIMIT="$framecap"
 fi
 
 ## spawn the game
