@@ -111,6 +111,13 @@ function M.window.move_down()
   return hl.dsp.window.move({ direction = "d", group_aware = true })
 end
 
+-- Wrap a string in single quotes for safe use as a single POSIX shell argument
+---@param s string
+---@return string
+local function shell_quote(s)
+  return "'" .. tostring(s):gsub("'", "'\\''") .. "'"
+end
+
 ---@return function
 function M.window.toggle_suspend()
   return function()
@@ -129,6 +136,13 @@ function M.window.toggle_suspend()
 
     local signal = state == "T" and "CONT" or "STOP"
     os.execute("kill -s " .. signal .. " " .. pids)
+
+    local status = signal == "STOP" and "Suspended" or "Resumed"
+    local name = window.initial_title or window.title or window.class
+
+    -- TODO: also append/remove "[SUSPENDED]" to/from the window title once Hyprland
+    -- exposes a way to override it (no such dispatcher/settable field exists yet)
+    hl.exec_cmd("notify-send -t 3000 -h boolean:transient:true " .. shell_quote(status .. " " .. name))
   end
 end
 
