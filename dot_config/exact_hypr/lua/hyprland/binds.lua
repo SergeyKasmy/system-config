@@ -68,7 +68,8 @@ end)
 bind(win_shift, "Space", hl.dsp.window.float({ action = "toggle" }))
 
 bind(win, "C", hl.dsp.window.close())
-bind(win_shift, "C", dsp.window.toggle_suspend())
+bind(win_shift, "C", hl.dsp.window.kill())
+bind(win, "B", dsp.window.toggle_suspend())
 
 -- Workspace switching
 for i = 1, 10 do
