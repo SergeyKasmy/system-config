@@ -106,11 +106,6 @@ bind(win, "M", function()
   monitors.toggle_scale()
 end)
 
---- Toggle TV mode
-bind(win, "T", function()
-  monitors.toggle_tv()
-end, { locked = true })
-
 --------------
 ---- Apps ----
 --------------
@@ -235,6 +230,41 @@ submap("System Control", { win, "X" }, { reset_to = "reset" }, function(add_help
   end
 end)
 
+
+-- ┌────────────────────────────────────────────────────────────┐
+-- │                     SUBMAP: Monitors                       │
+-- └────────────────────────────────────────────────────────────┘
+
+submap("Monitors", { win, "T" }, { reset_to = "reset" }, function(add_help)
+  local function mon(key, description, action)
+    bind(nil, key, action, { locked = true })
+    add_help(key, description)
+  end
+
+  mon("T", "Toggle TV-Only Mode", function() monitors.toggle_tv_mode() end)
+  mon("Y", "Toggle TV", function()
+    monitors.instances.tv:toggle()
+    monitors.restart_hyprpaper()
+  end)
+  -- mon("U", "Toggle showcase mode", function()
+  --   monitors.instances.main:toggle_mirror(monitors.instances.tv)
+  --   monitors.instances.secondary:toggle()
+  --   monitors.restart_hyprpaper()
+  -- end)
+  mon("M", "Toggle main", function()
+    monitors.instances.main:toggle()
+    monitors.restart_hyprpaper()
+  end)
+  mon("N", "Toggle mirror TV to main", function()
+    monitors.instances.main:toggle_mirror(monitors.instances.tv)
+    monitors.restart_hyprpaper()
+  end)
+  mon("S", "Toggle secondary", function()
+    monitors.instances.secondary:toggle()
+    monitors.restart_hyprpaper()
+  end)
+  mon("R", "Reset monitors", function() monitors.reset() end)
+end)
 
 -- ┌────────────────────────────────────────────┐
 -- │              SUBMAP: passthrough           │

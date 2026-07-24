@@ -26,22 +26,26 @@ M.instances.secondary = Monitor.new({
 
 M.instances.tv = Monitor.new({
   connectors = { "HDMI-A-2" },
-  -- disabled = true,
+  disabled = true,
   mode = "3840x2160@120",
   position = "auto",
   scale = 3,
 
-  vrr = 1,
-
-  -- HDR (less bright than Windows for some reason?)
+  -- HDR
   bitdepth      = 10,
   cm            = "hdr",
   max_luminance = 1300,
   min_luminance = 0.02,
+
+  -- default value. TODO: if too high at night and too low in the day, can be changed to be toggle with a keybind, like scale
+  sdr_max_luminance = 80,
   -- max_avg_luminance = 300,
-  sdr_max_luminance = 60,
-  -- icc = os.getenv("HOME") .. "/documents/samsung-s95d-hdr-windows-calibrated-6-28-2025-04747.icc",
 })
+
+-- TODO: automate calling this exactly once after any monitor-configuring action, so callers can't forget it (don't hook into Monitor:set(), it'd fire once per monitor/call instead of once per action)
+function M.restart_hyprpaper()
+  api.exec("systemctl --user restart hyprpaper")
+end
 
 function M.configure()
   for _, mon in pairs(M.instances) do
@@ -61,16 +65,16 @@ function M.unscale()
   end
 
   M.is_unscaled = true
-  api.exec("systemctl --user restart hyprpaper")
+  M.restart_hyprpaper()
 end
 
 function M.reset()
   for _, mon in pairs(M.instances) do
-    mon:configure()
+    mon:reset()
   end
 
   M.is_unscaled = false
-  api.exec("systemctl --user restart hyprpaper")
+  M.restart_hyprpaper()
 end
 
 function M.toggle_scale()
@@ -81,29 +85,29 @@ function M.toggle_scale()
   end
 end
 
-function M.enable_tv()
+function M.enable_tv_mode()
   M.instances.main:disable()
   M.instances.secondary:disable()
   M.instances.tv:enable()
 
-  api.exec("systemctl --user restart hyprpaper")
+  M.restart_hyprpaper()
 end
 
-function M.disable_tv()
+function M.disable_tv_mode()
   M.instances.main:enable()
   M.instances.secondary:enable()
   M.instances.tv:disable()
 
-  api.exec("systemctl --user restart hyprpaper")
+  M.restart_hyprpaper()
 end
 
-function M.toggle_tv()
+function M.toggle_tv_mode()
   local tv = M.instances.tv
 
   if tv.disabled then
-    M.enable_tv()
+    M.enable_tv_mode()
   else
-    M.disable_tv()
+    M.disable_tv_mode()
   end
 end
 

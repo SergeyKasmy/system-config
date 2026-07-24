@@ -1,8 +1,8 @@
 local init = require("lua.log.init")
 local utils = require("lua.utils")
 
----@alias MinLogLevel "NO" | "ERROR" | "INFO" | "DEBUG" | "TRACE"
----@alias LogLevel "ERROR" | "INFO" | "DEBUG" | "TRACE"
+---@alias MinLogLevel "NO" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "TRACE"
+---@alias LogLevel "ERROR" | "WARN" | "INFO" | "DEBUG" | "TRACE"
 
 local M = {
   config = {
@@ -22,9 +22,10 @@ local function skip_log(log_level)
   ---@format disable
   local is_filtered_out = {
     log_level == "ERROR" and (min == "NO"),
-    log_level == "INFO"  and (min == "NO" or min == "ERROR"),
-    log_level == "DEBUG" and (min == "NO" or min == "ERROR" or min == "INFO"),
-    log_level == "TRACE" and (min == "NO" or min == "ERROR" or min == "INFO" or min == "DEBUG"),
+    log_level == "WARN"  and (min == "NO" or min == "ERROR"),
+    log_level == "INFO"  and (min == "NO" or min == "ERROR" or min == "WARN"),
+    log_level == "DEBUG" and (min == "NO" or min == "ERROR" or min == "WARN" or min == "INFO"),
+    log_level == "TRACE" and (min == "NO" or min == "ERROR" or min == "WARN" or min == "INFO" or min == "DEBUG"),
   }
   ---@format enable
 
@@ -57,6 +58,11 @@ end
 ---@param ... any
 function M.error(...)
   M.log("ERROR", ...)
+end
+
+---@param ... any
+function M.warn(...)
+  M.log("WARN", ...)
 end
 
 ---@param ... any
