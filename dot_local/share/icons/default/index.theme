@@ -1,0 +1,15 @@
+# XCursor's bare fallback theme, for programs that resolve no theme of their own.
+
+# Lives here rather than ~/.icons because both libXcursor and libwayland-cursor search $XDG_DATA_HOME/icons first,
+# and flatpak exposes ~/.local/share as /run/host/user-share.
+# So this reaches sandboxed apps, which ~/.icons cannot (if host home is denied).
+# Without it they fall back to the host's /usr/share/icons/default, which inherits Adwaita (ew)
+
+# Steam depends on this: it ignores XCURSOR_THEME entirely and only ever loads
+# the theme named "default". See ValveSoftware/steam-for-linux#13209.
+
+# NOTE: Keep Inherits in sync with XCURSOR_THEME in dot_config/uwsm/env.
+[Icon Theme]
+Name=Default
+Comment=Default Cursor Theme
+Inherits=breeze_cursors

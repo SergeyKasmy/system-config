@@ -1,4 +1,4 @@
-# shellcheck shell=dash  # sourced by uwsm's /bin/sh; relies on `local` (non-POSIX)
+# shellcheck shell=dash  # sourced by uwsm's /bin/sh (which I always default to dash), but relies on `local` (non-POSIX) :(
 
 # Fold the universal environment.d layer into uwsm's computed environment.
 # uwsm builds the session env by sourcing login profiles, which do NOT read
@@ -51,6 +51,7 @@ export GTK_USE_PORTAL=1
 export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
 
 # cursor theme and size
-export XCURSOR_THEME=Breeze
+# NOTE: GTK ignores these. Keep run_onchange_after_cursor-theme.sh in sync
+export XCURSOR_THEME=breeze_cursors
 export XCURSOR_SIZE=21
 export HYPRCURSOR_SIZE=21

@@ -37,6 +37,7 @@ Key conventions:
 | `dot_local/bin/` | Custom executable scripts (e.g. `gamewrapper` temporarily applies game-specific fixes before launching) |
 | `dot_gitconfig.tmpl` | Git config with machine-type-based conditionals |
 
+
 ## Template Files
 
 `.tmpl` files use Go template syntax with chezmoi variables:
