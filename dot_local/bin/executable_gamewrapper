@@ -54,9 +54,9 @@ fsr4_indicator=0
 optiscaler=0
 nvapi=0
 dxgi_hide_amd_gpu=0
-save_log=0
 # -1 = unset, 0 = automatic, other = set to other
 framecap=-1
+save_log=0
 
 ## arg parsing
 
@@ -171,6 +171,8 @@ if [ "$video_driver" = wayland ]; then
 	export PROTON_ENABLE_WAYLAND=1
 	export SDL_VIDEO_DRIVER=wayland
 fi
+
+export DXVK_HUD="${DXVK_HUD:=compiler}"
 
 if [ "$hdr" -eq 1 ]; then
 	export PROTON_ENABLE_HDR=1
