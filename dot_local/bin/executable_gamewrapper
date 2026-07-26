@@ -19,6 +19,7 @@ show_help() {
 	echo "  --low-latency-layer          enable low_latency_layer as AMD Anti-Lag 2"
 	echo "  --low-latency-layer-reflex   enable low_latency_layer as Nvidia Reflex (requires --nvapi)"
 	echo "  --no-mangohud                force disable MangoHUD"
+	echo "  --vsync                      force vsync on via MangoHud"
 	echo "  --fsr4-upgrade               upgrade FSR 3.1 to FSR 4"
 	echo "  --fsr4-upgrade-indicator     upgrade FSR 3.1 to FSR 4 & show an indicator"
 	echo "  --optiscaler                 use OptiScaler"
@@ -37,6 +38,7 @@ hdr=0
 low_latency_layer=0
 low_latency_layer_reflex=0
 disable_mangohud=0
+vsync=0
 fsr4_upgrade=0
 fsr4_indicator=0
 optiscaler=0
@@ -77,6 +79,10 @@ while [ $# -gt 0 ]; do
 		;;
 	--no-mangohud)
 		disable_mangohud=1
+		shift
+		;;
+	--vsync)
+		vsync=1
 		shift
 		;;
 	--fsr4-upgrade)
@@ -164,6 +170,10 @@ fi
 
 if [ "$disable_mangohud" -eq 1 ]; then
 	export DISABLE_MANGOHUD=1
+fi
+
+if [ "$vsync" -eq 1 ]; then
+	export MANGOHUD_CONFIG="read_cfg,vsync=1"
 fi
 
 if [ "$fsr4_upgrade" -eq 1 ]; then
