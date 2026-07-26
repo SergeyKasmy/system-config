@@ -28,6 +28,7 @@ show_help() {
 	echo "  --low-latency-layer          enable low_latency_layer as AMD Anti-Lag 2"
 	echo "  --low-latency-layer-reflex   enable low_latency_layer as Nvidia Reflex (requires --nvapi)"
 	echo "  --no-mangohud                force disable MangoHUD"
+	echo "  --mangohud-wrap              wrap the command with mangohud"
 	echo "  --vsync                      force vsync on via MangoHud"
 	echo "  --fsr4-upgrade               upgrade FSR 3.1 to FSR 4"
 	echo "  --fsr4-upgrade-indicator     upgrade FSR 3.1 to FSR 4 & show an indicator"
@@ -48,6 +49,7 @@ hdr=0
 low_latency_layer=0
 low_latency_layer_reflex=0
 disable_mangohud=0
+mangohud_wrap=0
 vsync=0
 fsr4_upgrade=0
 fsr4_indicator=0
@@ -93,6 +95,10 @@ while [ $# -gt 0 ]; do
 		;;
 	--no-mangohud)
 		disable_mangohud=1
+		shift
+		;;
+	--mangohud-wrap)
+		mangohud_wrap=1
 		shift
 		;;
 	--vsync)
@@ -153,6 +159,11 @@ done
 
 if [ "$hdr" -eq 1 ] && [ "$video_driver" != wayland ]; then
 	error "--hdr requires --wayland"
+	exit 1
+fi
+
+if [ "$disable_mangohud" -eq 1 ] && [ "$mangohud_wrap" -eq 1 ]; then
+	error "--no-mangohud and --mangohud-wrap are incompatible"
 	exit 1
 fi
 
@@ -226,13 +237,19 @@ fi
 ## spawn the game
 exit_code=0
 if [ $# -gt 0 ]; then
+	if [ "$mangohud_wrap" -eq 1 ]; then
+		runner="mangohud gamemoderun"
+	else
+		runner="gamemoderun"
+	fi
+
 	if [ "$save_log" -eq 1 ]; then
 		exit_code_file=$(mktemp)
-		{ gamemoderun "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gforge.log
+		{ $runner "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gforge.log
 		exit_code=$(cat "$exit_code_file")
 		rm -f "$exit_code_file"
 	else
-		gamemoderun "$@"
+		$runner "$@"
 		exit_code=$?
 	fi
 fi
