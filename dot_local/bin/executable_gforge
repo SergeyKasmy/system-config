@@ -6,7 +6,7 @@ host() {
 
 error() {
 	echo "$@" >&2
-	zenity --error --title "gamewrapper error" --text "$*"
+	zenity --error --title "gforge error" --text "$*"
 }
 
 # Set the video driver, rejecting a conflicting second request
@@ -19,7 +19,7 @@ set_video_driver() {
 }
 
 show_help() {
-	echo "Usage: gamewrapper [OPTIONS] -- command [ARGS...]"
+	echo "Usage: gforge [OPTIONS] -- command [ARGS...]"
 	echo "  --help                       show help"
 	echo "  --no-highres-scroll          disable mouse hires scrolling for the duration of the command"
 	echo "  --unscale                    reset monitor scale for the duration of the command"
@@ -35,7 +35,7 @@ show_help() {
 	echo "  --nvapi                      force enable NVAPI & report an Nvidia GPU from Wine (may hurt performance!)"
 	echo "  --dxgi-hide-amd-gpu          report an Nvidia GPU from DXGI (may hurt performance!)"
 	echo "  --framecap [fps]             cap FPS via MangoHUD (default: slightly lower than active monitor's refresh rate)"
-	echo "  --save-log                   save the game's stdout/stderr to ~/gamewrapper.log"
+	echo "  --save-log                   save the game's stdout/stderr to ~/gforge.log"
 }
 
 ## options
@@ -228,7 +228,7 @@ exit_code=0
 if [ $# -gt 0 ]; then
 	if [ "$save_log" -eq 1 ]; then
 		exit_code_file=$(mktemp)
-		{ gamemoderun "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gamewrapper.log
+		{ gamemoderun "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gforge.log
 		exit_code=$(cat "$exit_code_file")
 		rm -f "$exit_code_file"
 	else
