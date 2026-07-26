@@ -9,12 +9,21 @@ error() {
 	zenity --error --title "gamewrapper error" --text "$*"
 }
 
+# Set the video driver, rejecting a conflicting second request
+set_video_driver() {
+	if [ -n "$video_driver" ] && [ "$video_driver" != "$1" ]; then
+		error "--wayland and --x11 are incompatible"
+		exit 1
+	fi
+	video_driver="$1"
+}
+
 show_help() {
 	echo "Usage: gamewrapper [OPTIONS] -- command [ARGS...]"
 	echo "  --help                       show help"
 	echo "  --no-highres-scroll          disable mouse hires scrolling for the duration of the command"
 	echo "  --unscale                    reset monitor scale for the duration of the command"
-	echo "  --wayland                    switch Wine & SDL to native wayland"
+	echo "  --x11                        switch Wine & SDL to X11 instead of native wayland"
 	echo "  --hdr                        enable HDR"
 	echo "  --low-latency-layer          enable low_latency_layer as AMD Anti-Lag 2"
 	echo "  --low-latency-layer-reflex   enable low_latency_layer as Nvidia Reflex (requires --nvapi)"
@@ -33,7 +42,8 @@ show_help() {
 
 no_highres_scroll=0
 unscale=0
-wayland=0
+# empty = unset, defaults to wayland
+video_driver=""
 hdr=0
 low_latency_layer=0
 low_latency_layer_reflex=0
@@ -60,8 +70,12 @@ while [ $# -gt 0 ]; do
 		unscale=1
 		shift
 		;;
+	--x11)
+		set_video_driver x11
+		shift
+		;;
 	--wayland)
-		wayland=1
+		set_video_driver wayland
 		shift
 		;;
 	--hdr)
@@ -135,7 +149,9 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
-if [ "$hdr" -eq 1 ] && [ "$wayland" -ne 1 ]; then
+: "${video_driver:=wayland}"
+
+if [ "$hdr" -eq 1 ] && [ "$video_driver" != wayland ]; then
 	error "--hdr requires --wayland"
 	exit 1
 fi
@@ -151,7 +167,7 @@ if [ "$unscale" -eq 1 ]; then
 	host hyprctl eval "Monitors.unscale()"
 fi
 
-if [ "$wayland" -eq 1 ]; then
+if [ "$video_driver" = wayland ]; then
 	export PROTON_ENABLE_WAYLAND=1
 	export SDL_VIDEO_DRIVER=wayland
 fi
