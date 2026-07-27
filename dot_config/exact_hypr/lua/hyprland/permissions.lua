@@ -15,4 +15,10 @@ hl.permission({
   type = "screencopy",
   mode = "allow"
 })
+
+hl.permission({
+  binary = "/usr/bin/hyprlock",
+  type = "screencopy",
+  mode = "allow",
+})
 -- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
