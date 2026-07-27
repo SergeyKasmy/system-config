@@ -36,7 +36,7 @@ show_help() {
 	echo "  --nvapi                      force enable NVAPI & report an Nvidia GPU from Wine (may hurt performance!)"
 	echo "  --dxgi-hide-amd-gpu          report an Nvidia GPU from DXGI (may hurt performance!)"
 	echo "  --framecap [fps]             cap FPS via MangoHUD (default: slightly lower than active monitor's refresh rate)"
-	echo "  --save-log                   save the game's stdout/stderr to ~/gforge.log"
+	echo "  --save-log                   save the game's stdout/stderr to ~/gforge-YYYYMMDD-HHMMSS.log"
 }
 
 ## options
@@ -245,7 +245,8 @@ if [ $# -gt 0 ]; then
 
 	if [ "$save_log" -eq 1 ]; then
 		exit_code_file=$(mktemp)
-		{ $runner "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee ~/gforge.log
+		log_file=~/gforge-$(date +%Y%m%d-%H%M%S).log
+		{ $runner "$@"; echo $? >"$exit_code_file"; } 2>&1 | tee "$log_file"
 		exit_code=$(cat "$exit_code_file")
 		rm -f "$exit_code_file"
 	else
