@@ -1,0 +1,15 @@
+layout {
+	{{ include "dot_config/zellij/layouts/default_container.kdl" }}
+
+	tab name="claude" {
+		default_container {
+			pane command="claude"
+		}
+	}
+
+	new_tab_template {
+		default_container {
+			pane
+		}
+	}
+}
