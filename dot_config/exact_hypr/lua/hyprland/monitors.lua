@@ -33,7 +33,7 @@ M.instances.tv = Monitor.new({
 
   -- HDR
   bitdepth      = 10,
-  cm            = "hdr",
+  cm            = "auto",
   max_luminance = 1300,
   min_luminance = 0.02,
 
