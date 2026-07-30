@@ -14,3 +14,8 @@ foreground = "#A6ACCD"
 
 [window]
 opacity = 0.95
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
