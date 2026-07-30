@@ -160,6 +160,10 @@ if status is-interactive
         alias jq 'echo Try using jaq instead'
     end
 
+    if is_defined imv
+        alias feh 'echo Try imv instead'
+    end
+
     # use .config/tmux.conf as the tmux config
     alias_if_defined tmux "tmux -f $HOME/.config/tmux/tmux.conf"
 
