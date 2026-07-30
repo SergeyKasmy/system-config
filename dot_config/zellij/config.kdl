@@ -2,6 +2,9 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
+    normal {
+        bind "Ctrl g" { WriteChars "\u{0007}"; SwitchToMode "locked"; }
+    }
     pane {
         bind "left" { MoveFocus "left"; }
         bind "down" { MoveFocus "down"; }
