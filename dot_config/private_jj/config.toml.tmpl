@@ -37,6 +37,7 @@ l = ["log", "--limit", "20"]
 lg = ["log", "--limit", "20", "-r", "::"]
 lga = ["log", "-r", "::"]
 squash-rm = ["util", "exec", "--", "sh", "-c", "jj squash && jj prev --edit"]
+blame = ["file", "annotate"]
 
 # Remove all parents of the current merge commit except the one provided 
 move-to-parent = ["util", "exec", "--", "sh", "-c", """
