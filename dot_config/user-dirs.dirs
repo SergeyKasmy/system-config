@@ -1,0 +1,13 @@
+# look, ma, no desktop!
+XDG_DESKTOP_DIR="$HOME/"
+XDG_DOWNLOAD_DIR="$HOME/downloads"
+# what do they mean by templates anyway?...
+XDG_TEMPLATES_DIR="$HOME/"
+# if it's public, why is it in the home dir anyway? (/srv/share is my dir of choice here)
+XDG_PUBLICSHARE_DIR="$HOME/"
+XDG_DOCUMENTS_DIR="$HOME/documents"
+XDG_MUSIC_DIR="$HOME/music"
+XDG_PICTURES_DIR="$HOME/pictures"
+XDG_VIDEOS_DIR="$HOME/videos"
+# projects? What kind?
+XDG_PROJECTS_DIR="$HOME/"
