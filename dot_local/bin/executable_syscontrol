@@ -16,11 +16,14 @@ case "$1" in
 	suspend)
 		exec systemctl suspend
 		;;
+	hibernate)
+		exec systemctl hibernate
+		;;
 	lock)
 		exec loginctl lock-session
 		;;
 	*)
 		echo "syscontrol: missing or invalid argument"
-		echo "Available commands: shutdown, reboot, reboot-windows, logout, suspend, lock"
+		echo "Available commands: shutdown, reboot, reboot-windows, logout, suspend, hibernate, lock"
 		exit 1
 esac

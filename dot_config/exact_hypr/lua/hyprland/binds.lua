@@ -218,6 +218,7 @@ submap("System Control", { win, "X" }, { reset_to = "reset" }, function(add_help
   sys("R", "reboot")
   sys("I", "logout")
   sys("D", "suspend")
+  sys("H", "hibernate")
   sys("L", "lock")
 
   -- add reboot-windows if reboot-windows binary exists
