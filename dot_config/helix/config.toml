@@ -28,14 +28,12 @@ enable = true
 path = "full"
 
 [keys.normal]
+# per word nav
 w = 'move_next_sub_word_start'
 b = 'move_prev_sub_word_start'
 e = 'move_next_sub_word_end'
-
-[keys.select]
-w = 'extend_next_sub_word_start'
-b = 'extend_prev_sub_word_start'
-e = 'extend_next_sub_word_end'
+# rest
+Y = "yank_joined"
 
 [keys.normal.Z]
 Z = ":wq"
@@ -46,6 +44,12 @@ q = ":buffer-close"
 t = ":buffer-next"
 T = ":buffer-previous"
 i = ":toggle lsp.display-inlay-hints"
+
+[keys.select]
+# per word nav
+w = 'extend_next_sub_word_start'
+b = 'extend_prev_sub_word_start'
+e = 'extend_next_sub_word_end'
 
 [keys.insert]
 j = { k = "normal_mode" }
