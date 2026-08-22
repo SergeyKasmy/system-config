@@ -1,0 +1,37 @@
+#!/bin/bash
+# chezmoi-previously-managed - list files chezmoi once applied that are no
+# longer in the source repo, but still linger on disk.
+#
+# chezmoi has no concept of "used to be managed" on its own: removing a file
+# from the source repo doesn't touch the target. Its persistent state (a
+# boltdb) still remembers every path it has ever applied though, so diffing
+# that against the current `chezmoi managed` list surfaces the leftovers.
+
+set -euo pipefail
+
+if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "Error: chezmoi not found in PATH" >&2
+    exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "Error: jq not found in PATH" >&2
+    exit 1
+fi
+
+state_paths=$(chezmoi state dump | jq -r '
+    .entryState
+    | to_entries[]
+    | select(.value.type == "file" or .value.type == "dir")
+    | .key
+' | sort -u)
+
+managed_paths=$(chezmoi managed --path-style absolute | sort -u)
+
+comm -23 <(printf '%s\n' "$state_paths") <(printf '%s\n' "$managed_paths") |
+    while IFS= read -r path; do
+        [ -z "$path" ] && continue
+        if [ -e "$path" ] || [ -L "$path" ]; then
+            printf '%s\n' "$path"
+        fi
+    done
