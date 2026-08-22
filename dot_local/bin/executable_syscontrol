@@ -14,9 +14,12 @@ case "$1" in
 		exec uwsm stop
 		;;
 	suspend)
+		loginctl lock-session
+		sleep 2 # let hyprlock's fade-in animation finish before actually suspending
 		exec systemctl suspend
 		;;
 	hibernate)
+		sleep 2 # let hyprlock's fade-in animation finish before actually suspending
 		exec systemctl hibernate
 		;;
 	lock)
