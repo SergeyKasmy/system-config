@@ -1,3 +1,5 @@
 LICENSE
 README.md
 CLAUDE.md
+# Submodule sources used by install scripts, not meant to be applied to $HOME.
+vendor

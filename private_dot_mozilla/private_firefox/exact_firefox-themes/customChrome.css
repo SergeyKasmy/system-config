@@ -1,0 +1,38 @@
+
+/* Add your own custom styles here */
+
+/* hide the horizontal tabbar */
+#TabsToolbar {
+  display: none !important;
+}
+
+/* hide the sidebar title only when using sidebery, otherwise show */
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+  display: none !important;
+}
+
+/* Hide Firefox's own CSD window-control buttons (min/max/close). Not a
+ * WhiteSur addition - it's Firefox's built-in csd.css, which always
+ * re-shows them (position: absolute; display: block !important) because
+ * Hyprland windows never report sizemode="maximized", the only condition
+ * WhiteSur/hide-window-buttons.css checks before hiding them.
+ * #main-window (the root element's id) bumps our specificity above
+ * csd.css's ":root[tabsintitlebar] #nav-bar .titlebar-buttonbox-container"
+ * (1 id, 3 classes) so this actually wins the cascade.
+ * The buttonbox is absolutely positioned (taken out of flex flow), so
+ * hiding it alone leaves its reserved space; the nav-bar padding-right
+ * below (also copied from WhiteSur's rule) reclaims that space. */
+#main-window[tabsintitlebar] #nav-bar .titlebar-buttonbox-container,
+#main-window[tabsintitlebar] #titlebar .titlebar-buttonbox-container,
+#main-window[customtitlebar] #nav-bar .titlebar-buttonbox-container,
+#main-window[customtitlebar] #titlebar .titlebar-buttonbox-container {
+  display: none !important;
+  padding: 0 !important;
+  right: 0 !important;
+}
+
+#main-window[tabsintitlebar]:not([inFullscreen]) #nav-bar,
+#main-window[customtitlebar]:not([inFullscreen]) #nav-bar {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}

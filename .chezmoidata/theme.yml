@@ -3,12 +3,12 @@
 
 theme:
   gtk:
-    name: Flat-Remix-GTK-Blue-Dark
+    name: WhiteSur-Dark
     color_scheme: prefer-dark
   qt:
     style: kvantum
     # Kvantum's SVG theme is what actually colors Qt widgets (qt6ct's own color scheme is ignored)
-    kvantum: Fluent-Dark
+    kvantum: WhiteSurDark
   icons: Papirus-Dark
   cursor:
     name: breeze_cursors

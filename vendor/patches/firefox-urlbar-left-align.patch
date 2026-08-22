@@ -1,0 +1,18 @@
+Left-align the address bar text instead of centering it (upstream default is centered).
+Applied by vendor/rebuild-whitesur-theme.sh directly onto the vendored submodule checkout,
+before it gets copied/built into the chezmoi source tree.
+
+--- a/WhiteSur-gtk-theme/other/firefox/WhiteSur/parts/headerbar-urlbar.css
++++ b/WhiteSur-gtk-theme/other/firefox/WhiteSur/parts/headerbar-urlbar.css
+@@ -64,9 +64,9 @@
+
+ #urlbar-input,
+ .urlbar-input {
+-	text-align: center !important;
+-	padding: 0 28px 0 0 !important;
++	text-align: left !important;
++	padding: 0 0 0 8px !important;
+ }
+
+ /* URL bar results */
+ .urlbarView {

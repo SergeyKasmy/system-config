@@ -1,5 +1,8 @@
 #!/bin/sh
-# Customize the theme for GTK apps and apps with quirks
+# Customize the theme for GTK apps and apps with quirks.
+# hash: {{ printf "%s %s %s" .theme.gtk.name (output "sh" "-c" (printf "ls -d %s/.mozilla/firefox/*default* 2>/dev/null" .chezmoi.homeDir) | trim) (output "git" "-C" (joinPath .chezmoi.sourceDir "vendor/WhiteSur-gtk-theme") "rev-parse" "HEAD") | trim }}
+
+set -e
 
 gtk_theme={{ .theme.gtk.name }}
 color_scheme={{ .theme.gtk.color_scheme }}
@@ -19,7 +22,7 @@ xwayland_flatpaks="com.valvesoftware.Steam net.lutris.Lutris"
 # dconf is a binary blob and can't be tracked by chezmoi directly, hence this script.
 #
 # GTK property priority:
-# gsettings (if `GTK_USE_PORTAL=1` is set), xsettings (X-era daemon), gtk-{3,4}.0/settings.ini, XCURSOR_THEME 
+# gsettings (if `GTK_USE_PORTAL=1` is set), xsettings (X-era daemon), gtk-{3,4}.0/settings.ini, XCURSOR_THEME
 
 # gsettings writes via the session bus.
 # Without one (e.g. ssh) the write would go nowhere useful, so just skip.
@@ -54,4 +57,37 @@ if command -v flatpak >/dev/null; then
     for app in $xwayland_flatpaks; do
         flatpak override --user --env=XCURSOR_SIZE="$xwayland_size" "$app"
     done
+fi
+
+## Firefox theme symlinks
+# Symlink each Firefox default profile's chrome/ and user.js to the chezmoi-managed
+# ~/.mozilla/firefox/firefox-themes (see private_dot_mozilla/private_firefox/exact_firefox-themes
+# and vendor/rebuild-whitesur-theme.sh). Profile directories have a random suffix chezmoi can't
+# target directly, so this last hop stays two plain symlinks instead of managed dotfiles.
+firefox_theme_dir="$HOME/.mozilla/firefox/firefox-themes"
+
+for profile_dir in "$HOME/.mozilla/firefox/"*default*; do
+    [ -d "$profile_dir" ] || continue
+
+    [ -L "$profile_dir/chrome" ] || rm -rf "$profile_dir/chrome"
+    ln -sf "$firefox_theme_dir" "$profile_dir/chrome"
+
+    [ -L "$profile_dir/user.js" ] || rm -f "$profile_dir/user.js"
+    ln -sf "$firefox_theme_dir/user.js" "$profile_dir/user.js"
+done
+
+## Connect WhiteSur theme to Flatpak
+# Builds and installs org.gtk.Gtk3theme.WhiteSur-<color> as a local flatpak runtime extension
+# (see vendor/WhiteSur-gtk-theme/libs/lib-flatpak.sh:pakitheme_gtk3), so sandboxed GTK3 apps
+# actually have the theme's gtk.css/gtk-dark.css/gtk.gresource available, not just the theme
+# *name* (which flatpak apps already get from the desktop portal via gsettings above).
+# GTK4/libadwaita apps ignore this entirely -- they only follow the portal's light/dark preference.
+# Looks the theme up by name in ~/.themes, so must run after dot_themes/exact_WhiteSur-Dark is placed.
+if command -v flatpak >/dev/null; then
+    # No --silent-mode: it unconditionally requires root (lib-core.sh:full_sudo), which is only
+    # actually needed for other tweaks.sh options like -g/--gdm. -F/--flatpak itself falls back to
+    # `flatpak install --user` without root (lib-flatpak.sh:pakitheme_gtk3), which is what we want.
+    "{{ joinPath .chezmoi.sourceDir "vendor/WhiteSur-gtk-theme/tweaks.sh" }}" --flatpak --color {{ trimPrefix "WhiteSur-" .theme.gtk.name | quote }}
+else
+    echo "theming: flatpak not installed, skipping WhiteSur flatpak theme connect" >&2
 fi

@@ -5,7 +5,7 @@
 	    "layer": "top",
 	    "position": "top",
 	    "height": 30,
-		"spacing": 7,
+		"spacing": 0,
 	    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
 	    "modules-center": ["hyprland/window"],
 	    "modules-right": ["pulseaudio", "upower#mouse", "cpu", "memory", "custom/free_space", "hyprland/language", "battery", "tray", "clock"],
@@ -55,7 +55,7 @@
 	        "format-icons": ["", "", "", "", ""]
 	    },
 		"tray": {
-			"spacing": 7,
+			"spacing": 4,
 		},
 	    //"network": {
 	    //    "format-wifi": "{essid} ({signalStrength}%) ",
