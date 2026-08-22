@@ -1,3 +1,9 @@
 [submodule "dot_config/exact_hypr/lua/vendor/crnlib"]
 	path = dot_config/exact_hypr/lua/vendor/crnlib
 	url = https://github.com/SergeyKasmy/lua-crnlib.git
+[submodule "vendor/WhiteSur-gtk-theme"]
+	path = vendor/WhiteSur-gtk-theme
+	url = https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+[submodule "vendor/WhiteSur-kde"]
+	path = vendor/WhiteSur-kde
+	url = https://github.com/vinceliuice/WhiteSur-kde.git
