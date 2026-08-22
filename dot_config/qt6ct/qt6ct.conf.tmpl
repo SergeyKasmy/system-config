@@ -1,9 +1,10 @@
 [Appearance]
+# Unused with style=kvantum (Kvantum supplies the palette). Left on default just in case.
 color_scheme_path=/usr/share/qt6ct/colors/airy.conf
 custom_palette=false
-icon_theme=Papirus-Dark
+icon_theme={{ .theme.icons }}
 standard_dialogs=default
-style=kvantum
+style={{ .theme.qt.style }}
 
 [Fonts]
 fixed="Monospace,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"

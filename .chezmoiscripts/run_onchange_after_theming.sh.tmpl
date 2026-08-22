@@ -1,23 +1,15 @@
 #!/bin/sh
 # Customize the theme for GTK apps and apps with quirks
 
-# IMPORTANT: Keep gtk-theme/icon-theme in sync with gtk-{3,4}.0/settings.ini and .gtkrc-2.0.
-# IMPORTANT: Keep cursor theme in sync with XCURSOR_THEME/XCURSOR_SIZE in dot_config/uwsm/env.
-# TODO: find a way to keep them in sync automatically. Maybe a separate theming-related config for all apps?
-gtk_theme=Flat-Remix-GTK-Blue-Dark
-color_scheme=prefer-dark
-icon_theme=Papirus-Dark
-theme=breeze_cursors
-size=21
+gtk_theme={{ .theme.gtk.name }}
+color_scheme={{ .theme.gtk.color_scheme }}
+icon_theme={{ .theme.icons }}
+theme={{ .theme.cursor.name }}
+size={{ .theme.cursor.size }}
 
-# 21 logical px x 1.25 monitor scale = 26 physical.
-# Wayland clients get that scaling from the compositor,
-# but XWayland is 1:1 under with `xwayland.force_zero_scaling`,
-# so X11 clients need the physical value spelled out
-# or their cursor comes out too small.
 # Exported to the flatpaks that often host X11 clients: Steam, Steam games, and Lutris games.
 # NOTE: Steam honours XCURSOR_SIZE but not XCURSOR_THEME (ValveSoftware/steam-for-linux#13209).
-xwayland_size=26
+xwayland_size={{ .theme.cursor.xwayland_size }}
 xwayland_flatpaks="com.valvesoftware.Steam net.lutris.Lutris"
 
 ## GTK Theme

@@ -37,6 +37,8 @@ Key conventions:
 | `dot_local/bin/` | Custom executable scripts (e.g. `gamewrapper` temporarily applies game-specific fixes before launching) |
 | `dot_gitconfig.tmpl` | Git config with machine-type-based conditionals |
 
+## Desktop Theme
+Desktop theme is configured in just 1 single place: `./.chezmoidata/theme.yml`. All other theme-related files use these settings via templates.
 
 ## Template Files
 

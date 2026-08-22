@@ -8,8 +8,7 @@
 # Steam depends on this: it ignores XCURSOR_THEME entirely and only ever loads
 # the theme named "default". See ValveSoftware/steam-for-linux#13209.
 
-# NOTE: Keep Inherits in sync with XCURSOR_THEME in dot_config/uwsm/env.
 [Icon Theme]
 Name=Default
 Comment=Default Cursor Theme
-Inherits=breeze_cursors
+Inherits={{ .theme.cursor.name }}

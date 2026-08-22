@@ -1,0 +1,19 @@
+# Single place for ALL desktop theming.
+# Note to self: If templates get annoying, this can become a plain env file sourced by the consumers instead.
+
+theme:
+  gtk:
+    name: Flat-Remix-GTK-Blue-Dark
+    color_scheme: prefer-dark
+  qt:
+    style: kvantum
+    # Kvantum's SVG theme is what actually colors Qt widgets (qt6ct's own color scheme is ignored)
+    kvantum: Fluent-Dark
+  icons: Papirus-Dark
+  cursor:
+    name: breeze_cursors
+    size: 21
+    # XWayland apps don't scale the cursor in this setup (because of `xwayland.force_zero_scaling`).
+    # So let's just scale it ourselves, assuming the main monitor is the one they are used the most.
+    # NOTE: update when main monitor scaling changes
+    xwayland_size: 26 # 21 logical px x 1.25 monitor scale = 26 physical.
