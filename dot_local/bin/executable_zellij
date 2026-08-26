@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# Wrap the real zellij in its own systemd scope with a short stop timeout,
+# so a hung/unkillable session doesn't stall logout for the default 90s.
+# real_zellij=$(PATH="${PATH//$HOME\/.local\/bin:/}" command -v zellij)
+real_zellij=/usr/bin/zellij
+
+if systemctl --user show-environment >/dev/null 2>&1; then
+    exec systemd-run --user --scope --quiet --collect \
+        --slice=app.slice \
+        -u "zellij-$$-$(date +%s%N)" \
+        -p TimeoutStopSec=2s \
+        "$real_zellij" "$@"
+else
+    exec "$real_zellij" "$@"
+fi
