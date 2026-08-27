@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+patch --quiet -u "${CHEZMOI_SOURCE_DIR}/dot_config/waybar/config.jsonc" \
+      -i "${CHEZMOI_SOURCE_DIR}/dot_config/waybar/fullscreen-config.patch" \
+      -o -

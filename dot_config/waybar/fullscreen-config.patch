@@ -1,0 +1,10 @@
+--- config.jsonc	2026-09-06 16:41:10.423742186 +0200
++++ fullscreen-config.jsonc	2026-09-06 16:41:18.902801092 +0200
+@@ -1,6 +1,6 @@
+ [
+   {
+-    "output": ["DP-1", "DP-3", "HDMI-A-2"], /* DP-3 - main monitor via the iGPU; HDMI-A-2 - the TV */
++    "output": ["HDMI-A-1", "HDMI-A-3"],
+     "layer": "top",
+     "position": "top",
+     "height": 30,
