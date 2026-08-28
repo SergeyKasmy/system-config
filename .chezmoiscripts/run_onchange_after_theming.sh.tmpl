@@ -27,7 +27,9 @@ xwayland_flatpaks="com.valvesoftware.Steam net.lutris.Lutris"
 # gsettings writes via the session bus.
 # Without one (e.g. ssh) the write would go nowhere useful, so just skip.
 # Unfortunately in this case the script would have to be run again :(
-if [ -n "$DBUS_SESSION_BUS_ADDRESS" ]; then
+if ! command -v gsettings >/dev/null; then
+    : # not installed, skip GTK theme
+elif [ -n "$DBUS_SESSION_BUS_ADDRESS" ]; then
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$color_scheme"
     gsettings set org.gnome.desktop.interface icon-theme "$icon_theme"
@@ -42,15 +44,17 @@ fi
 # They contain too much runtime/instance-specific state, and owning the file would mean a lot of pointless infighting.
 # kwriteconfig6 merges just this one key instead.
 
-# ColorScheme=* means "follow the system/global color scheme" instead of a scheme name pinned to this file.
-# ...why is this not the default?
-kwriteconfig6 --file dolphinrc --group UiSettings --key ColorScheme '*'
+if command -v kwriteconfig6 >/dev/null; then
+    # ColorScheme=* means "follow the system/global color scheme" instead of a scheme name pinned to this file.
+    # ...why is this not the default?
+    kwriteconfig6 --file dolphinrc --group UiSettings --key ColorScheme '*'
 
-# NOTE: KF6's kded reads kded5rc, NOT kded6rc.
-# Disable the gtkconfig module. It regenerates gtk-{3,4}.0/settings.ini, .gtkrc-2.0 and xsettingsd.conf on every login,
-# thus overwriting our settings (why...) and spawns `xsettingsd` (double why).
-# Let me manage the theme files myself, KDE!
-kwriteconfig6 --file kded5rc --group "Module-gtkconfig" --key autoload false
+    # NOTE: KF6's kded reads kded5rc, NOT kded6rc.
+    # Disable the gtkconfig module. It regenerates gtk-{3,4}.0/settings.ini, .gtkrc-2.0 and xsettingsd.conf on every login,
+    # thus overwriting our settings (why...) and spawns `xsettingsd` (double why).
+    # Let me manage the theme files myself, KDE!
+    kwriteconfig6 --file kded5rc --group "Module-gtkconfig" --key autoload false
+fi
 
 ## X11 "quirky" apps
 if command -v flatpak >/dev/null; then
