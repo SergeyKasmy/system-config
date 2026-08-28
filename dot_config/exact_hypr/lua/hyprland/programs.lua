@@ -17,6 +17,7 @@ return {
   budslink = app("io.github.maniacx.BudsLink", "BudsLink"),
   calculator = app("speedcrunch", "Calculator"),
   discord = app("com.discordapp.Discord", "Discord"),
+  mumble = app("mumble", "Mumble"),
   file_manager = app("dolphin", "Dolphin"),
   file_manager_alt = app("alacritty -e yazi", "Yazi"),
   heroic = app("com.heroicgameslauncher.hgl", "Heroic"),

@@ -171,6 +171,7 @@ submap("App Launcher", { win, "A" }, { reset_to = "reset" }, function(add_help)
   app("V", programs.budslink, { alt = true, floating = true })
   app("T", programs.telegram)
   app("D", programs.discord)
+  app("D", programs.mumble, { alt = true })
   app("M", programs.service_manager, { floating = true })
 end)
 
