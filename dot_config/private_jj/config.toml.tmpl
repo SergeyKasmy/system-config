@@ -16,12 +16,10 @@ diff-editor = ":builtin"
 [revsets]
 bookmark-advance-to = "@-"
 
+{{- if eq .personal.machine_type "home" }}
 [signing]
 behavior = "own"
 backend = "gpg"
-
-{{- /* personal machine*/ -}}
-{{- if ne .personal.machine_type "work" }}
 key = "324F28DB1BD0D0EC"
 {{- end }}
 

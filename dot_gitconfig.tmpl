@@ -3,19 +3,24 @@
 	name = {{ .personal.name }}
 	email = {{ .personal.email }}
 {{- end }}
-{{- /* personal machine*/}}
-{{- if ne .personal.machine_type "work" }}
+
+{{- /* sign only at home*/}}
+{{- if eq .personal.machine_type "home" }}
 	signingkey = 324F28DB1BD0D0EC
 
 [commit]
 	gpgsign = true
+{{- end }}
+
+{{- /* personal machines - uses Linux*/}}
+{{- if ne .personal.machine_type "work" }}
 
 [diff]
 	tool = nvimdiff
 
 [merge]
 	tool = nvimdiff
-{{- /* work machine*/}}
+{{- /* work machine - uses WSL*/}}
 {{- else }}
 
 {{- /* wsl: don't touch line endings */}}
