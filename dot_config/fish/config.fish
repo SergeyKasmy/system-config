@@ -271,16 +271,4 @@ if status is-interactive
             end
         end
     end
-
-    if id -u island >/dev/null 2>&1
-        alias island 'sudo -iu island --preserve-env=DISPLAY'
-        alias stisland 'start sudo -iu island --preserve-env=DISPLAY'
-    end
-
-    if [ -e $HOME/.config/fish/autoexec.fish ]
-        # disable "file doesn't exist error" (I mean, I just checked if it exists...)
-        # @fish-lsp-disable-next-line 1004
-        source $HOME/.config/fish/autoexec.fish
-    end
-
 end
