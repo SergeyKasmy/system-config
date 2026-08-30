@@ -107,6 +107,9 @@ keybinds clear-defaults=true {
         bind "w" { SearchToggleOption "Wrap"; }
     }
     session {
+        bind "[" { FocusGuestSession; SwitchToMode "locked"; }
+        bind "]" { FocusHostSession; SwitchToMode "locked"; }
+        bind "f" { ToggleHostFullscreen; SwitchToMode "locked"; }
         bind "c" {
             LaunchOrFocusPlugin "configuration" {
                 floating true
