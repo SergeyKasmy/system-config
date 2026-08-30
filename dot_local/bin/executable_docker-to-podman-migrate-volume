@@ -1,13 +1,55 @@
 #!/bin/sh
+set -e
+
+dry_run=0
+if [ "$1" = "--dry-run" ]; then
+    dry_run=1
+    shift
+fi
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 volume_name1 volume_name2 ..."
+    echo "Usage: $0 [--dry-run] <docker_volume>[:<podman_volume>] ..."
     exit 1
 fi
 
-for volume in "$@"; do
-	echo "Migrating volume: $volume..."
-	
-	docker run --rm -v "$volume":/from alpine tar -cf - -C /from . | podman run --rm -i -v "$volume":/to alpine tar -xf - -C /to
+# Pass 1: Parse and validate all arguments before doing any work
+for pair in "$@"; do
+    docker_volume="${pair%%:*}"
+    podman_volume="${pair#*:}"
+    
+    if [ -z "$docker_volume" ]; then
+        echo "Error: Source volume cannot be empty ('$pair')"
+        exit 1
+    fi
+    
+    if [ -z "$podman_volume" ]; then
+        echo "Error: Destination volume cannot be empty ('$pair')"
+        exit 1
+    fi
+    
+    # Check for malformed strings with multiple colons
+    if [ "${podman_volume#*:}" != "$podman_volume" ]; then
+        echo "Error: Invalid syntax. Multiple colons detected in ('$pair')"
+        exit 1
+    fi
 done
 
+# Pass 2: Execute the migrations
+for pair in "$@"; do
+    docker_volume="${pair%%:*}"
+    podman_volume="${pair#*:}"
+    
+    if [ "$dry_run" -eq 1 ]; then
+        echo "[DRY-RUN] Migrating: '$docker_volume' -> '$podman_volume'"
+        echo "[DRY-RUN] docker run --rm -v \"$docker_volume\":/from alpine tar -cf - -C /from . | podman run --rm -i -v \"$podman_volume\":/to alpine tar -o -xf - -C /to"
+        echo ""
+    else
+        echo "Migrating: '$docker_volume' -> '$podman_volume'..."
+        docker run --rm -v "$docker_volume":/from alpine tar -cf - -C /from . | \
+            podman run --rm -i -v "$podman_volume":/to alpine tar -o -xf - -C /to
+    fi
+done
+
+if [ "$dry_run" -eq 0 ]; then
+    echo "All migrations complete."
+fi
