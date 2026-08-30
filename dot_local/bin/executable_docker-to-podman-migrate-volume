@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 volume_name1 volume_name2 ..."
+    exit 1
+fi
+
+for volume in "$@"; do
+	echo "Migrating volume: $volume..."
+	
+	docker run --rm -v "$volume":/from alpine tar -cf - -C /from . | podman run --rm -i -v "$volume":/to alpine tar -xf - -C /to
+done
+
