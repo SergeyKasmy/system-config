@@ -1,7 +1,7 @@
 local monitors = require("lua.hyprland.monitors")
 local api = require("lua.hyprland.api")
 
-os.execute("pkill -f 'waybar.*fullscreen-config' || true")
+api.exec("pkill -f 'waybar.*fullscreen-config'")
 local waybar_fs_running = false
 
 ---@param monitor Monitor
@@ -22,7 +22,7 @@ return function()
     api.exec("waybar --config ~/.config/waybar/fullscreen-config.jsonc")
     waybar_fs_running = true
   elseif not main_fs and waybar_fs_running then
-    os.execute("pkill -f 'waybar.*fullscreen-config'")
+    api.exec("pkill -f 'waybar.*fullscreen-config'")
     waybar_fs_running = false
   end
 end
