@@ -89,7 +89,6 @@ disable = ["android_studio", "chezmoi", "hyprpm", "containers", "clam_av_db", "v
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
-"dockcheck" = "dockcheck -s"
 
 
 [python]
