@@ -44,3 +44,15 @@ This applies everywhere, as this is a technical constraint, including the starti
 
 - **`jj` is the VCS of choice.** When doing anything VCS related (e.g. commiting, reading commit logs), check if the repo is a `jj` repo first, and fallback to `git` only if it isn't.
 In `jj` repos prefer to use `jj` over `git` wherever possible, and fallback to `git` only if `jj` explicitely doesn't yet provide the required functionality (e.g. submodules).
+
+### Code Navigation
+
+Prefer LSP over Grep/Read tools for code navigation - it's faster, precise, and avoids reading entire files:
+- `workspaceSymbol` to find where something is defined
+- `findReferences` to see all usages across the codebase
+- `goToDefinition` / `goToImplementation` to jump to source
+- `hover` for type info without reading the file
+
+Use the Grep tool only when LSP isn't available or for text/pattern searches (comments, strings, config).
+
+After writing or editing code, check LSP diagnostics and fix errors before proceeding.
