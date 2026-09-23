@@ -180,6 +180,8 @@ if status is-interactive
     # colored ip
     alias_if_defined ip 'ip -c'
 
+    alias_if_defined perf 'echo "Try samply"; command perf'
+
     # virsh - connect to qemu:///system by default
     if is_defined virsh
         alias virsh 'virsh --connect qemu:///system'
