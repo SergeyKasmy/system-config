@@ -124,25 +124,13 @@ function M.window.toggle_suspend()
     local window = hl.get_active_window()
     if window == nil then return end
 
-    local state_cmd = io.popen("ps -o state= " .. window.pid)
-    if state_cmd == nil then return end
-    local state = state_cmd:read("*l")
-    state_cmd:close()
-
-    local pids_cmd = io.popen("pstree " .. window.pid .. " -npl | grep -oP '(?<=\\()[0-9]+(?=\\))'")
-    if pids_cmd == nil then return end
-    local pids = pids_cmd:read("*a"):gsub("\n", " ")
-    pids_cmd:close()
-
-    local signal = state == "T" and "CONT" or "STOP"
-    os.execute("kill -s " .. signal .. " " .. pids)
-
-    local status = signal == "STOP" and "Suspended" or "Resumed"
     local name = window.initial_title or window.title or window.class
 
+    -- TODO: if a suspended XWayland game ever leaves the cursor grabbed, switch workspace away and back here before suspending (like wl-freeze)
     -- TODO: also append/remove "[SUSPENDED]" to/from the window title once Hyprland
     -- exposes a way to override it (no such dispatcher/settable field exists yet)
-    hl.exec_cmd("notify-send -t 3000 -h boolean:transient:true " .. shell_quote(status .. " " .. name))
+    -- NOTE: required lazily because lua.hyprland.api requires this module
+    require("lua.hyprland.api").exec(string.format("toggle-suspend %d %s", window.pid, shell_quote(name)))
   end
 end
 

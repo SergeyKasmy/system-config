@@ -1,0 +1,38 @@
+#!/bin/sh
+# Suspend a program via SIGSTOP & SIGCONT a-la wl-freeze 
+
+if [ "$#" -ne 2 ]; then
+    printf 'usage: toggle-suspend <pid> <program name>\n' >&2
+    exit 1
+fi
+
+pid=$1
+name=$2
+
+notify() { notify-send -t 3000 -h boolean:transient:true "$1 $name"; }
+
+case $(ps -o state= "$pid") in
+    *T*) signal=CONT action=resume wanted=Resumed ;;
+    *) signal=STOP action=suspend wanted=Suspended ;;
+esac
+
+pids=$(pstree -Tnpl "$pid" | grep -oP '(?<=\()[0-9]+(?=\))')
+
+# $pids is unquoted on purpose so each PID becomes its own argument
+# shellcheck disable=SC2086
+if ! kill -s "$signal" $pids; then
+    notify "Failed to $action"
+    exit 1
+fi
+
+# SIGSTOP takes effect only once the target handles it, so the state is polled briefly
+# instead of read once, otherwise a successful suspend could be reported as "Resumed"
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+    case $(ps -o state= "$pid") in
+        *T*) status=Suspended ;;
+        *) status=Resumed ;;
+    esac
+    [ "$status" = "$wanted" ] && break
+    sleep 0.05
+done
+notify "$status"
