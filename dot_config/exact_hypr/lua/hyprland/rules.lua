@@ -1,3 +1,5 @@
+local api = require("lua.hyprland.api")
+
 ---@class RuleEntry
 ---@field class? string
 ---@field rules? HL.WindowRuleSpec
@@ -86,6 +88,18 @@ local rules = {
   ----------------------
   ---- CUSTOM RULES ----
   ----------------------
+
+  mode_notification = {
+    on = {
+      ["keybinds.submap"] = function(submap)
+        local fs = hl.get_active_window().fullscreen
+        if fs ~= nil and fs ~= 0 then
+          submap = submap == "" and "Normal" or submap
+          api.exec("notify-send -t 1000 -h boolean:transient:true \"Mode: " .. submap .. "\"")
+        end
+      end
+    }
+  },
 
   waybar = {
     on = {
